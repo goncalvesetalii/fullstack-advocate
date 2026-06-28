@@ -1,1118 +1,730 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Full Stack Advocate — Integrador Transversal P²M³</title>
-<meta name="description" content="Full Stack Advocate: integrador transversal de engenharia, compliance, cybersecurity, PQC, AI safety, AI security e governança de IA sob arquitetura P²M³.">
-<meta property="og:title" content="Full Stack Advocate — P²M³">
-<meta property="og:description" content="Polímata · Poliglota · Multicloud · Multiagente · Multilateral">
-<meta property="og:type" content="website">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<style>
-/* ═══════════════════════════════════════════
-   CSS CUSTOM PROPERTIES
-   ═══════════════════════════════════════════ */
-:root {
-  --bg-primary: #060a14;
-  --bg-secondary: #0c1222;
-  --bg-card: rgba(15, 23, 42, 0.6);
-  --bg-card-hover: rgba(20, 30, 55, 0.8);
-  --glass: rgba(255,255,255,0.03);
-  --glass-border: rgba(255,255,255,0.06);
-  --cyan: #00F0FF;
-  --cyan-dim: rgba(0,240,255,0.15);
-  --orange: #FF6A00;
-  --orange-dim: rgba(255,106,0,0.15);
-  --blue: #007BFF;
-  --blue-dim: rgba(0,123,255,0.15);
-  --green: #10b981;
-  --purple: #8b5cf6;
-  --pink: #ec4899;
-  --text-primary: #e2e8f0;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  --radius: 16px;
-  --radius-sm: 10px;
-  --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>P²M³ Framework — Full Stack Advocate & Gonçalves et Alii</title>
+  <style>
+    :root {
+      --bg-dark: #0f0f0f;
+      --bg-card: #1a1a1a;
+      --bg-card-hover: #222;
+      --text-primary: #f0f0f0;
+      --text-secondary: #b0b0b0;
+      --accent: #ff3366;
+      --accent-dark: #cc0044;
+      --border: #333;
+      --border-light: #444;
+      --success: #00cc88;
+      --warning: #ffaa00;
+      --info: #3366ff;
+      --font-mono: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Mono', 'Droid Sans Mono', 'Source Code Pro', monospace;
+      --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
 
-/* ═══════════════════════════════════════════
-   RESET & BASE
-   ═══════════════════════════════════════════ */
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 80px; }
-body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  line-height: 1.7;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-}
-a { color: var(--cyan); text-decoration: none; transition: var(--transition); }
-a:hover { color: #fff; }
-img { max-width:100%; display:block; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-/* ═══════════════════════════════════════════
-   UTILITY
-   ═══════════════════════════════════════════ */
-.container { width:100%; max-width:1200px; margin:0 auto; padding:0 clamp(1rem,4vw,2.5rem); }
-.section { padding: clamp(4rem,10vw,8rem) 0; position:relative; }
-.section-header { text-align:center; margin-bottom:3.5rem; }
-.section-header h2 {
-  font-size: clamp(1.8rem,4vw,2.8rem);
-  font-weight: 800;
-  background: linear-gradient(135deg, var(--cyan), var(--blue));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 0.75rem;
-}
-.section-header p { color: var(--text-secondary); font-size: clamp(1rem,2vw,1.15rem); max-width:640px; margin:0 auto; }
-.label {
-  display:inline-block; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em;
-  padding:0.35em 1em; border-radius:50px; margin-bottom:1rem;
-}
-.label-cyan { background:var(--cyan-dim); color:var(--cyan); }
-.label-orange { background:var(--orange-dim); color:var(--orange); }
-.label-blue { background:var(--blue-dim); color:var(--blue); }
+    html {
+      scroll-behavior: smooth;
+    }
 
-/* Reveal animation */
-.reveal { opacity:0; transform:translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
-.reveal.visible { opacity:1; transform:translateY(0); }
-.reveal-delay-1 { transition-delay: 0.1s; }
-.reveal-delay-2 { transition-delay: 0.2s; }
-.reveal-delay-3 { transition-delay: 0.3s; }
-.reveal-delay-4 { transition-delay: 0.4s; }
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      font-size: 16px;
+      overflow-x: hidden;
+    }
 
-/* ═══════════════════════════════════════════
-   NAVBAR
-   ═══════════════════════════════════════════ */
-.navbar {
-  position: fixed; top:0; left:0; right:0; z-index:1000;
-  background: rgba(6,10,20,0.85);
-  backdrop-filter: blur(20px) saturate(1.4);
-  border-bottom: 1px solid var(--glass-border);
-  transition: var(--transition);
-}
-.navbar.scrolled { background: rgba(6,10,20,0.95); box-shadow: 0 4px 30px rgba(0,0,0,0.4); }
-.navbar .container { display:flex; align-items:center; justify-content:space-between; height:70px; }
-.nav-logo {
-  font-weight:900; font-size:1.4rem; letter-spacing:-0.02em;
-  background: linear-gradient(135deg, var(--cyan), var(--blue));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-}
-.nav-logo span { font-weight:400; opacity:0.6; -webkit-text-fill-color: var(--text-muted); font-size:0.8rem; margin-left:0.3rem; }
-.nav-links { display:flex; gap:1.8rem; list-style:none; align-items:center; }
-.nav-links a {
-  color: var(--text-secondary); font-size:0.85rem; font-weight:500; position:relative;
-  transition: var(--transition);
-}
-.nav-links a:hover, .nav-links a.active { color: var(--cyan); }
-.nav-links a::after {
-  content:''; position:absolute; bottom:-4px; left:0; width:0; height:2px;
-  background: var(--cyan); transition: var(--transition);
-}
-.nav-links a:hover::after, .nav-links a.active::after { width:100%; }
-.nav-cta {
-  display:inline-flex; align-items:center; gap:0.5rem;
-  padding:0.55rem 1.4rem; border-radius:50px; font-size:0.85rem; font-weight:600;
-  background: linear-gradient(135deg, var(--cyan), var(--blue));
-  color: #060a14; transition: var(--transition);
-}
-.nav-cta:hover { transform:translateY(-2px); box-shadow:0 8px 25px rgba(0,240,255,0.25); color:#060a14; }
-.hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none; padding:4px; }
-.hamburger span { width:24px; height:2px; background:var(--text-primary); transition: var(--transition); border-radius:2px; }
-.hamburger.open span:nth-child(1) { transform:rotate(45deg) translate(5px,5px); }
-.hamburger.open span:nth-child(2) { opacity:0; }
-.hamburger.open span:nth-child(3) { transform:rotate(-45deg) translate(5px,-5px); }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
 
-/* ═══════════════════════════════════════════
-   HERO
-   ═══════════════════════════════════════════ */
-.hero {
-  min-height:100vh; display:flex; align-items:center; justify-content:center;
-  position:relative; overflow:hidden; padding-top:70px;
-}
-.hero-bg {
-  position:absolute; inset:0; z-index:0;
-  background:
-    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,123,255,0.12) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 50% at 80% 80%, rgba(0,240,255,0.06) 0%, transparent 50%),
-    radial-gradient(ellipse 50% 40% at 10% 90%, rgba(255,106,0,0.05) 0%, transparent 50%);
-}
-.hero-grid {
-  position:absolute; inset:0; z-index:0;
-  background-image:
-    linear-gradient(rgba(0,240,255,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,240,255,0.04) 1px, transparent 1px);
-  background-size: 60px 60px;
-  mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 70%);
-  -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 70%);
-}
-.hero-content { position:relative; z-index:1; text-align:center; max-width:860px; padding:2rem 1rem; }
-.hero-badge {
-  display:inline-flex; align-items:center; gap:0.5rem;
-  padding:0.5rem 1.2rem; border-radius:50px; font-size:0.8rem; font-weight:600;
-  background: var(--cyan-dim); color: var(--cyan); border:1px solid rgba(0,240,255,0.2);
-  margin-bottom:1.5rem;
-}
-.hero-badge i { font-size:0.7rem; }
-.hero h1 {
-  font-size: clamp(2.5rem,7vw,5rem); font-weight:900; line-height:1.05;
-  letter-spacing:-0.03em; margin-bottom:1rem;
-}
-.hero h1 .gradient {
-  background: linear-gradient(135deg, var(--cyan), var(--blue), var(--purple));
-  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
-}
-.hero .subtitle {
-  font-size: clamp(1.1rem,2.5vw,1.4rem); color: var(--text-secondary);
-  font-weight:400; margin-bottom:0.8rem;
-}
-.hero .tagline {
-  font-size: clamp(0.85rem,1.8vw,1rem); color: var(--text-muted);
-  font-weight:500; letter-spacing:0.08em; text-transform:uppercase;
-  margin-bottom:2.5rem;
-}
-.hero .tagline span { color: var(--cyan); }
-.hero-buttons { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; }
-.btn-primary {
-  display:inline-flex; align-items:center; gap:0.6rem;
-  padding:0.9rem 2rem; border-radius:50px; font-weight:700; font-size:1rem;
-  background: linear-gradient(135deg, var(--cyan), var(--blue));
-  color:#060a14; transition: var(--transition); border:none; cursor:pointer;
-}
-.btn-primary:hover { transform:translateY(-3px); box-shadow:0 12px 35px rgba(0,240,255,0.3); color:#060a14; }
-.btn-outline {
-  display:inline-flex; align-items:center; gap:0.6rem;
-  padding:0.9rem 2rem; border-radius:50px; font-weight:700; font-size:1rem;
-  background:transparent; color:var(--cyan); border:2px solid var(--cyan);
-  transition: var(--transition); cursor:pointer;
-}
-.btn-outline:hover { background:var(--cyan-dim); transform:translateY(-3px); color:var(--cyan); }
+    /* Header & Nav */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: rgba(15, 15, 15, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      z-index: 1000;
+    }
 
-/* Floating particles */
-.particles { position:absolute; inset:0; z-index:0; overflow:hidden; pointer-events:none; }
-.particle {
-  position:absolute; border-radius:50%; opacity:0;
-  animation: float linear infinite;
-}
-@keyframes float {
-  0% { opacity:0; transform:translateY(100vh) scale(0); }
-  10% { opacity:1; }
-  90% { opacity:1; }
-  100% { opacity:0; transform:translateY(-10vh) scale(1); }
-}
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+    }
 
-/* ═══════════════════════════════════════════
-   PROBLEMA
-   ═══════════════════════════════════════════ */
-.problema-grid {
-  display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
-  gap:1.5rem;
-}
-.problema-card {
-  background: var(--bg-card); border:1px solid var(--glass-border);
-  border-radius: var(--radius); padding:2rem; transition: var(--transition);
-}
-.problema-card:hover { background:var(--bg-card-hover); border-color:rgba(255,106,0,0.2); transform:translateY(-4px); }
-.problema-card .icon {
-  width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center;
-  background: var(--orange-dim); color:var(--orange); font-size:1.2rem; margin-bottom:1.2rem;
-}
-.problema-card h3 { font-size:1.1rem; font-weight:700; margin-bottom:0.6rem; }
-.problema-card p { font-size:0.92rem; color:var(--text-secondary); }
+    .logo {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--text-primary);
+      text-decoration: none;
+    }
 
-/* ═══════════════════════════════════════════
-   P²M³ LAYERS
-   ═══════════════════════════════════════════ */
-.layers-stack { display:flex; flex-direction:column; gap:1.2rem; max-width:900px; margin:0 auto; }
-.layer-card {
-  display:grid; grid-template-columns:auto 1fr; gap:1.5rem; align-items:start;
-  background: var(--bg-card); border:1px solid var(--glass-border);
-  border-radius: var(--radius); padding:2rem; transition: var(--transition);
-  position:relative; overflow:hidden;
-}
-.layer-card::before {
-  content:''; position:absolute; left:0; top:0; bottom:0; width:4px;
-  border-radius:4px 0 0 4px;
-}
-.layer-card:hover { background:var(--bg-card-hover); transform:translateX(6px); }
-.layer-card:nth-child(1)::before { background: var(--cyan); }
-.layer-card:nth-child(2)::before { background: var(--purple); }
-.layer-card:nth-child(3)::before { background: var(--blue); }
-.layer-card:nth-child(4)::before { background: var(--orange); }
-.layer-card:nth-child(5)::before { background: var(--green); }
-.layer-num {
-  width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center;
-  font-weight:900; font-size:1.3rem; flex-shrink:0;
-}
-.layer-card:nth-child(1) .layer-num { background:var(--cyan-dim); color:var(--cyan); }
-.layer-card:nth-child(2) .layer-num { background:rgba(139,92,246,0.15); color:var(--purple); }
-.layer-card:nth-child(3) .layer-num { background:var(--blue-dim); color:var(--blue); }
-.layer-card:nth-child(4) .layer-num { background:var(--orange-dim); color:var(--orange); }
-.layer-card:nth-child(5) .layer-num { background:rgba(16,185,129,0.15); color:var(--green); }
-.layer-card h3 { font-size:1.15rem; font-weight:700; margin-bottom:0.4rem; }
-.layer-card h3 .camada { font-weight:400; color:var(--text-muted); font-size:0.85rem; }
-.layer-card p { font-size:0.92rem; color:var(--text-secondary); }
-.layer-card .highlight { color:var(--cyan); font-weight:600; }
+    .logo span {
+      color: var(--accent);
+    }
 
-/* ═══════════════════════════════════════════
-   PRINCÍPIOS
-   ═══════════════════════════════════════════ */
-.principios-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr)); gap:1.5rem; }
-.principio-card {
-  background: var(--bg-card); border:1px solid var(--glass-border);
-  border-radius: var(--radius); padding:2.2rem; transition: var(--transition);
-  position:relative; overflow:hidden;
-}
-.principio-card:hover { background:var(--bg-card-hover); transform:translateY(-4px); }
-.principio-card .num {
-  font-size:4rem; font-weight:900; line-height:1;
-  background: linear-gradient(135deg, var(--cyan), transparent);
-  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
-  position:absolute; top:1rem; right:1.5rem; opacity:0.15;
-}
-.principio-card h3 { font-size:1.15rem; font-weight:700; margin-bottom:0.8rem; color:var(--cyan); }
-.principio-card p { font-size:0.92rem; color:var(--text-secondary); }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
 
-/* ═══════════════════════════════════════════
-   SETE CAMPOS
-   ═══════════════════════════════════════════ */
-.campos-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:1.2rem; }
-.campo-card {
-  background: var(--bg-card); border:1px solid var(--glass-border);
-  border-radius: var(--radius); padding:1.6rem; transition: var(--transition);
-  display:flex; gap:1rem; align-items:start;
-}
-.campo-card:hover { background:var(--bg-card-hover); transform:translateY(-3px); }
-.campo-card .campo-icon {
-  width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center;
-  flex-shrink:0; font-size:1rem;
-}
-.campo-card h4 { font-size:0.95rem; font-weight:700; margin-bottom:0.3rem; }
-.campo-card p { font-size:0.82rem; color:var(--text-muted); }
-.bridge-card {
-  grid-column: 1 / -1;
-  background: linear-gradient(135deg, rgba(0,240,255,0.05), rgba(255,106,0,0.05));
-  border:1px solid rgba(0,240,255,0.15); border-radius: var(--radius); padding:2rem;
-  display:flex; gap:1.5rem; align-items:center; flex-wrap:wrap;
-}
-.bridge-card .bridge-icon {
-  width:56px; height:56px; border-radius:14px; display:flex; align-items:center; justify-content:center;
-  background: linear-gradient(135deg, var(--cyan-dim), var(--orange-dim));
-  color:var(--cyan); font-size:1.3rem; flex-shrink:0;
-}
-.bridge-card h4 { font-size:1.05rem; font-weight:700; }
-.bridge-card p { font-size:0.9rem; color:var(--text-secondary); }
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
 
-/* ═══════════════════════════════════════════
-   EBITTDA
-   ═══════════════════════════════════════════ */
-.ebitdda-wrap {
-  display:grid; grid-template-columns:1fr 1fr; gap:2rem; align-items:start;
-  max-width:1000px; margin:0 auto;
-}
-.ebitdda-left h3 { font-size:1.4rem; font-weight:800; margin-bottom:1rem; color:var(--orange); }
-.ebitdda-left p { font-size:0.95rem; color:var(--text-secondary); margin-bottom:1rem; }
-.ebitdda-formula {
-  background: var(--bg-card); border:1px solid var(--glass-border);
-  border-radius: var(--radius); padding:1.5rem; text-align:center;
-}
-.ebitdda-formula .formula {
-  font-size: clamp(0.9rem,2vw,1.2rem); font-weight:700; letter-spacing:0.02em;
-  color:var(--text-primary); margin-bottom:0.5rem;
-}
-.ebitdda-formula .formula .highlight-t {
-  color:var(--orange); font-weight:900; font-size:1.1em;
-  text-shadow:0 0 20px rgba(255,106,0,0.4);
-}
-.ebitdda-formula .formula-label {
-  font-size:0.8rem; color:var(--text-muted); font-weight:400;
-}
-.ebitdda-right { display:flex; flex-direction:column; gap:1rem; }
-.ebitdda-trio {
-  background: var(--bg-card); border:1px solid var(--glass-border);
-  border-radius: var(--radius-sm); padding:1.2rem 1.4rem;
-  display:flex; gap:1rem; align-items:start;
-}
-.ebitdda-trio .trio-icon { font-size:1.2rem; flex-shrink:0; margin-top:2px; }
-.ebitdda-trio h4 { font-size:0.9rem; font-weight:700; margin-bottom:0.2rem; }
-.ebitdda-trio p { font-size:0.82rem; color:var(--text-muted); }
+    .nav-links a:hover {
+      color: var(--text-primary);
+    }
 
-/* ═══════════════════════════════════════════
-   BRASIL MULTILATERAL
-   ═══════════════════════════════════════════ */
-.brasil-wrap { max-width:900px; margin:0 auto; }
-.brasil-intro { text-align:center; margin-bottom:2.5rem; }
-.brasil-intro p { font-size:1.05rem; color:var(--text-secondary); max-width:700px; margin:0 auto; }
-.brasil-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:1rem; }
-.brasil-item {
-  background: var(--bg-card); border:1px solid var(--glass-border);
-  border-radius: var(--radius-sm); padding:1.4rem; transition: var(--transition);
-  display:flex; gap:0.8rem; align-items:start;
-}
-.brasil-item:hover { background:var(--bg-card-hover); border-color:rgba(16,185,129,0.2); }
-.brasil-item .bi-icon { font-size:1.1rem; color:var(--green); flex-shrink:0; margin-top:2px; }
-.brasil-item h4 { font-size:0.9rem; font-weight:700; margin-bottom:0.2rem; }
-.brasil-item p { font-size:0.8rem; color:var(--text-muted); }
-.brasil-footnote {
-  margin-top:2rem; padding:1.5rem; border-radius: var(--radius-sm);
-  background: linear-gradient(135deg, rgba(16,185,129,0.06), rgba(0,123,255,0.06));
-  border:1px solid rgba(16,185,129,0.12); text-align:center;
-}
-.brasil-footnote p { font-size:0.92rem; color:var(--text-secondary); font-style:italic; }
+    .mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
 
-/* ═══════════════════════════════════════════
-   ECOSSISTEMA
-   ═══════════════════════════════════════════ */
-.eco-wrap { max-width:900px; margin:0 auto; }
-.eco-main { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom:2rem; }
-.eco-card {
-  background: var(--bg-card); border:1px solid var(--glass-border);
-  border-radius: var(--radius); padding:2rem; transition: var(--transition);
-  position:relative; overflow:hidden;
-}
-.eco-card:hover { background:var(--bg-card-hover); transform:translateY(-4px); }
-.eco-card .eco-badge {
-  display:inline-block; font-size:0.7rem; font-weight:700; text-transform:uppercase;
-  letter-spacing:0.1em; padding:0.3em 0.8em; border-radius:50px; margin-bottom:1rem;
-}
-.eco-card:nth-child(1) .eco-badge { background:var(--cyan-dim); color:var(--cyan); }
-.eco-card:nth-child(2) .eco-badge { background:rgba(139,92,246,0.15); color:var(--purple); }
-.eco-card h3 { font-size:1.15rem; font-weight:700; margin-bottom:0.6rem; }
-.eco-card p { font-size:0.9rem; color:var(--text-secondary); }
-.eco-future { text-align:center; }
-.eco-future h4 { font-size:1rem; font-weight:600; color:var(--text-muted); margin-bottom:1rem; }
-.eco-chips { display:flex; flex-wrap:wrap; gap:0.6rem; justify-content:center; }
-.eco-chip {
-  padding:0.5rem 1rem; border-radius:50px; font-size:0.8rem; font-weight:500;
-  background: var(--bg-card); border:1px solid var(--glass-border); color:var(--text-secondary);
-  transition: var(--transition);
-}
-.eco-chip:hover { border-color:var(--cyan); color:var(--cyan); }
+    /* Hero */
+    .hero {
+      padding: 8rem 0 4rem;
+      text-align: center;
+      background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+    }
 
-/* ═══════════════════════════════════════════
-   PLANOS
-   ═══════════════════════════════════════════ */
-.planos-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:1.5rem; align-items:stretch; }
-.plano-card {
-  background: var(--bg-card); border:1px solid var(--glass-border);
-  border-radius: var(--radius); padding:2.2rem; transition: var(--transition);
-  display:flex; flex-direction:column; position:relative;
-}
-.plano-card.popular {
-  border-color:var(--cyan); box-shadow:0 0 40px rgba(0,240,255,0.08);
-}
-.plano-card.popular::before {
-  content:'Popular'; position:absolute; top:-12px; left:50%; transform:translateX(-50%);
-  padding:0.3em 1.2em; border-radius:50px; font-size:0.7rem; font-weight:700;
-  background: linear-gradient(135deg, var(--cyan), var(--blue)); color:#060a14;
-}
-.plano-card:hover { background:var(--bg-card-hover); transform:translateY(-4px); }
-.plano-card h3 { font-size:1.3rem; font-weight:800; margin-bottom:0.4rem; }
-.plano-card .plano-note { font-size:0.82rem; color:var(--text-muted); margin-bottom:1.5rem; }
-.plano-card .plano-price {
-  font-size:1.1rem; font-weight:700; color:var(--cyan); margin-bottom:1.5rem;
-  padding-bottom:1.5rem; border-bottom:1px solid var(--glass-border);
-}
-.plano-features { list-style:none; flex:1; margin-bottom:1.5rem; }
-.plano-features li {
-  display:flex; gap:0.6rem; align-items:start; font-size:0.88rem; margin-bottom:0.7rem;
-  color:var(--text-secondary);
-}
-.plano-features li .fa-check { color:var(--green); margin-top:3px; font-size:0.75rem; flex-shrink:0; }
-.plano-btn {
-  display:block; text-align:center; padding:0.8rem; border-radius:50px; font-weight:700; font-size:0.9rem;
-  transition: var(--transition); cursor:pointer; border:none; width:100%;
-}
-.plano-btn-primary { background: linear-gradient(135deg, var(--cyan), var(--blue)); color:#060a14; }
-.plano-btn-primary:hover { box-shadow:0 8px 25px rgba(0,240,255,0.3); transform:translateY(-2px); }
-.plano-btn-outline { background:transparent; color:var(--cyan); border:2px solid var(--cyan); }
-.plano-btn-outline:hover { background:var(--cyan-dim); }
+    .hero h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 800;
+      margin-bottom: 1rem;
+      line-height: 1.1;
+    }
 
-/* ═══════════════════════════════════════════
-   STACK DE REFERÊNCIA
-   ═══════════════════════════════════════════ */
-.stack-cats { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:1rem; }
-.stack-cat {
-  background: var(--bg-card); border:1px solid var(--glass-border);
-  border-radius: var(--radius-sm); padding:1.3rem; transition: var(--transition);
-}
-.stack-cat:hover { background:var(--bg-card-hover); }
-.stack-cat h4 { font-size:0.85rem; font-weight:700; margin-bottom:0.6rem; display:flex; align-items:center; gap:0.5rem; }
-.stack-cat h4 i { font-size:0.8rem; }
-.stack-tags { display:flex; flex-wrap:wrap; gap:0.35rem; }
-.stack-tag {
-  font-size:0.72rem; padding:0.25em 0.6em; border-radius:6px; font-weight:500;
-  background: rgba(255,255,255,0.04); color:var(--text-muted); border:1px solid rgba(255,255,255,0.06);
-}
+    .hero h1 .p2m3 {
+      color: var(--accent);
+      font-family: var(--font-mono);
+    }
 
-/* ═══════════════════════════════════════════
-   CONTATO
-   ═══════════════════════════════════════════ */
-.contato-wrap { text-align:center; max-width:700px; margin:0 auto; }
-.contato-wrap h2 {
-  font-size: clamp(1.8rem,4vw,2.5rem); font-weight:800; margin-bottom:1rem;
-}
-.contato-wrap p { color:var(--text-secondary); margin-bottom:2.5rem; font-size:1.05rem; }
-.contato-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:1rem; margin-bottom:2rem; }
-.contato-item {
-  background: var(--bg-card); border:1px solid var(--glass-border);
-  border-radius: var(--radius-sm); padding:1.5rem; transition: var(--transition);
-  display:flex; flex-direction:column; align-items:center; gap:0.6rem;
-}
-.contato-item:hover { background:var(--bg-card-hover); transform:translateY(-3px); border-color:rgba(0,240,255,0.15); }
-.contato-item .ci-icon {
-  width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center;
-  background: var(--cyan-dim); color:var(--cyan); font-size:1.1rem;
-}
-.contato-item h4 { font-size:0.85rem; font-weight:600; }
-.contato-item a { font-size:0.82rem; color:var(--cyan); }
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin: 0 auto 2rem;
+    }
 
-/* ═══════════════════════════════════════════
-   FOOTER
-   ═══════════════════════════════════════════ */
-.footer {
-  border-top:1px solid var(--glass-border); padding:3rem 0 2rem; text-align:center;
-}
-.footer-logo {
-  font-weight:800; font-size:1.2rem; margin-bottom:0.5rem;
-  background: linear-gradient(135deg, var(--cyan), var(--blue));
-  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
-}
-.footer p { font-size:0.82rem; color:var(--text-muted); margin-bottom:0.8rem; }
-.footer-links { display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap; }
-.footer-links a { font-size:0.82rem; color:var(--text-muted); }
-.footer-links a:hover { color:var(--cyan); }
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
 
-/* ═══════════════════════════════════════════
-   RESPONSIVE
-   ═══════════════════════════════════════════ */
-@media (max-width:768px) {
-  .nav-links { display:none; }
-  .hamburger { display:flex; }
-  .nav-links.open {
-    display:flex; flex-direction:column; position:absolute; top:70px; left:0; right:0;
-    background: rgba(6,10,20,0.98); backdrop-filter:blur(20px);
-    padding:1.5rem; gap:1rem; border-bottom:1px solid var(--glass-border);
-  }
-  .layer-card { grid-template-columns:1fr; }
-  .ebitdda-wrap { grid-template-columns:1fr; }
-  .eco-main { grid-template-columns:1fr; }
-}
-@media (max-width:480px) {
-  .hero h1 { font-size:2rem; }
-  .hero-buttons { flex-direction:column; align-items:center; }
-  .section { padding: 3rem 0; }
-}
-</style>
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background-color: var(--accent);
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: 600;
+      transition: background-color 0.2s, transform 0.2s;
+    }
+
+    .btn:hover {
+      background-color: var(--accent-dark);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid var(--border-light);
+      color: var(--text-primary);
+    }
+
+    .btn-outline:hover {
+      background-color: var(--bg-card);
+      border-color: var(--accent);
+    }
+
+    /* Sections */
+    section {
+      padding: 4rem 0;
+    }
+
+    section:nth-child(even) {
+      background-color: rgba(255, 255, 255, 0.02);
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .section-subtitle {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto 3rem;
+    }
+
+    /* Cards */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2rem;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-light);
+      background-color: var(--bg-card-hover);
+    }
+
+    .card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+
+    .card p {
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+    }
+
+    .card-meta {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      opacity: 0.7;
+    }
+
+    /* Principles */
+    .principles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .principle {
+      background-color: var(--bg-card);
+      border-left: 4px solid var(--accent);
+      padding: 1.5rem;
+    }
+
+    .principle h3 {
+      margin-bottom: 0.5rem;
+    }
+
+    /* Instances */
+    .instance {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+
+    .instance-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .instance-badge {
+      background-color: var(--accent);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+
+    .instance-content {
+      padding-left: 1rem;
+      border-left: 2px solid var(--border);
+    }
+
+    /* Footer */
+    footer {
+      background-color: var(--bg-card);
+      border-top: 1px solid var(--border);
+      padding: 3rem 0;
+      text-align: center;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--text-primary);
+    }
+
+    .footer-license {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      opacity: 0.7;
+    }
+
+    /* Graph Styles */
+    .graph-container {
+      margin: 2rem auto;
+      max-width: 800px;
+    }
+
+    .graph-title {
+      text-align: center;
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+
+    .graph-svg {
+      width: 100%;
+      height: auto;
+      max-width: 600px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .graph-node {
+      fill: var(--bg-card);
+      stroke: var(--accent);
+      stroke-width: 2;
+      rx: 6;
+    }
+
+    .graph-node-text {
+      fill: var(--text-primary);
+      font-family: var(--font-mono);
+      font-size: 14px;
+      text-anchor: middle;
+      dominant-baseline: central;
+    }
+
+    .graph-edge {
+      stroke: var(--text-secondary);
+      stroke-width: 1.5;
+      fill: none;
+      marker-end: url(#arrowhead);
+    }
+
+    .graph-edge-dashed {
+      stroke-dasharray: 5,5;
+    }
+
+    .graph-label {
+      fill: var(--text-secondary);
+      font-size: 12px;
+      font-family: var(--font-body);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: var(--bg-dark);
+        border-top: 1px solid var(--border);
+        padding: 1rem;
+        gap: 1rem;
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .mobile-toggle {
+        display: block;
+      }
+
+      .hero {
+        padding: 6rem 0 3rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .graph-svg {
+        max-width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
+  <header>
+    <div class="container nav-container">
+      <a href="#" class="logo">P²M³ <span>Framework</span></a>
+      <button class="mobile-toggle" id="mobileToggle">☰</button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#tese">Tese</a></li>
+        <li><a href="#camadas">Camadas</a></li>
+        <li><a href="#principios">Princípios</a></li>
+        <li><a href="#instancias">Instâncias</a></li>
+        <li><a href="#artefatos">Artefatos</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </div>
+  </header>
 
-<!-- ═══════════ NAVBAR ═══════════ -->
-<nav class="navbar" id="navbar">
-  <div class="container">
-    <a href="#hero" class="nav-logo">FSA<span>P²M³</span></a>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#problema">Problema</a></li>
-      <li><a href="#arquitetura">Arquitetura</a></li>
-      <li><a href="#principios">Princípios</a></li>
-      <li><a href="#campos">Campos</a></li>
-      <li><a href="#ecossistema">Ecossistema</a></li>
-      <li><a href="#planos">Planos</a></li>
-      <li><a href="#stack">Stack</a></li>
-    </ul>
-    <a href="#contato" class="nav-cta"><i class="fas fa-arrow-right"></i> Contato</a>
-    <button class="hamburger" id="hamburger" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</nav>
+  <section class="hero">
+    <div class="container">
+      <h1>P²M³: <span class="p2m3">Polímata, Poliglota, Multicloud, Multiagente, Multilateral</span></h1>
+      <p class="hero-subtitle">
+        Arquitetura de stack profissional em cinco camadas: cognitiva, semiótica, infraestrutural, executória e geo-econômica. 
+        Regência transversal de engenharia, compliance, segurança e governança de IA sob eixo lusófono.
+      </p>
+      <div class="cta-buttons">
+        <a href="#tese" class="btn">Explorar a tese</a>
+        <a href="#instancias" class="btn btn-outline">Ver instâncias</a>
+      </div>
+    </div>
+  </section>
 
-<!-- ═══════════ HERO ═══════════ -->
-<section class="hero" id="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-grid"></div>
-  <div class="particles" id="particles"></div>
-  <div class="hero-content">
-    <div class="hero-badge"><i class="fas fa-circle"></i> Arquitetura P²M³ v3 · 2026</div>
-    <h1>Full Stack <span class="gradient">Advocate</span></h1>
-    <p class="subtitle">Integrador transversal de engenharia, compliance, segurança e governança de IA</p>
-    <p class="tagline">Polímata · Poliglota · Multicloud · Multiagente · <span>Multilateral</span></p>
-    <div class="hero-buttons">
-      <a href="#arquitetura" class="btn-primary"><i class="fas fa-cubes"></i> Conheça a Arquitetura</a>
-      <a href="#contato" class="btn-outline"><i class="fas fa-calendar-check"></i> Agende uma Conversa</a>
+  <section id="tese">
+    <div class="container">
+      <h2 class="section-title">Tese P²M³</h2>
+      <p class="section-subtitle">
+        Diagnóstico do zeitgeist: especialistas verticais estão obsoletos. 
+        O profissional contemporâneo é o regente de pipelines de conhecimento, saberes, técnicas e ferramentas, 
+        operando em fluxo contínuo dentro de uma arquitetura de ecossistema com mapa geo-econômico explícito.
+      </p>
+      <div class="cards-grid">
+        <div class="card">
+          <h3>Polímata</h3>
+          <p>Coordenação informada em múltiplas áreas de conhecimento — não expertise vertical em cada uma. O regente não executa em todas as camadas; coordena quem executa.</p>
+          <div class="card-meta">Camada cognitiva</div>
+        </div>
+        <div class="card">
+          <h3>Poliglota</h3>
+          <p>Capacidade de transitar entre múltiplas linguagens — naturais, formais e operacionais — combinando domínio direto, tradução assistida por agentes e parcerias com falantes nativos.</p>
+          <div class="card-meta">Camada semiótica</div>
+        </div>
+        <div class="card">
+          <h3>Multicloud</h3>
+          <p>Independência de fornecedor único. Operação em AWS, Azure, GCP, OCI, providers regionais e on-premise quando justificado. Expressão técnica da soberania digital.</p>
+          <div class="card-meta">Camada infraestrutural</div>
+        </div>
+        <div class="card">
+          <h3>Multiagente</h3>
+          <p>Orquestração de agentes autônomos para execução de tarefas. Alavanca histórica de 2026 que torna a regência transversal humanamente sustentável.</p>
+          <div class="card-meta">Camada executória</div>
+        </div>
+        <div class="card">
+          <h3>Multilateral</h3>
+          <p>Não-dependência de um único mercado, bloco regulatório, moeda de referência ou alinhamento geopolítico. Brasil como nó multilateral com singularidade geo-estratégica.</p>
+          <div class="card-meta">Camada geo-econômica</div>
+        </div>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ═══════════ O PROBLEMA ═══════════ -->
-<section class="section" id="problema">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="label label-orange">Diagnóstico do Zeitgeist</span>
-      <h2>O Problema</h2>
-      <p>Sintomas convergentes que exigem uma nova categoria profissional</p>
-    </div>
-    <div class="problema-grid">
-      <div class="problema-card reveal">
-        <div class="icon"><i class="fas fa-bolt"></i></div>
-        <h3>Velocidade como Constante</h3>
-        <p>Crises se sobrepõem: pandemia + guerra + transformação digital + crise climática + IA generativa em escala industrial. A mudança é a única constante.</p>
-      </div>
-      <div class="problema-card reveal reveal-delay-1">
-        <div class="icon"><i class="fas fa-skull-crossbones"></i></div>
-        <h3>Obsolescência do Especialista</h3>
-        <p>Quem domina apenas um silo perde relevância. Movimento detectado em todas as funções C-level: CFO, CIO, CCO, CISO.</p>
-      </div>
-      <div class="problema-card reveal reveal-delay-2">
-        <div class="icon"><i class="fas fa-brain"></i></div>
-        <h3>Learn-it-All</h3>
-        <p>O ethos profissional contemporâneo substitui o know-it-all. Lifelong learning é exigência, não opção. Bildung como categoria.</p>
-      </div>
-      <div class="problema-card reveal reveal-delay-3">
-        <div class="icon"><i class="fas fa-layer-group"></i></div>
-        <h3>Sete Campos, Um Só</h3>
-        <p>Engenharia, compliance, cybersecurity, PQC, AI safety, AI security e governança de IA — antes separados, agora exigem operação conjunta.</p>
-      </div>
-      <div class="problema-card reveal reveal-delay-4">
-        <div class="icon"><i class="fas fa-globe-americas"></i></div>
-        <h3>Reordenamento Geopolítico</h3>
-        <p>Bifurcação tech EUA-China, BRICS+ ampliado, Mercosul-UE, controles de exportação cruzados. Operar sem mapa geo-econômico é inviável.</p>
-      </div>
-      <div class="problema-card reveal">
-        <div class="icon"><i class="fas fa-users-cog"></i></div>
-        <h3>PMEs Não Contratam Sete</h3>
-        <p>PMEs no eixo Brasil-Portugal não conseguem contratar CTO, CISO, AI Safety Officer, Compliance Officer e consultor de PQC separadamente.</p>
-      </div>
-    </div>
-  </div>
-</section>
+  <section id="camadas">
+    <div class="container">
+      <h2 class="section-title">As Cinco Camadas P²M³</h2>
+      <p class="section-subtitle">
+        Ordem do epistêmico ao geo-econômico. Cada camada sustenta a de cima.
+      </p>
+      <div class="graph-container">
+        <h3 class="graph-title">Arquitetura P²M³ — Camadas</h3>
+        <svg class="graph-svg" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+              <polygon points="0 0, 10 3.5, 0 7" fill="var(--text-secondary)"/>
+            </marker>
+          </defs>
+          <!-- Camadas -->
+          <rect x="200" y="50" width="200" height="40" class="graph-node"/>
+          <text x="300" y="70" class="graph-node-text">Polímata</text>
+          <text x="300" y="95" class="graph-label">Camada cognitiva</text>
 
-<!-- ═══════════ ARQUITETURA P²M³ ═══════════ -->
-<section class="section" id="arquitetura" style="background:var(--bg-secondary);">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="label label-cyan">A Solução</span>
-      <h2>A Arquitetura P²M³</h2>
-      <p>Cinco camadas do epistêmico ao geo-econômico. Cada camada sustenta a de cima.</p>
-    </div>
-    <div class="layers-stack">
-      <div class="layer-card reveal">
-        <div class="layer-num">P¹</div>
-        <div>
-          <h3>Polímata <span class="camada">— Camada Cognitiva</span></h3>
-          <p>Coordenação informada entre múltiplas áreas de conhecimento — não expertise vertical em cada uma. O regente não toca clarinete melhor que o clarinetista; coordena o clarinete dentro da partitura inteira. <span class="highlight">Método unificado de análise (TATS), distribuído entre humano + agentes + especialistas.</span></p>
-        </div>
-      </div>
-      <div class="layer-card reveal reveal-delay-1">
-        <div class="layer-num">P²</div>
-        <div>
-          <h3>Poliglota <span class="camada">— Camada Semiótica</span></h3>
-          <p>Transição entre múltiplas linguagens — naturais, formais e operacionais. Português e inglês como base. Espanhol e francês via familiaridade. Mandarim via parceiros. <span class="highlight">Linguagens jurídicas via Gonçalves et Alii. Linguagens técnicas como vocabulário de coordenação.</span></p>
-        </div>
-      </div>
-      <div class="layer-card reveal reveal-delay-2">
-        <div class="layer-num">M¹</div>
-        <div>
-          <h3>Multicloud <span class="camada">— Camada Infraestrutural</span></h3>
-          <p>Independência de fornecedor único. Capacidade de operar em AWS, Azure, GCP, OCI, providers regionais (Magalu Cloud, Locaweb, Hetzner) e on-premise. <span class="highlight">Multicloud é a expressão técnica da posição política sobre soberania digital.</span></p>
-        </div>
-      </div>
-      <div class="layer-card reveal reveal-delay-3">
-        <div class="layer-num">M²</div>
-        <div>
-          <h3>Multiagente <span class="camada">— Camada Executória</span></h3>
-          <p>Orquestração de agentes autônomos via MCP, Claude/GPT/Gemini, frameworks de orquestração. <span class="highlight">ESTA é a camada que torna as três anteriores humanamente sustentáveis em 2026.</span> Baixa o teto cognitivo de impossível para operável. O regente delega rotinas a agentes e mantém autoridade auditável.</p>
-        </div>
-      </div>
-      <div class="layer-card reveal reveal-delay-4">
-        <div class="layer-num">M³</div>
-        <div>
-          <h3>Multilateral <span class="camada">— Camada Geo-Econômica</span></h3>
-          <p>Não-dependência de um único mercado, bloco regulatório, moeda de referência ou alinhamento geopolítico. <span class="highlight">BRICS+ ampliado, Mercosul-UE, CPLP-PALOP, controles de exportação cruzados.</span> O mesmo princípio de não-dependência que M¹ aplica à infraestrutura — escala diferente, lógica idêntica.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+          <rect x="200" y="120" width="200" height="40" class="graph-node"/>
+          <text x="300" y="140" class="graph-node-text">Poliglota</text>
+          <text x="300" y="165" class="graph-label">Camada semiótica</text>
 
-<!-- ═══════════ PRINCÍPIOS DE VIABILIDADE ═══════════ -->
-<section class="section" id="principios">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="label label-blue">Viabilidade Operacional</span>
-      <h2>Três Princípios</h2>
-      <p>O que torna P²M³ humanamente operável — não pretensão biográfica de super-humano</p>
-    </div>
-    <div class="principios-grid">
-      <div class="principio-card reveal">
-        <div class="num">01</div>
-        <h3>Regência ≠ Execução</h3>
-        <p>O regente não executa em todas as camadas. Coordena especialistas humanos e agentes computacionais. Polimatia P²M³ é <strong>coordenação informada</strong> — não acúmulo enciclopédico. Reconhece quando cada camada é afetada, sabe quem chamar, que perguntas fazer, que evidência exigir.</p>
-      </div>
-      <div class="principio-card reveal reveal-delay-1">
-        <div class="num">02</div>
-        <h3>M² como Alavanca Histórica</h3>
-        <p>2026 é o primeiro ano em que a regência transversal por solopreneur com método se torna <strong>materialmente possível</strong>. Antes não era. Agora é. Agentes computacionais baixam o teto cognitivo de impossível para operável. A janela competitiva é estimada em 24-36 meses.</p>
-      </div>
-      <div class="principio-card reveal reveal-delay-2">
-        <div class="num">03</div>
-        <h3>Ecossistema com Handoffs</h3>
-        <p>P²M³ não opera como pessoa única. Opera como <strong>instâncias com interfaces desenhadas</strong>. FSA (instância 01), Gonçalves et Alii (instância 02), parceiros pontuais acionáveis. Nenhuma instância tenta cobrir tudo — cada uma cobre seu mandato.</p>
-      </div>
-    </div>
-  </div>
-</section>
+          <rect x="200" y="190" width="200" height="40" class="graph-node"/>
+          <text x="300" y="210" class="graph-node-text">Multicloud</text>
+          <text x="300" y="235" class="graph-label">Camada infraestrutural</text>
 
-<!-- ═══════════ OS SETE CAMPOS ═══════════ -->
-<section class="section" id="campos" style="background:var(--bg-secondary);">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="label label-cyan">Integração Transversal</span>
-      <h2>Sete Campos, Um Regente</h2>
-      <p>Campos antes operados em silos, agora integrados sob coordenação unificada</p>
-    </div>
-    <div class="campos-grid">
-      <div class="campo-card reveal">
-        <div class="campo-icon" style="background:var(--blue-dim);color:var(--blue);"><i class="fas fa-code"></i></div>
-        <div><h4>Engenharia Full-Stack</h4><p>Frontend, backend, infraestrutura, DevOps. Escopo original de 2024, mantido integralmente.</p></div>
-      </div>
-      <div class="campo-card reveal reveal-delay-1">
-        <div class="campo-icon" style="background:var(--orange-dim);color:var(--orange);"><i class="fas fa-clipboard-check"></i></div>
-        <div><h4>Compliance Técnico-Operacional</h4><p>Observabilidade, auditabilidade, conformidade de pipelines de dados, evidência técnica.</p></div>
-      </div>
-      <div class="campo-card reveal reveal-delay-2">
-        <div class="campo-icon" style="background:rgba(236,72,153,0.15);color:var(--pink);"><i class="fas fa-shield-alt"></i></div>
-        <div><h4>Cybersecurity</h4><p>Perímetro, identidade, criptografia clássica, gestão de vulnerabilidades, incident response.</p></div>
-      </div>
-      <div class="campo-card reveal reveal-delay-3">
-        <div class="campo-icon" style="background:rgba(139,92,246,0.15);color:var(--purple);"><i class="fas fa-lock"></i></div>
-        <div><h4>PQC — Post-Quantum Cryptography</h4><p>Inventário criptográfico, crypto-agility, planejamento de migração. Kyber, Dilithium, SPHINCS+.</p></div>
-      </div>
-      <div class="campo-card reveal">
-        <div class="campo-icon" style="background:rgba(16,185,129,0.15);color:var(--green);"><i class="fas fa-robot"></i></div>
-        <div><h4>AI Safety</h4><p>Alignment, interpretability, robustness, controllability, red-teaming. Sistemas em produção.</p></div>
-      </div>
-      <div class="campo-card reveal reveal-delay-1">
-        <div class="campo-icon" style="background:rgba(255,106,0,0.15);color:var(--orange);"><i class="fas fa-bug"></i></div>
-        <div><h4>AI Security</h4><p>Adversarial robustness, prompt injection, model theft, training data poisoning, supply chain.</p></div>
-      </div>
-      <div class="campo-card reveal reveal-delay-2">
-        <div class="campo-icon" style="background:var(--cyan-dim);color:var(--cyan);"><i class="fas fa-gavel"></i></div>
-        <div><h4>GRC de IA</h4><p>ISO/IEC 42001:2023, NIST AI RMF, EU AI Act, PL 2338/2023, futura regulamentação brasileira.</p></div>
-      </div>
-      <div class="bridge-card reveal">
-        <div class="bridge-icon"><i class="fas fa-exchange-alt"></i></div>
-        <div>
-          <h4>Integração Business ↔ Tecnologia via CFO</h4>
-          <p>Ponte entre o time técnico e o financeiro. Exemplificada pelo EBITTDA: o CFO precisa entender custo de tokens; o time técnico precisa entender margem operacional. O FSA opera essa fronteira.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+          <rect x="200" y="260" width="200" height="40" class="graph-node"/>
+          <text x="300" y="280" class="graph-node-text">Multiagente</text>
+          <text x="300" y="305" class="graph-label">Camada executória</text>
 
-<!-- ═══════════ EBITTDA ═══════════ -->
-<section class="section" id="ebitdda">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="label label-orange">Case Method</span>
-      <h2>EBITTDA — O Segundo T é Tokens</h2>
-      <p>Métrica operacional paradigmática de regência. Necessidade contábil em construção.</p>
-    </div>
-    <div class="ebitdda-wrap">
-      <div class="ebitdda-left reveal">
-        <h3>O Problema</h3>
-        <p>Em 2026, empresas que adotaram IA generativa em escala têm uma linha de custo nova — <strong>tokens</strong> — que não está mapeada em nenhuma régua tradicional.</p>
-        <p>Esses custos têm três características que escapam ao planejamento financeiro:</p>
-        <div style="margin:1rem 0;">
-          <p style="margin-bottom:0.5rem;"><i class="fas fa-exclamation-circle" style="color:var(--orange);margin-right:0.5rem;"></i><strong>Imprevisibilidade</strong> — variam por uso, não por contrato fixo</p>
-          <p style="margin-bottom:0.5rem;"><i class="fas fa-exclamation-circle" style="color:var(--orange);margin-right:0.5rem;"></i><strong>Não-auditabilidade</strong> — registros distribuídos entre múltiplos providers</p>
-          <p><i class="fas fa-exclamation-circle" style="color:var(--orange);margin-right:0.5rem;"></i><strong>Ausência de governança</strong> — nenhuma área tem mandato claro</p>
-        </div>
-        <div class="ebitdda-formula">
-          <div class="formula">
-            Earnings Before Interest, Taxes, <span class="highlight-t">Tokens</span>, Depreciation & Amortization
-          </div>
-          <div class="formula-label">O EBITDA tradicional não vê essa realidade.</div>
-        </div>
-      </div>
-      <div class="ebitdda-right reveal reveal-delay-1">
-        <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:0.5rem;">A Consequência em Silos</h3>
-        <div class="ebitdda-trio">
-          <div class="trio-icon" style="color:var(--orange);"><i class="fas fa-chart-line"></i></div>
-          <div><h4>CFOs descobrem buracos</h4><p>Gastos imprevisíveis com compute de inferência, fora de controle de auditoria e planejamento.</p></div>
-        </div>
-        <div class="ebitdda-trio">
-          <div class="trio-icon" style="color:var(--pink);"><i class="fas fa-user-shield"></i></div>
-          <div><h4>CISOs descobrem exfiltração</h4><p>Dados sensíveis enviados via APIs de LLM para providers em jurisdições não-conformes.</p></div>
-        </div>
-        <div class="ebitdda-trio">
-          <div class="trio-icon" style="color:var(--purple);"><i class="fas fa-file-contract"></i></div>
-          <div><h4>Compliance descobre não-conformidade</h4><p>Processamento de dados pessoais sem base legal adequada, em múltiplos providers.</p></div>
-        </div>
-        <div style="margin-top:1rem;padding:1.2rem;border-radius:var(--radius-sm);background:rgba(0,240,255,0.05);border:1px solid rgba(0,240,255,0.12);">
-          <p style="font-size:0.9rem;color:var(--text-secondary);"><i class="fas fa-check-circle" style="color:var(--cyan);margin-right:0.5rem;"></i><strong>Resposta FSA:</strong> instrumentação transversal. Métrica unificada, rastreabilidade técnica, conformidade verificável, governança clara sobre o conjunto.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+          <rect x="200" y="330" width="200" height="40" class="graph-node"/>
+          <text x="300" y="350" class="graph-node-text">Multilateral</text>
+          <text x="300" y="375" class="graph-label">Camada geo-econômica</text>
 
-<!-- ═══════════ BRASIL MULTILATERAL ═══════════ -->
-<section class="section" id="brasil" style="background:var(--bg-secondary);">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="label label-cyan">Camada M³</span>
-      <h2>Brasil: Nó Multilateral</h2>
-      <p>Posicionamento geo-estratégico com formulação técnica, não declarativa</p>
-    </div>
-    <div class="brasil-wrap">
-      <div class="brasil-intro reveal">
-        <p>Para deep tech sediada no Rio de Janeiro operando sob tese P²M³, o posicionamento do Brasil é <strong>vantagem operacional não-replicável</strong> por venture builders em Tel Aviv, Singapura, Berlim ou Bay Area — não porque sejam piores, mas porque cada uma opera sob constrangimentos geo-estratégicos mais estreitos.</p>
-      </div>
-      <div class="brasil-grid">
-        <div class="brasil-item reveal">
-          <div class="bi-icon"><i class="fas fa-handshake"></i></div>
-          <div><h4>BRICS+ Ampliado</h4><p>Membro ativo. Canal de cooperação tecnológica com China, Índia, Rússia, África do Sul e expansão 2024-2025.</p></div>
-        </div>
-        <div class="brasil-item reveal reveal-delay-1">
-          <div class="bi-icon"><i class="fas fa-landmark"></i></div>
-          <div><h4>Mercosul-UE</h4><p>Parceiro estratégico da União Europeia. Acordo assinado dez/2024, em ratificação parlamentar.</p></div>
-        </div>
-        <div class="brasil-item reveal reveal-delay-2">
-          <div class="bi-icon"><i class="fas fa-language"></i></div>
-          <div><h4>CPLP-PALOP</h4><p>Eixo lusófono com presença em três continentes: Américas, Europa, África.</p></div>
-        </div>
-        <div class="brasil-item reveal reveal-delay-3">
-          <div class="bi-icon"><i class="fas fa-globe"></i></div>
-          <div><h4>G20 2024</h4><p>Capital institucional na governança global da economia. Presidência brasileira.</p></div>
-        </div>
-        <div class="brasil-item reveal">
-          <div class="bi-icon"><i class="fas fa-balance-scale"></i></div>
-          <div><h4>Neutralidade Tech</h4><p>Neutralidade prática diante da bifurcação tech EUA-China. Vantagem que Israel, Reino Unido e UE perderam.</p></div>
-        </div>
-        <div class="brasil-item reveal reveal-delay-1">
-          <div class="bi-icon"><i class="fas fa-project-diagram"></i></div>
-          <div><h4>Fórum Macau</h4><p>Lusofonia como porta institucional para a China. Ativo desde 2003. Via Macau, acesso ao mercado chinês.</p></div>
-        </div>
-      </div>
-      <div class="brasil-footnote reveal">
-        <p>"Diversificação de moeda de receita — BRL para Brasil, EUR para Portugal/UE, USD apenas para cliente internacional — como aplicação concreta da camada M³."</p>
+          <!-- Setas -->
+          <path d="M300 90 L300 120" class="graph-edge"/>
+          <path d="M300 160 L300 190" class="graph-edge"/>
+          <path d="M300 230 L300 260" class="graph-edge"/>
+          <path d="M300 300 L300 330" class="graph-edge"/>
+        </svg>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ═══════════ ECOSSISTEMA ═══════════ -->
-<section class="section" id="ecossistema">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="label label-blue">Instâncias</span>
-      <h2>Ecossistema Hubstry</h2>
-      <p>Regência não é centralização. É coordenação entre nodos autônomos com interfaces explícitas.</p>
-    </div>
-    <div class="eco-wrap">
-      <div class="eco-main">
-        <div class="eco-card reveal">
-          <div class="eco-badge">Instância 01</div>
-          <h3>Full Stack Advocate</h3>
-          <p>Integrador transversal. Engenharia full-stack, compliance técnico-operacional, cybersecurity, PQC, AI safety, AI security, GRC de IA e a ponte business-tech via CFO. Ativo desde agosto de 2024.</p>
+  <section id="principios">
+    <div class="container">
+      <h2 class="section-title">Princípios de Viabilidade Operacional</h2>
+      <p class="section-subtitle">
+        Três princípios estruturais que tornam a tese P²M³ humanamente operável e não pretensão biográfica.
+      </p>
+      <div class="graph-container">
+        <h3 class="graph-title">Princípios de Viabilidade Operacional</h3>
+        <svg class="graph-svg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arrowhead2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+              <polygon points="0 0, 10 3.5, 0 7" fill="var(--text-secondary)"/>
+            </marker>
+          </defs>
+          <!-- Princípios -->
+          <rect x="50" y="100" width="150" height="60" class="graph-node"/>
+          <text x="125" y="130" class="graph-node-text">Regência ≠ Execução</text>
+
+          <rect x="225" y="100" width="150" height="60" class="graph-node"/>
+          <text x="300" y="130" class="graph-node-text">M² como alavanca histórica</text>
+
+          <rect x="400" y="100" width="150" height="60" class="graph-node"/>
+          <text x="475" y="130" class="graph-node-text">Ecossistema com handoffs</text>
+
+          <!-- Conexões -->
+          <path d="M200 130 L225 130" class="graph-edge-dashed"/>
+          <path d="M375 130 L400 130" class="graph-edge-dashed"/>
+
+          <!-- Label central -->
+          <text x="300" y="200" class="graph-label" text-anchor="middle">
+            Sem qualquer um dos três, a tese colapsa em descrição de super-humano impossível.
+          </text>
+        </svg>
+      </div>
+      <div class="principles-grid">
+        <div class="principle">
+          <h3>1. Regência ≠ Execução</h3>
+          <p>O regente não executa em todas as camadas. Coordena especialistas humanos e agentes computacionais que executam. Polimatia é coordenação informada, não acúmulo enciclopédico.</p>
         </div>
-        <div class="eco-card reveal reveal-delay-1">
-          <div class="eco-badge">Instância 02</div>
+        <div class="principle">
+          <h3>2. M² como alavanca histórica</h3>
+          <p>Sem agentes computacionais, P²M³ seria pretensão impossível. Em 2026, a regência transversal por solopreneur com método se tornou materialmente possível pela primeira vez.</p>
+        </div>
+        <div class="principle">
+          <h3>3. Ecossistema com handoffs</h3>
+          <p>P²M³ não opera como pessoa única. Opera como instâncias com interfaces desenhadas (FSA, Gonçalves et Alii, futuras instâncias) e parceiros pontuais acionáveis.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="instancias">
+    <div class="container">
+      <h2 class="section-title">Instâncias da Arquitetura</h2>
+      <p class="section-subtitle">
+        Aplicações concretas da arquitetura P²M³ a domínios profissionais específicos.
+      </p>
+      <div class="graph-container">
+        <h3 class="graph-title">Instâncias Irmãs — FSA & Gonçalves et Alii</h3>
+        <svg class="graph-svg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arrowhead3" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+              <polygon points="0 0, 10 3.5, 0 7" fill="var(--text-secondary)"/>
+            </marker>
+          </defs>
+          <!-- Instâncias -->
+          <rect x="100" y="100" width="180" height="60" class="graph-node"/>
+          <text x="190" y="130" class="graph-node-text">FSA</text>
+          <text x="190" y="155" class="graph-label">Full Stack Advocate</text>
+
+          <rect x="320" y="100" width="180" height="60" class="graph-node"/>
+          <text x="410" y="130" class="graph-node-text">Gonçalves et Alii</text>
+          <text x="410" y="155" class="graph-label">Legal-Regulatory Advocate</text>
+
+          <!-- Conexão -->
+          <path d="M280 130 L320 130" class="graph-edge-dashed"/>
+          <text x="300" y="120" class="graph-label" text-anchor="middle">handoff</text>
+
+          <!-- Overlap -->
+          <rect x="250" y="180" width="100" height="40" class="graph-node"/>
+          <text x="300" y="200" class="graph-node-text">Compliance</text>
+          <text x="300" y="220" class="graph-label">Camada sobreposta</text>
+
+          <path d="M190 160 L300 180" class="graph-edge-dashed"/>
+          <path d="M410 160 L300 180" class="graph-edge-dashed"/>
+        </svg>
+      </div>
+
+      <div class="instance">
+        <div class="instance-header">
+          <h3>FSA — Full Stack Advocate</h3>
+          <span class="instance-badge">Instância 01</span>
+        </div>
+        <div class="instance-content">
+          <p><strong>Integrador transversal</strong> que conecta sete campos antes operados em silos:</p>
+          <ul>
+            <li>Engenharia full-stack tradicional</li>
+            <li>Compliance técnico-operacional</li>
+            <li>Cybersecurity</li>
+            <li>PQC (Post-Quantum Cryptography)</li>
+            <li>AI Safety</li>
+            <li>AI Security</li>
+            <li>GRC de IA</li>
+            <li>Integração business ↔ tecnologia via CFO (exemplificada pelo EBITTDA)</li>
+          </ul>
+          <p><strong>Modo operacional:</strong> coordenação humana com método P²M³ + instrumentação por agentes computacionais + handoffs com instância irmã Gonçalves et Alii + parcerias pontuais com especialistas verticais.</p>
+        </div>
+      </div>
+
+      <div class="instance">
+        <div class="instance-header">
           <h3>Gonçalves et Alii</h3>
-          <p>Plataforma de orquestração jurídico-regulatória. Full Stack Legal Advocate. Irmã do FSA com sobreposição na camada compliance e interfaces explícitas de handoff. Lançamento previsto 2026.</p>
+          <span class="instance-badge">Instância 02</span>
+        </div>
+        <div class="instance-content">
+          <p><strong>Plataforma de orquestração jurídico-regulatória.</strong> Full Stack Legal Advocate. O cérebro jurídico-de-compliance que conecta direito, dados, governança, ética e operação.</p>
+          <p><strong>Relação com FSA:</strong> instâncias irmãs com sobreposição na camada compliance e interfaces explícitas de handoff. FSA opera o lado técnico-operacional; Gonçalves et Alii opera o lado jurídico-regulatório.</p>
+          <p><strong>Lançamento previsto:</strong> 2026.</p>
         </div>
       </div>
-      <div class="eco-future reveal">
-        <h4>Futuras Instâncias Candidatas</h4>
-        <div class="eco-chips">
-          <div class="eco-chip"><i class="fas fa-chess-king" style="margin-right:0.4rem;"></i>Governance Advocate</div>
-          <div class="eco-chip"><i class="fas fa-shield-alt" style="margin-right:0.4rem;"></i>Risk Advocate</div>
-          <div class="eco-chip"><i class="fas fa-database" style="margin-right:0.4rem;"></i>Data Advocate</div>
-          <div class="eco-chip"><i class="fas fa-lightbulb" style="margin-right:0.4rem;"></i>Innovation Advocate</div>
-          <div class="eco-chip"><i class="fas fa-globe-americas" style="margin-right:0.4rem;"></i>Geopolitical Advocate</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- ═══════════ PLANOS ═══════════ -->
-<section class="section" id="planos" style="background:var(--bg-secondary);">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="label label-cyan">Modelo</span>
-      <h2>Planos</h2>
-      <p>Regência transversal a fração do custo da soma de sete especialistas</p>
-    </div>
-    <div class="planos-grid">
-      <div class="plano-card reveal">
-        <h3>FSA Lite</h3>
-        <p class="plano-note">Ideal para startups e PMEs pequenas</p>
-        <div class="plano-price">Sob consulta</div>
-        <ul class="plano-features">
-          <li><i class="fas fa-check"></i> 4 horas de consultoria técnica/mês</li>
-          <li><i class="fas fa-check"></i> Análise de arquitetura</li>
-          <li><i class="fas fa-check"></i> Relatório mensal de saúde técnica</li>
-          <li><i class="fas fa-check"></i> Recomendações prioritárias</li>
-          <li><i class="fas fa-check"></i> Diagnóstico P²M³ básico</li>
-        </ul>
-        <button class="plano-btn plano-btn-outline" onclick="window.open('https://calendly.com/guilherme-machado-ceo/30min')">Escolher Plano</button>
-      </div>
-      <div class="plano-card popular reveal reveal-delay-1">
-        <h3>FSA Pro</h3>
-        <p class="plano-note">Para empresas em crescimento</p>
-        <div class="plano-price">Sob consulta</div>
-        <ul class="plano-features">
-          <li><i class="fas fa-check"></i> 16 horas de acompanhamento/semana</li>
-          <li><i class="fas fa-check"></i> Integração com equipe</li>
-          <li><i class="fas fa-check"></i> Definição de padrões técnicos</li>
-          <li><i class="fas fa-check"></i> Revisão de código</li>
-          <li><i class="fas fa-check"></i> Mentoria técnica P²M³</li>
-          <li><i class="fas fa-check"></i> Instrumentação EBITTDA</li>
-        </ul>
-        <button class="plano-btn plano-btn-primary" onclick="window.open('https://calendly.com/guilherme-machado-ceo/30min')">Escolher Plano</button>
-      </div>
-      <div class="plano-card reveal reveal-delay-2">
-        <h3>FSA Enterprise</h3>
-        <p class="plano-note">Para grandes empresas e ecossistemas</p>
-        <div class="plano-price">Sob consulta</div>
-        <ul class="plano-features">
-          <li><i class="fas fa-check"></i> Plataforma digital inclusa</li>
-          <li><i class="fas fa-check"></i> Dashboard de saúde técnica P²M³</li>
-          <li><i class="fas fa-check"></i> Monitoramento contínuo dos sete campos</li>
-          <li><i class="fas fa-check"></i> IA para análise automática</li>
-          <li><i class="fas fa-check"></i> Suporte prioritário 24/7</li>
-          <li><i class="fas fa-check"></i> Handoff com Gonçalves et Alii</li>
-        </ul>
-        <button class="plano-btn plano-btn-outline" onclick="window.open('https://calendly.com/guilherme-machado-ceo/30min')">Entrar em Contato</button>
+      <div class="instance">
+        <div class="instance-header">
+          <h3>Outras instâncias candidatas</h3>
+          <span class="instance-badge">Futuras</span>
+        </div>
+        <div class="instance-content">
+          <ul>
+            <li>Full Stack Governance Advocate</li>
+            <li>Full Stack Risk Advocate</li>
+            <li>Full Stack Data Advocate</li>
+            <li>Full Stack Innovation Advocate</li>
+            <li>Full Stack Geopolitical Advocate (candidata v3)</li>
+          </ul>
+          <p>Princípio de não-fragmentação prematura: manter todas as instâncias documentadas no framework até que uma vertical amadureça a ponto de justificar repositório próprio e marca autônoma.</p>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ═══════════ STACK DE REFERÊNCIA ═══════════ -->
-<section class="section" id="stack">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="label label-orange">Tecnologias</span>
-      <h2>Stack de Referência</h2>
-      <p>Ferramentas e frameworks que operam nas sete camadas do FSA</p>
-    </div>
-    <div class="stack-cats">
-      <div class="stack-cat reveal">
-        <h4><i class="fas fa-desktop" style="color:var(--blue);"></i> Frontend</h4>
-        <div class="stack-tags">
-          <span class="stack-tag">React</span><span class="stack-tag">Vue.js</span><span class="stack-tag">Angular</span>
-          <span class="stack-tag">Next.js</span><span class="stack-tag">TypeScript</span><span class="stack-tag">Svelte</span>
+  <section id="artefatos">
+    <div class="container">
+      <h2 class="section-title">Artefatos Derivados</h2>
+      <p class="section-subtitle">
+        Materiais de difusão e operacionalização da tese P²M³.
+      </p>
+      <div class="cards-grid">
+        <div class="card">
+          <h3>README do FSA reposicionado</h3>
+          <p>Landing page e documentação técnica atualizada com a tese P²M³ e os três princípios de viabilidade operacional.</p>
+          <div class="card-meta">Documentação</div>
         </div>
-      </div>
-      <div class="stack-cat reveal reveal-delay-1">
-        <h4><i class="fas fa-server" style="color:var(--purple);"></i> Backend</h4>
-        <div class="stack-tags">
-          <span class="stack-tag">Node.js</span><span class="stack-tag">Python</span><span class="stack-tag">Java</span>
-          <span class="stack-tag">.NET</span><span class="stack-tag">Go</span><span class="stack-tag">Rust</span>
+        <div class="card">
+          <h3>Abstract Zenodo</h3>
+          <p>Deposit técnico sob licença CC BY-NC-SA 4.0. Título: "Full Stack Advocacy: arquitetura P²M³ aplicada à integração transversal de engenharia, compliance, segurança e governança de IA, com posicionamento geo-econômico multilateral."</p>
+          <div class="card-meta">Acadêmico</div>
         </div>
-      </div>
-      <div class="stack-cat reveal reveal-delay-2">
-        <h4><i class="fas fa-cloud" style="color:var(--cyan);"></i> Infraestrutura</h4>
-        <div class="stack-tags">
-          <span class="stack-tag">AWS</span><span class="stack-tag">Azure</span><span class="stack-tag">GCP</span>
-          <span class="stack-tag">Docker</span><span class="stack-tag">Kubernetes</span><span class="stack-tag">Terraform</span>
+        <div class="card">
+          <h3>Position Paper Overall 720°</h3>
+          <p>4–6 páginas analíticas sobre zeitgeist, P²M³, regência, princípios de viabilidade, FSA, EBITTDA, eixo lusófono e Brasil como nó multilateral.</p>
+          <div class="card-meta">Editorial</div>
         </div>
-      </div>
-      <div class="stack-cat reveal reveal-delay-3">
-        <h4><i class="fas fa-infinity" style="color:var(--orange);"></i> DevOps</h4>
-        <div class="stack-tags">
-          <span class="stack-tag">GitLab CI</span><span class="stack-tag">GitHub Actions</span><span class="stack-tag">Ansible</span>
-          <span class="stack-tag">Grafana</span><span class="stack-tag">Prometheus</span>
-        </div>
-      </div>
-      <div class="stack-cat reveal">
-        <h4><i class="fas fa-database" style="color:var(--green);"></i> Database</h4>
-        <div class="stack-tags">
-          <span class="stack-tag">PostgreSQL</span><span class="stack-tag">MongoDB</span><span class="stack-tag">Redis</span>
-          <span class="stack-tag">MySQL</span><span class="stack-tag">pgvector</span><span class="stack-tag">Pinecone</span><span class="stack-tag">Weaviate</span>
-        </div>
-      </div>
-      <div class="stack-cat reveal reveal-delay-1">
-        <h4><i class="fas fa-clipboard-check" style="color:var(--orange);"></i> Compliance</h4>
-        <div class="stack-tags">
-          <span class="stack-tag">ISO 27001</span><span class="stack-tag">ISO 27701</span><span class="stack-tag">SOC 2</span>
-          <span class="stack-tag">Vanta</span><span class="stack-tag">Drata</span>
-        </div>
-      </div>
-      <div class="stack-cat reveal reveal-delay-2">
-        <h4><i class="fas fa-shield-alt" style="color:var(--pink);"></i> Cybersecurity</h4>
-        <div class="stack-tags">
-          <span class="stack-tag">SIEM/SOAR</span><span class="stack-tag">Okta</span><span class="stack-tag">Auth0</span>
-          <span class="stack-tag">Keycloak</span><span class="stack-tag">Snyk</span><span class="stack-tag">Trivy</span>
-        </div>
-      </div>
-      <div class="stack-cat reveal reveal-delay-3">
-        <h4><i class="fas fa-lock" style="color:var(--purple);"></i> PQC</h4>
-        <div class="stack-tags">
-          <span class="stack-tag">Kyber</span><span class="stack-tag">Dilithium</span><span class="stack-tag">SPHINCS+</span>
-          <span class="stack-tag">FALCON</span><span class="stack-tag">CryptoNext</span>
-        </div>
-      </div>
-      <div class="stack-cat reveal">
-        <h4><i class="fas fa-robot" style="color:var(--green);"></i> AI Safety</h4>
-        <div class="stack-tags">
-          <span class="stack-tag">HELM</span><span class="stack-tag">BIG-bench</span><span class="stack-tag">SHAP</span>
-          <span class="stack-tag">LIME</span><span class="stack-tag">garak</span><span class="stack-tag">PyRIT</span>
-        </div>
-      </div>
-      <div class="stack-cat reveal reveal-delay-1">
-        <h4><i class="fas fa-bug" style="color:var(--orange);"></i> AI Security</h4>
-        <div class="stack-tags">
-          <span class="stack-tag">Lakera Guard</span><span class="stack-tag">NeMo Guardrails</span><span class="stack-tag">Rebuff</span>
-          <span class="stack-tag">IBM ART</span>
-        </div>
-      </div>
-      <div class="stack-cat reveal reveal-delay-2">
-        <h4><i class="fas fa-gavel" style="color:var(--cyan);"></i> GRC de IA</h4>
-        <div class="stack-tags">
-          <span class="stack-tag">ISO 42001</span><span class="stack-tag">NIST AI RMF</span><span class="stack-tag">Model Cards</span>
-          <span class="stack-tag">AI Incident DB</span>
-        </div>
-      </div>
-      <div class="stack-cat reveal reveal-delay-3">
-        <h4><i class="fas fa-exchange-alt" style="color:var(--cyan);"></i> Business-Tech</h4>
-        <div class="stack-tags">
-          <span class="stack-tag">FinOps</span><span class="stack-tag">Helicone</span><span class="stack-tag">Langfuse</span>
-          <span class="stack-tag">EBITTDA dashboards</span>
+        <div class="card">
+          <h3>Posts LinkedIn</h3>
+          <p>Trechos extraíveis para difusão: EBITTDA, Compliance não é jurídico, sete campos que viraram um só, regência transversal por solopreneur, Brasil como nó multilateral.</p>
+          <div class="card-meta">Mídia social</div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ═══════════ CONTATO ═══════════ -->
-<section class="section" id="contato" style="background:var(--bg-secondary);">
-  <div class="container">
-    <div class="contato-wrap reveal">
-      <span class="label label-cyan">Comece Agora</span>
-      <h2>Pronto para operar na arquitetura P²M³?</h2>
-      <p>Agende uma conversa e descubra como o FSA pode integrar os sete campos da sua operação técnica.</p>
-      <div class="contato-grid">
-        <a href="mailto:guilhermemachado.ceo@hubstry.dev" class="contato-item">
-          <div class="ci-icon"><i class="fas fa-envelope"></i></div>
-          <h4>Email</h4>
-          <span>guilhermemachado.ceo@hubstry.dev</span>
-        </a>
-        <a href="https://wa.me/5511994555772" target="_blank" class="contato-item">
-          <div class="ci-icon" style="background:rgba(16,185,129,0.15);color:var(--green);"><i class="fab fa-whatsapp"></i></div>
-          <h4>WhatsApp</h4>
-          <span>+55 11 99455-5772</span>
-        </a>
-        <a href="https://calendly.com/guilherme-machado-ceo/30min" target="_blank" class="contato-item">
-          <div class="ci-icon" style="background:var(--orange-dim);color:var(--orange);"><i class="fas fa-calendar-check"></i></div>
-          <h4>Calendly</h4>
-          <span>Agende uma call</span>
-        </a>
-        <a href="https://www.hubstry.dev" target="_blank" class="contato-item">
-          <div class="ci-icon" style="background:rgba(139,92,246,0.15);color:var(--purple);"><i class="fas fa-globe"></i></div>
-          <h4>Website</h4>
-          <span>hubstry.dev</span>
-        </a>
+  <footer id="contato">
+    <div class="container">
+      <div class="footer-links">
+        <a href="#tese">Tese</a>
+        <a href="#camadas">Camadas</a>
+        <a href="#principios">Princípios</a>
+        <a href="#instancias">Instâncias</a>
+        <a href="#artefatos">Artefatos</a>
       </div>
-      <a href="https://calendly.com/guilherme-machado-ceo/30min" target="_blank" class="btn-primary" style="margin-top:0.5rem;">
-        <i class="fas fa-arrow-right"></i> Agendar Conversa
-      </a>
+      <p class="footer-license">
+        P²M³ Framework — Documento de Trabalho v3 (2026-06-27) · Licença pretendida: CC BY-NC-SA 4.0
+      </p>
     </div>
-  </div>
-</section>
+  </footer>
 
-<!-- ═══════════ FOOTER ═══════════ -->
-<footer class="footer">
-  <div class="container">
-    <div class="footer-logo">Full Stack Advocate</div>
-    <p>Arquitetura P²M³ — Polímata, Poliglota, Multicloud, Multiagente, Multilateral</p>
-    <p>© 2024–2026 Full Stack Advocate · Hubstry</p>
-    <div class="footer-links">
-      <a href="https://github.com/guilherme-machado-ceo/fullstack-advocate" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-      <a href="https://www.hubstry.dev" target="_blank"><i class="fas fa-globe"></i> hubstry.dev</a>
-      <a href="mailto:guilhermemachado.ceo@hubstry.dev"><i class="fas fa-envelope"></i> Contato</a>
-    </div>
-  </div>
-</footer>
+  <script>
+    // Mobile menu toggle
+    const mobileToggle = document.getElementById('mobileToggle');
+    const navLinks = document.getElementById('navLinks');
 
-<!-- ═══════════ JAVASCRIPT ═══════════ -->
-<script>
-(function(){
-  /* Navbar scroll */
-  const navbar = document.getElementById('navbar');
-  window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 50);
-  });
-
-  /* Hamburger */
-  const hamburger = document.getElementById('hamburger');
-  const navLinks = document.getElementById('navLinks');
-  hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('open');
-    navLinks.classList.toggle('open');
-  });
-  navLinks.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => {
-      hamburger.classList.remove('open');
-      navLinks.classList.remove('open');
+    mobileToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
     });
-  });
 
-  /* Active nav link on scroll */
-  const sections = document.querySelectorAll('section[id]');
-  const navAnchors = navLinks.querySelectorAll('a[href^="#"]');
-  window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach(s => {
-      const top = s.offsetTop - 120;
-      if (window.scrollY >= top) current = s.getAttribute('id');
+    // Close mobile menu on link click
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+      });
     });
-    navAnchors.forEach(a => {
-      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
-    });
-  });
 
-  /* Intersection Observer — reveal on scroll */
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
     });
-  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-  /* Particles */
-  const container = document.getElementById('particles');
-  if (container) {
-    for (let i = 0; i < 30; i++) {
-      const p = document.createElement('div');
-      p.className = 'particle';
-      const size = Math.random() * 3 + 1;
-      const colors = ['var(--cyan)', 'var(--blue)', 'var(--orange)'];
-      p.style.cssText = `
-        width:${size}px; height:${size}px;
-        background:${colors[Math.floor(Math.random()*colors.length)]};
-        left:${Math.random()*100}%;
-        animation-duration:${Math.random()*12+8}s;
-        animation-delay:${Math.random()*8}s;
-      `;
-      container.appendChild(p);
-    }
-  }
-})();
-</script>
+  </script>
 </body>
 </html>
