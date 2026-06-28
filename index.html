@@ -1,897 +1,1264 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>P²M³ Framework — Full Stack Advocate & Gonçalves et Alii</title>
-  <style>
-    :root {
-      --bg-dark: #0f0f0f;
-      --bg-card: #1a1a1a;
-      --bg-card-hover: #222;
-      --text-primary: #f0f0f0;
-      --text-secondary: #b0b0b0;
-      --accent: #ff3366;
-      --accent-dark: #cc0044;
-      --border: #333;
-      --border-light: #444;
-      --success: #00cc88;
-      --warning: #ffaa00;
-      --info: #3366ff;
-      --font-mono: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Mono', 'Droid Sans Mono', 'Source Code Pro', monospace;
-      --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      background-color: var(--bg-dark);
-      color: var(--text-primary);
-      font-family: var(--font-body);
-      line-height: 1.6;
-      font-size: 16px;
-      overflow-x: hidden;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 1rem;
-    }
-
-    /* Header & Nav */
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background-color: rgba(15, 15, 15, 0.95);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border);
-      z-index: 1000;
-    }
-
-    .nav-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 0;
-    }
-
-    .logo {
-      font-family: var(--font-mono);
-      font-weight: 700;
-      font-size: 1.25rem;
-      color: var(--text-primary);
-      text-decoration: none;
-    }
-
-    .logo span {
-      color: var(--accent);
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: var(--text-secondary);
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover {
-      color: var(--text-primary);
-    }
-
-    .mobile-toggle {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--text-primary);
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-
-    /* Language Toggle */
-    .lang-toggle {
-      display: flex;
-      gap: 0.5rem;
-      margin-left: 2rem;
-    }
-
-    .lang-btn {
-      background: none;
-      border: 1px solid var(--border-light);
-      color: var(--text-secondary);
-      padding: 0.25rem 0.75rem;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 0.875rem;
-      transition: all 0.2s;
-    }
-
-    .lang-btn.active {
-      background-color: var(--accent);
-      border-color: var(--accent);
-      color: white;
-    }
-
-    .lang-btn:hover:not(.active) {
-      background-color: var(--bg-card);
-      border-color: var(--accent);
-      color: var(--text-primary);
-    }
-
-    /* Hero */
-    .hero {
-      padding: 8rem 0 4rem;
-      text-align: center;
-      background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
-    }
-
-    .hero h1 {
-      font-size: clamp(2.5rem, 5vw, 4rem);
-      font-weight: 800;
-      margin-bottom: 1rem;
-      line-height: 1.1;
-    }
-
-    .hero h1 .p2m3 {
-      color: var(--accent);
-      font-family: var(--font-mono);
-    }
-
-    .hero-subtitle {
-      font-size: 1.25rem;
-      color: var(--text-secondary);
-      max-width: 700px;
-      margin: 0 auto 2rem;
-    }
-
-    .cta-buttons {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 0.75rem 1.5rem;
-      background-color: var(--accent);
-      color: white;
-      text-decoration: none;
-      border-radius: 4px;
-      font-weight: 600;
-      transition: background-color 0.2s, transform 0.2s;
-    }
-
-    .btn:hover {
-      background-color: var(--accent-dark);
-      transform: translateY(-2px);
-    }
-
-    .btn-outline {
-      background-color: transparent;
-      border: 1px solid var(--border-light);
-      color: var(--text-primary);
-    }
-
-    .btn-outline:hover {
-      background-color: var(--bg-card);
-      border-color: var(--accent);
-    }
-
-    /* Sections */
-    section {
-      padding: 4rem 0;
-    }
-
-    section:nth-child(even) {
-      background-color: rgba(255, 255, 255, 0.02);
-    }
-
-    .section-title {
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin-bottom: 2rem;
-      text-align: center;
-    }
-
-    .section-subtitle {
-      font-size: 1.25rem;
-      color: var(--text-secondary);
-      text-align: center;
-      max-width: 800px;
-      margin: 0 auto 3rem;
-    }
-
-    /* Cards */
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-    }
-
-    .card {
-      background-color: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 2rem;
-      transition: transform 0.2s, border-color 0.2s;
-    }
-
-    .card:hover {
-      transform: translateY(-4px);
-      border-color: var(--border-light);
-      background-color: var(--bg-card-hover);
-    }
-
-    .card h3 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      color: var(--text-primary);
-    }
-
-    .card p {
-      color: var(--text-secondary);
-      margin-bottom: 1rem;
-    }
-
-    .card-meta {
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-      opacity: 0.7;
-    }
-
-    /* Principles */
-    .principles-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-    }
-
-    .principle {
-      background-color: var(--bg-card);
-      border-left: 4px solid var(--accent);
-      padding: 1.5rem;
-    }
-
-    .principle h3 {
-      margin-bottom: 0.5rem;
-    }
-
-    /* Instances */
-    .instance {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      margin-bottom: 3rem;
-    }
-
-    .instance-header {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .instance-badge {
-      background-color: var(--accent);
-      color: white;
-      padding: 0.25rem 0.75rem;
-      border-radius: 20px;
-      font-size: 0.875rem;
-      font-weight: 600;
-    }
-
-    .instance-content {
-      padding-left: 1rem;
-      border-left: 2px solid var(--border);
-    }
-
-    /* Footer */
-    footer {
-      background-color: var(--bg-card);
-      border-top: 1px solid var(--border);
-      padding: 3rem 0;
-      text-align: center;
-    }
-
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin-bottom: 2rem;
-      flex-wrap: wrap;
-    }
-
-    .footer-links a {
-      color: var(--text-secondary);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .footer-links a:hover {
-      color: var(--text-primary);
-    }
-
-    .footer-license {
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-      opacity: 0.7;
-    }
-
-    /* Graph Styles */
-    .graph-container {
-      margin: 2rem auto;
-      max-width: 800px;
-    }
-
-    .graph-title {
-      text-align: center;
-      font-size: 1.25rem;
-      margin-bottom: 1rem;
-      color: var(--text-primary);
-    }
-
-    .graph-svg {
-      width: 100%;
-      height: auto;
-      max-width: 600px;
-      display: block;
-      margin: 0 auto;
-    }
-
-    .graph-node {
-      fill: var(--bg-card);
-      stroke: var(--accent);
-      stroke-width: 2;
-      rx: 6;
-    }
-
-    .graph-node-text {
-      fill: var(--text-primary);
-      font-family: var(--font-mono);
-      font-size: 16px;
-      font-weight: 600;
-      text-anchor: middle;
-      dominant-baseline: central;
-    }
-
-    .graph-node-subtitle {
-      fill: var(--text-secondary);
-      font-size: 12px;
-      font-family: var(--font-body);
-      text-anchor: middle;
-      dominant-baseline: central;
-    }
-
-    .graph-edge {
-      stroke: var(--text-secondary);
-      stroke-width: 1.5;
-      fill: none;
-      marker-end: url(#arrowhead);
-    }
-
-    .graph-edge-dashed {
-      stroke-dasharray: 5,5;
-    }
-
-    .graph-label {
-      fill: var(--text-secondary);
-      font-size: 12px;
-      font-family: var(--font-body);
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        background-color: var(--bg-dark);
-        border-top: 1px solid var(--border);
-        padding: 1rem;
-        gap: 1rem;
-      }
-
-      .nav-links.active {
-        display: flex;
-      }
-
-      .mobile-toggle {
-        display: block;
-      }
-
-      .hero {
-        padding: 6rem 0 3rem;
-      }
-
-      .section-title {
-        font-size: 2rem;
-      }
-
-      .cards-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .graph-svg {
-        max-width: 100%;
-      }
-
-      .lang-toggle {
-        margin-left: 1rem;
-      }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Full Stack Advocate — Integrador Transversal P²M³</title>
+<meta name="description" content="Full Stack Advocate: integrador transversal de engenharia, compliance, cybersecurity, PQC, AI safety, AI security e governança de IA sob arquitetura P²M³.">
+<meta property="og:title" content="Full Stack Advocate — P²M³">
+<meta property="og:description" content="Polímata · Poliglota · Multicloud · Multiagente · Multilateral">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+/* ═══════════════════════════════════════════
+   CSS CUSTOM PROPERTIES
+   ═══════════════════════════════════════════ */
+:root {
+  --bg-primary: #060a14;
+  --bg-secondary: #0c1222;
+  --bg-card: rgba(15, 23, 42, 0.6);
+  --bg-card-hover: rgba(20, 30, 55, 0.8);
+  --glass: rgba(255,255,255,0.03);
+  --glass-border: rgba(255,255,255,0.06);
+  --cyan: #00F0FF;
+  --cyan-dim: rgba(0,240,255,0.15);
+  --orange: #FF6A00;
+  --orange-dim: rgba(255,106,0,0.15);
+  --blue: #007BFF;
+  --blue-dim: rgba(0,123,255,0.15);
+  --green: #10b981;
+  --purple: #8b5cf6;
+  --pink: #ec4899;
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ═══════════════════════════════════════════
+   RESET & BASE
+   ═══════════════════════════════════════════ */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--cyan); text-decoration: none; transition: var(--transition); }
+a:hover { color: #fff; }
+img { max-width:100%; display:block; }
+
+/* ═══════════════════════════════════════════
+   UTILITY
+   ═══════════════════════════════════════════ */
+.container { width:100%; max-width:1200px; margin:0 auto; padding:0 clamp(1rem,4vw,2.5rem); }
+.section { padding: clamp(4rem,10vw,8rem) 0; position:relative; }
+.section-header { text-align:center; margin-bottom:3.5rem; }
+.section-header h2 {
+  font-size: clamp(1.8rem,4vw,2.8rem);
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--cyan), var(--blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.75rem;
+}
+.section-header p { color: var(--text-secondary); font-size: clamp(1rem,2vw,1.15rem); max-width:640px; margin:0 auto; }
+.label {
+  display:inline-block; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em;
+  padding:0.35em 1em; border-radius:50px; margin-bottom:1rem;
+}
+.label-cyan { background:var(--cyan-dim); color:var(--cyan); }
+.label-orange { background:var(--orange-dim); color:var(--orange); }
+.label-blue { background:var(--blue-dim); color:var(--blue); }
+
+/* Reveal animation */
+.reveal { opacity:0; transform:translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ═══════════════════════════════════════════
+   NAVBAR
+   ═══════════════════════════════════════════ */
+.navbar {
+  position: fixed; top:0; left:0; right:0; z-index:1000;
+  background: rgba(6,10,20,0.85);
+  backdrop-filter: blur(20px) saturate(1.4);
+  border-bottom: 1px solid var(--glass-border);
+  transition: var(--transition);
+}
+.navbar.scrolled { background: rgba(6,10,20,0.95); box-shadow: 0 4px 30px rgba(0,0,0,0.4); }
+.navbar .container { display:flex; align-items:center; justify-content:space-between; height:70px; }
+.nav-logo {
+  font-weight:900; font-size:1.4rem; letter-spacing:-0.02em;
+  background: linear-gradient(135deg, var(--cyan), var(--blue));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.nav-logo span { font-weight:400; opacity:0.6; -webkit-text-fill-color: var(--text-muted); font-size:0.8rem; margin-left:0.3rem; }
+.nav-links { display:flex; gap:1.8rem; list-style:none; align-items:center; }
+.nav-links a {
+  color: var(--text-secondary); font-size:0.85rem; font-weight:500; position:relative;
+  transition: var(--transition);
+}
+.nav-links a:hover, .nav-links a.active { color: var(--cyan); }
+.nav-links a::after {
+  content:''; position:absolute; bottom:-4px; left:0; width:0; height:2px;
+  background: var(--cyan); transition: var(--transition);
+}
+.nav-links a:hover::after, .nav-links a.active::after { width:100%; }
+.nav-cta {
+  display:inline-flex; align-items:center; gap:0.5rem;
+  padding:0.55rem 1.4rem; border-radius:50px; font-size:0.85rem; font-weight:600;
+  background: linear-gradient(135deg, var(--cyan), var(--blue));
+  color: #060a14; transition: var(--transition);
+}
+.nav-cta:hover { transform:translateY(-2px); box-shadow:0 8px 25px rgba(0,240,255,0.25); color:#060a14; }
+.lang-toggle { display:flex; align-items:center; gap:2px; background:rgba(255,255,255,0.04); border:1px solid var(--glass-border); border-radius:8px; padding:2px; margin-right:0.5rem; }
+.lang-btn { background:none; border:none; color:var(--text-muted); font-size:0.72rem; font-weight:700; padding:0.3em 0.6em; border-radius:6px; cursor:pointer; transition:var(--transition); letter-spacing:0.04em; font-family:'Inter',sans-serif; }
+.lang-btn:hover { color:var(--text-secondary); }
+.lang-btn.active { background:var(--cyan-dim); color:var(--cyan); }
+.hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none; padding:4px; }
+.hamburger span { width:24px; height:2px; background:var(--text-primary); transition: var(--transition); border-radius:2px; }
+.hamburger.open span:nth-child(1) { transform:rotate(45deg) translate(5px,5px); }
+.hamburger.open span:nth-child(2) { opacity:0; }
+.hamburger.open span:nth-child(3) { transform:rotate(-45deg) translate(5px,-5px); }
+
+/* ═══════════════════════════════════════════
+   HERO
+   ═══════════════════════════════════════════ */
+.hero {
+  min-height:100vh; display:flex; align-items:center; justify-content:center;
+  position:relative; overflow:hidden; padding-top:70px;
+}
+.hero-bg {
+  position:absolute; inset:0; z-index:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,123,255,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 80%, rgba(0,240,255,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 40% at 10% 90%, rgba(255,106,0,0.05) 0%, transparent 50%);
+}
+.hero-grid {
+  position:absolute; inset:0; z-index:0;
+  background-image:
+    linear-gradient(rgba(0,240,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,240,255,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 70%);
+}
+.hero-content { position:relative; z-index:1; text-align:center; max-width:860px; padding:2rem 1rem; }
+.hero-badge {
+  display:inline-flex; align-items:center; gap:0.5rem;
+  padding:0.5rem 1.2rem; border-radius:50px; font-size:0.8rem; font-weight:600;
+  background: var(--cyan-dim); color: var(--cyan); border:1px solid rgba(0,240,255,0.2);
+  margin-bottom:1.5rem;
+}
+.hero-badge i { font-size:0.7rem; }
+.hero h1 {
+  font-size: clamp(2.5rem,7vw,5rem); font-weight:900; line-height:1.05;
+  letter-spacing:-0.03em; margin-bottom:1rem;
+}
+.hero h1 .gradient {
+  background: linear-gradient(135deg, var(--cyan), var(--blue), var(--purple));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+.hero .subtitle {
+  font-size: clamp(1.1rem,2.5vw,1.4rem); color: var(--text-secondary);
+  font-weight:400; margin-bottom:0.8rem;
+}
+.hero .tagline {
+  font-size: clamp(0.85rem,1.8vw,1rem); color: var(--text-muted);
+  font-weight:500; letter-spacing:0.08em; text-transform:uppercase;
+  margin-bottom:2.5rem;
+}
+.hero .tagline span { color: var(--cyan); }
+.hero-buttons { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; }
+.btn-primary {
+  display:inline-flex; align-items:center; gap:0.6rem;
+  padding:0.9rem 2rem; border-radius:50px; font-weight:700; font-size:1rem;
+  background: linear-gradient(135deg, var(--cyan), var(--blue));
+  color:#060a14; transition: var(--transition); border:none; cursor:pointer;
+}
+.btn-primary:hover { transform:translateY(-3px); box-shadow:0 12px 35px rgba(0,240,255,0.3); color:#060a14; }
+.btn-outline {
+  display:inline-flex; align-items:center; gap:0.6rem;
+  padding:0.9rem 2rem; border-radius:50px; font-weight:700; font-size:1rem;
+  background:transparent; color:var(--cyan); border:2px solid var(--cyan);
+  transition: var(--transition); cursor:pointer;
+}
+.btn-outline:hover { background:var(--cyan-dim); transform:translateY(-3px); color:var(--cyan); }
+
+/* Floating particles */
+.particles { position:absolute; inset:0; z-index:0; overflow:hidden; pointer-events:none; }
+.particle {
+  position:absolute; border-radius:50%; opacity:0;
+  animation: float linear infinite;
+}
+@keyframes float {
+  0% { opacity:0; transform:translateY(100vh) scale(0); }
+  10% { opacity:1; }
+  90% { opacity:1; }
+  100% { opacity:0; transform:translateY(-10vh) scale(1); }
+}
+
+/* ═══════════════════════════════════════════
+   PROBLEMA
+   ═══════════════════════════════════════════ */
+.problema-grid {
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+  gap:1.5rem;
+}
+.problema-card {
+  background: var(--bg-card); border:1px solid var(--glass-border);
+  border-radius: var(--radius); padding:2rem; transition: var(--transition);
+}
+.problema-card:hover { background:var(--bg-card-hover); border-color:rgba(255,106,0,0.2); transform:translateY(-4px); }
+.problema-card .icon {
+  width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+  background: var(--orange-dim); color:var(--orange); font-size:1.2rem; margin-bottom:1.2rem;
+}
+.problema-card h3 { font-size:1.1rem; font-weight:700; margin-bottom:0.6rem; }
+.problema-card p { font-size:0.92rem; color:var(--text-secondary); }
+
+/* ═══════════════════════════════════════════
+   P²M³ LAYERS
+   ═══════════════════════════════════════════ */
+.layers-stack { display:flex; flex-direction:column; gap:1.2rem; max-width:900px; margin:0 auto; }
+.layer-card {
+  display:grid; grid-template-columns:auto 1fr; gap:1.5rem; align-items:start;
+  background: var(--bg-card); border:1px solid var(--glass-border);
+  border-radius: var(--radius); padding:2rem; transition: var(--transition);
+  position:relative; overflow:hidden;
+}
+.layer-card::before {
+  content:''; position:absolute; left:0; top:0; bottom:0; width:4px;
+  border-radius:4px 0 0 4px;
+}
+.layer-card:hover { background:var(--bg-card-hover); transform:translateX(6px); }
+.layer-card:nth-child(1)::before { background: var(--cyan); }
+.layer-card:nth-child(2)::before { background: var(--purple); }
+.layer-card:nth-child(3)::before { background: var(--blue); }
+.layer-card:nth-child(4)::before { background: var(--orange); }
+.layer-card:nth-child(5)::before { background: var(--green); }
+.layer-num {
+  width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center;
+  font-weight:900; font-size:1.3rem; flex-shrink:0;
+}
+.layer-card:nth-child(1) .layer-num { background:var(--cyan-dim); color:var(--cyan); }
+.layer-card:nth-child(2) .layer-num { background:rgba(139,92,246,0.15); color:var(--purple); }
+.layer-card:nth-child(3) .layer-num { background:var(--blue-dim); color:var(--blue); }
+.layer-card:nth-child(4) .layer-num { background:var(--orange-dim); color:var(--orange); }
+.layer-card:nth-child(5) .layer-num { background:rgba(16,185,129,0.15); color:var(--green); }
+.layer-card h3 { font-size:1.15rem; font-weight:700; margin-bottom:0.4rem; }
+.layer-card h3 .camada { font-weight:400; color:var(--text-muted); font-size:0.85rem; }
+.layer-card p { font-size:0.92rem; color:var(--text-secondary); }
+.layer-card .highlight { color:var(--cyan); font-weight:600; }
+
+/* ═══════════════════════════════════════════
+   PRINCÍPIOS
+   ═══════════════════════════════════════════ */
+.principios-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr)); gap:1.5rem; }
+.principio-card {
+  background: var(--bg-card); border:1px solid var(--glass-border);
+  border-radius: var(--radius); padding:2.2rem; transition: var(--transition);
+  position:relative; overflow:hidden;
+}
+.principio-card:hover { background:var(--bg-card-hover); transform:translateY(-4px); }
+.principio-card .num {
+  font-size:4rem; font-weight:900; line-height:1;
+  background: linear-gradient(135deg, var(--cyan), transparent);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  position:absolute; top:1rem; right:1.5rem; opacity:0.15;
+}
+.principio-card h3 { font-size:1.15rem; font-weight:700; margin-bottom:0.8rem; color:var(--cyan); }
+.principio-card p { font-size:0.92rem; color:var(--text-secondary); }
+
+/* ═══════════════════════════════════════════
+   SETE CAMPOS
+   ═══════════════════════════════════════════ */
+.campos-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:1.2rem; }
+.campo-card {
+  background: var(--bg-card); border:1px solid var(--glass-border);
+  border-radius: var(--radius); padding:1.6rem; transition: var(--transition);
+  display:flex; gap:1rem; align-items:start;
+}
+.campo-card:hover { background:var(--bg-card-hover); transform:translateY(-3px); }
+.campo-card .campo-icon {
+  width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; font-size:1rem;
+}
+.campo-card h4 { font-size:0.95rem; font-weight:700; margin-bottom:0.3rem; }
+.campo-card p { font-size:0.82rem; color:var(--text-muted); }
+.bridge-card {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, rgba(0,240,255,0.05), rgba(255,106,0,0.05));
+  border:1px solid rgba(0,240,255,0.15); border-radius: var(--radius); padding:2rem;
+  display:flex; gap:1.5rem; align-items:center; flex-wrap:wrap;
+}
+.bridge-card .bridge-icon {
+  width:56px; height:56px; border-radius:14px; display:flex; align-items:center; justify-content:center;
+  background: linear-gradient(135deg, var(--cyan-dim), var(--orange-dim));
+  color:var(--cyan); font-size:1.3rem; flex-shrink:0;
+}
+.bridge-card h4 { font-size:1.05rem; font-weight:700; }
+.bridge-card p { font-size:0.9rem; color:var(--text-secondary); }
+
+/* ═══════════════════════════════════════════
+   EBITTDA
+   ═══════════════════════════════════════════ */
+.ebitdda-wrap {
+  display:grid; grid-template-columns:1fr 1fr; gap:2rem; align-items:start;
+  max-width:1000px; margin:0 auto;
+}
+.ebitdda-left h3 { font-size:1.4rem; font-weight:800; margin-bottom:1rem; color:var(--orange); }
+.ebitdda-left p { font-size:0.95rem; color:var(--text-secondary); margin-bottom:1rem; }
+.ebitdda-formula {
+  background: var(--bg-card); border:1px solid var(--glass-border);
+  border-radius: var(--radius); padding:1.5rem; text-align:center;
+}
+.ebitdda-formula .formula {
+  font-size: clamp(0.9rem,2vw,1.2rem); font-weight:700; letter-spacing:0.02em;
+  color:var(--text-primary); margin-bottom:0.5rem;
+}
+.ebitdda-formula .formula .highlight-t {
+  color:var(--orange); font-weight:900; font-size:1.1em;
+  text-shadow:0 0 20px rgba(255,106,0,0.4);
+}
+.ebitdda-formula .formula-label {
+  font-size:0.8rem; color:var(--text-muted); font-weight:400;
+}
+.ebitdda-right { display:flex; flex-direction:column; gap:1rem; }
+.ebitdda-trio {
+  background: var(--bg-card); border:1px solid var(--glass-border);
+  border-radius: var(--radius-sm); padding:1.2rem 1.4rem;
+  display:flex; gap:1rem; align-items:start;
+}
+.ebitdda-trio .trio-icon { font-size:1.2rem; flex-shrink:0; margin-top:2px; }
+.ebitdda-trio h4 { font-size:0.9rem; font-weight:700; margin-bottom:0.2rem; }
+.ebitdda-trio p { font-size:0.82rem; color:var(--text-muted); }
+
+/* ═══════════════════════════════════════════
+   BRASIL MULTILATERAL
+   ═══════════════════════════════════════════ */
+.brasil-wrap { max-width:900px; margin:0 auto; }
+.brasil-intro { text-align:center; margin-bottom:2.5rem; }
+.brasil-intro p { font-size:1.05rem; color:var(--text-secondary); max-width:700px; margin:0 auto; }
+.brasil-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:1rem; }
+.brasil-item {
+  background: var(--bg-card); border:1px solid var(--glass-border);
+  border-radius: var(--radius-sm); padding:1.4rem; transition: var(--transition);
+  display:flex; gap:0.8rem; align-items:start;
+}
+.brasil-item:hover { background:var(--bg-card-hover); border-color:rgba(16,185,129,0.2); }
+.brasil-item .bi-icon { font-size:1.1rem; color:var(--green); flex-shrink:0; margin-top:2px; }
+.brasil-item h4 { font-size:0.9rem; font-weight:700; margin-bottom:0.2rem; }
+.brasil-item p { font-size:0.8rem; color:var(--text-muted); }
+.brasil-footnote {
+  margin-top:2rem; padding:1.5rem; border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, rgba(16,185,129,0.06), rgba(0,123,255,0.06));
+  border:1px solid rgba(16,185,129,0.12); text-align:center;
+}
+.brasil-footnote p { font-size:0.92rem; color:var(--text-secondary); font-style:italic; }
+
+/* ═══════════════════════════════════════════
+   ECOSSISTEMA
+   ═══════════════════════════════════════════ */
+.eco-wrap { max-width:900px; margin:0 auto; }
+.eco-main { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom:2rem; }
+.eco-card {
+  background: var(--bg-card); border:1px solid var(--glass-border);
+  border-radius: var(--radius); padding:2rem; transition: var(--transition);
+  position:relative; overflow:hidden;
+}
+.eco-card:hover { background:var(--bg-card-hover); transform:translateY(-4px); }
+.eco-card .eco-badge {
+  display:inline-block; font-size:0.7rem; font-weight:700; text-transform:uppercase;
+  letter-spacing:0.1em; padding:0.3em 0.8em; border-radius:50px; margin-bottom:1rem;
+}
+.eco-card:nth-child(1) .eco-badge { background:var(--cyan-dim); color:var(--cyan); }
+.eco-card:nth-child(2) .eco-badge { background:rgba(139,92,246,0.15); color:var(--purple); }
+.eco-card h3 { font-size:1.15rem; font-weight:700; margin-bottom:0.6rem; }
+.eco-card p { font-size:0.9rem; color:var(--text-secondary); }
+.eco-future { text-align:center; }
+.eco-future h4 { font-size:1rem; font-weight:600; color:var(--text-muted); margin-bottom:1rem; }
+.eco-chips { display:flex; flex-wrap:wrap; gap:0.6rem; justify-content:center; }
+.eco-chip {
+  padding:0.5rem 1rem; border-radius:50px; font-size:0.8rem; font-weight:500;
+  background: var(--bg-card); border:1px solid var(--glass-border); color:var(--text-secondary);
+  transition: var(--transition);
+}
+.eco-chip:hover { border-color:var(--cyan); color:var(--cyan); }
+
+/* ═══════════════════════════════════════════
+   PLANOS
+   ═══════════════════════════════════════════ */
+.planos-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:1.5rem; align-items:stretch; }
+.plano-card {
+  background: var(--bg-card); border:1px solid var(--glass-border);
+  border-radius: var(--radius); padding:2.2rem; transition: var(--transition);
+  display:flex; flex-direction:column; position:relative;
+}
+.plano-card.popular {
+  border-color:var(--cyan); box-shadow:0 0 40px rgba(0,240,255,0.08);
+}
+.plano-card.popular::before {
+  content:'Popular'; position:absolute; top:-12px; left:50%; transform:translateX(-50%);
+  padding:0.3em 1.2em; border-radius:50px; font-size:0.7rem; font-weight:700;
+  background: linear-gradient(135deg, var(--cyan), var(--blue)); color:#060a14;
+}
+.plano-card:hover { background:var(--bg-card-hover); transform:translateY(-4px); }
+.plano-card h3 { font-size:1.3rem; font-weight:800; margin-bottom:0.4rem; }
+.plano-card .plano-note { font-size:0.82rem; color:var(--text-muted); margin-bottom:1.5rem; }
+.plano-card .plano-price {
+  font-size:1.1rem; font-weight:700; color:var(--cyan); margin-bottom:1.5rem;
+  padding-bottom:1.5rem; border-bottom:1px solid var(--glass-border);
+}
+.plano-features { list-style:none; flex:1; margin-bottom:1.5rem; }
+.plano-features li {
+  display:flex; gap:0.6rem; align-items:start; font-size:0.88rem; margin-bottom:0.7rem;
+  color:var(--text-secondary);
+}
+.plano-features li .fa-check { color:var(--green); margin-top:3px; font-size:0.75rem; flex-shrink:0; }
+.plano-btn {
+  display:block; text-align:center; padding:0.8rem; border-radius:50px; font-weight:700; font-size:0.9rem;
+  transition: var(--transition); cursor:pointer; border:none; width:100%;
+}
+.plano-btn-primary { background: linear-gradient(135deg, var(--cyan), var(--blue)); color:#060a14; }
+.plano-btn-primary:hover { box-shadow:0 8px 25px rgba(0,240,255,0.3); transform:translateY(-2px); }
+.plano-btn-outline { background:transparent; color:var(--cyan); border:2px solid var(--cyan); }
+.plano-btn-outline:hover { background:var(--cyan-dim); }
+
+/* ═══════════════════════════════════════════
+   STACK DE REFERÊNCIA
+   ═══════════════════════════════════════════ */
+.stack-cats { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:1rem; }
+.stack-cat {
+  background: var(--bg-card); border:1px solid var(--glass-border);
+  border-radius: var(--radius-sm); padding:1.3rem; transition: var(--transition);
+}
+.stack-cat:hover { background:var(--bg-card-hover); }
+.stack-cat h4 { font-size:0.85rem; font-weight:700; margin-bottom:0.6rem; display:flex; align-items:center; gap:0.5rem; }
+.stack-cat h4 i { font-size:0.8rem; }
+.stack-tags { display:flex; flex-wrap:wrap; gap:0.35rem; }
+.stack-tag {
+  font-size:0.72rem; padding:0.25em 0.6em; border-radius:6px; font-weight:500;
+  background: rgba(255,255,255,0.04); color:var(--text-muted); border:1px solid rgba(255,255,255,0.06);
+}
+
+/* ═══════════════════════════════════════════
+   CONTATO
+   ═══════════════════════════════════════════ */
+.contato-wrap { text-align:center; max-width:700px; margin:0 auto; }
+.contato-wrap h2 {
+  font-size: clamp(1.8rem,4vw,2.5rem); font-weight:800; margin-bottom:1rem;
+}
+.contato-wrap p { color:var(--text-secondary); margin-bottom:2.5rem; font-size:1.05rem; }
+.contato-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:1rem; margin-bottom:2rem; }
+.contato-item {
+  background: var(--bg-card); border:1px solid var(--glass-border);
+  border-radius: var(--radius-sm); padding:1.5rem; transition: var(--transition);
+  display:flex; flex-direction:column; align-items:center; gap:0.6rem;
+}
+.contato-item:hover { background:var(--bg-card-hover); transform:translateY(-3px); border-color:rgba(0,240,255,0.15); }
+.contato-item .ci-icon {
+  width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+  background: var(--cyan-dim); color:var(--cyan); font-size:1.1rem;
+}
+.contato-item h4 { font-size:0.85rem; font-weight:600; }
+.contato-item a { font-size:0.82rem; color:var(--cyan); }
+
+/* ═══════════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════════ */
+.footer {
+  border-top:1px solid var(--glass-border); padding:3rem 0 2rem; text-align:center;
+}
+.footer-logo {
+  font-weight:800; font-size:1.2rem; margin-bottom:0.5rem;
+  background: linear-gradient(135deg, var(--cyan), var(--blue));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+.footer p { font-size:0.82rem; color:var(--text-muted); margin-bottom:0.8rem; }
+.footer-links { display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap; }
+.footer-links a { font-size:0.82rem; color:var(--text-muted); }
+.footer-links a:hover { color:var(--cyan); }
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════ */
+@media (max-width:768px) {
+  .nav-links { display:none; }
+  .hamburger { display:flex; }
+  .nav-links.open {
+    display:flex; flex-direction:column; position:absolute; top:70px; left:0; right:0;
+    background: rgba(6,10,20,0.98); backdrop-filter:blur(20px);
+    padding:1.5rem; gap:1rem; border-bottom:1px solid var(--glass-border);
+  }
+  .layer-card { grid-template-columns:1fr; }
+  .ebitdda-wrap { grid-template-columns:1fr; }
+  .eco-main { grid-template-columns:1fr; }
+}
+@media (max-width:480px) {
+  .hero h1 { font-size:2rem; }
+  .hero-buttons { flex-direction:column; align-items:center; }
+  .section { padding: 3rem 0; }
+}
+</style>
 </head>
 <body>
-  <header>
-    <div class="container nav-container">
-      <a href="#" class="logo">P²M³ <span>Framework</span></a>
-      <ul class="nav-links" id="navLinks">
-        <li><a href="#tese" data-key="nav.tese">Tese</a></li>
-        <li><a href="#camadas" data-key="nav.camadas">Camadas</a></li>
-        <li><a href="#principios" data-key="nav.principios">Princípios</a></li>
-        <li><a href="#instancias" data-key="nav.instancias">Instâncias</a></li>
-        <li><a href="#contato" data-key="nav.contato">Contato</a></li>
-      </ul>
-      <div class="lang-toggle">
-        <button class="lang-btn active" data-lang="pt">PT</button>
-        <button class="lang-btn" data-lang="en">EN</button>
-        <button class="lang-btn" data-lang="es">ES</button>
-      </div>
-      <button class="mobile-toggle" id="mobileToggle">☰</button>
-    </div>
-  </header>
 
-  <section class="hero">
-    <div class="container">
-      <h1 data-key="hero.title">P²M³: <span class="p2m3">Polímata, Poliglota, Multicloud, Multiagente, Multilateral</span></h1>
-      <p class="hero-subtitle" data-key="hero.subtitle">
-        Arquitetura de stack profissional em cinco camadas: cognitiva, semiótica, infraestrutural, executória e geo-econômica. 
-        Regência transversal de engenharia, compliance, segurança e governança de IA sob eixo lusófono.
-      </p>
-      <div class="cta-buttons">
-        <a href="#tese" class="btn" data-key="hero.btnTese">Explorar a tese</a>
-        <a href="#instancias" class="btn btn-outline" data-key="hero.btnInstancias">Ver instâncias</a>
+<!-- ═══════════ NAVBAR ═══════════ -->
+<nav class="navbar" id="navbar">
+  <div class="container">
+<a href="#hero" class="nav-logo" data-i18n="t0">FSA<span>P²M³</span></a>
+    <ul class="nav-links" id="navLinks">
+<li><a href="#problema" data-i18n="t1">Problema</a></li>
+<li><a href="#arquitetura" data-i18n="t2">Arquitetura</a></li>
+<li><a href="#principios" data-i18n="t3">Princípios</a></li>
+<li><a href="#campos" data-i18n="t4">Campos</a></li>
+<li><a href="#ecossistema" data-i18n="t5">Ecossistema</a></li>
+<li><a href="#planos" data-i18n="t6">Planos</a></li>
+<li><a href="#stack" data-i18n="t7">Stack</a></li>
+    </ul>
+    <div class="lang-toggle">
+      <button class="lang-btn active" data-lang="pt" onclick="setLang('pt')">PT</button>
+      <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" data-lang="es" onclick="setLang('es')">ES</button>
+    </div>
+    <a href="#contato" class="nav-cta" data-i18n="t8"><i class="fas fa-arrow-right"></i> Contato</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="particles" id="particles"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><i class="fas fa-circle"></i> Arquitetura P²M³ v3 · 2026</div>
+<h1 data-i18n="t9">Full Stack <span class="gradient">Advocate</span></h1>
+<p class="subtitle" data-i18n="t10">Integrador transversal de engenharia, compliance, segurança e governança de IA</p>
+<p class="tagline" data-i18n="t11">Polímata · Poliglota · Multicloud · Multiagente · <span>Multilateral</span></p>
+    <div class="hero-buttons">
+<a href="#arquitetura" class="btn-primary" data-i18n="t12"><i class="fas fa-cubes"></i> Conheça a Arquitetura</a>
+<a href="#contato" class="btn-outline" data-i18n="t13"><i class="fas fa-calendar-check"></i> Agende uma Conversa</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ O PROBLEMA ═══════════ -->
+<section class="section" id="problema">
+  <div class="container">
+    <div class="section-header reveal">
+<span class="label label-orange" data-i18n="t14">Diagnóstico do Zeitgeist</span>
+<h2 data-i18n="t15">O Problema</h2>
+<p data-i18n="t16">Sintomas convergentes que exigem uma nova categoria profissional</p>
+    </div>
+    <div class="problema-grid">
+      <div class="problema-card reveal">
+        <div class="icon"><i class="fas fa-bolt"></i></div>
+<h3 data-i18n="t17">Velocidade como Constante</h3>
+<p data-i18n="t18">Crises se sobrepõem: pandemia + guerra + transformação digital + crise climática + IA generativa em escala industrial. A mudança é a única constante.</p>
+      </div>
+      <div class="problema-card reveal reveal-delay-1">
+        <div class="icon"><i class="fas fa-skull-crossbones"></i></div>
+<h3 data-i18n="t19">Obsolescência do Especialista</h3>
+<p data-i18n="t20">Quem domina apenas um silo perde relevância. Movimento detectado em todas as funções C-level: CFO, CIO, CCO, CISO.</p>
+      </div>
+      <div class="problema-card reveal reveal-delay-2">
+        <div class="icon"><i class="fas fa-brain"></i></div>
+<h3 data-i18n="t21">Learn-it-All</h3>
+<p data-i18n="t22">O ethos profissional contemporâneo substitui o know-it-all. Lifelong learning é exigência, não opção. Bildung como categoria.</p>
+      </div>
+      <div class="problema-card reveal reveal-delay-3">
+        <div class="icon"><i class="fas fa-layer-group"></i></div>
+<h3 data-i18n="t23">Sete Campos, Um Só</h3>
+<p data-i18n="t24">Engenharia, compliance, cybersecurity, PQC, AI safety, AI security e governança de IA — antes separados, agora exigem operação conjunta.</p>
+      </div>
+      <div class="problema-card reveal reveal-delay-4">
+        <div class="icon"><i class="fas fa-globe-americas"></i></div>
+<h3 data-i18n="t25">Reordenamento Geopolítico</h3>
+<p data-i18n="t26">Bifurcação tech EUA-China, BRICS+ ampliado, Mercosul-UE, controles de exportação cruzados. Operar sem mapa geo-econômico é inviável.</p>
+      </div>
+      <div class="problema-card reveal">
+        <div class="icon"><i class="fas fa-users-cog"></i></div>
+<h3 data-i18n="t27">PMEs Não Contratam Sete</h3>
+<p data-i18n="t28">PMEs no eixo Brasil-Portugal não conseguem contratar CTO, CISO, AI Safety Officer, Compliance Officer e consultor de PQC separadamente.</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section id="tese">
-    <div class="container">
-      <h2 class="section-title" data-key="tese.title">Tese P²M³</h2>
-      <p class="section-subtitle" data-key="tese.subtitle">
-        Diagnóstico do zeitgeist: especialistas verticais estão obsoletos. 
-        O profissional contemporâneo é o regente de pipelines de conhecimento, saberes, técnicas e ferramentas, 
-        operando em fluxo contínuo dentro de uma arquitetura de ecossistema com mapa geo-econômico explícito.
-      </p>
-      <div class="cards-grid">
-        <div class="card">
-          <h3 data-key="tese.polimata.title">Polímata</h3>
-          <p data-key="tese.polimata.desc">Coordenação informada em múltiplas áreas de conhecimento — não expertise vertical em cada uma. O regente não executa em todas as camadas; coordena quem executa.</p>
-          <div class="card-meta" data-key="tese.polimata.meta">Camada cognitiva</div>
+<!-- ═══════════ ARQUITETURA P²M³ ═══════════ -->
+<section class="section" id="arquitetura" style="background:var(--bg-secondary);">
+  <div class="container">
+    <div class="section-header reveal">
+<span class="label label-cyan" data-i18n="t29">A Solução</span>
+<h2 data-i18n="t30">A Arquitetura P²M³</h2>
+<p data-i18n="t31">Cinco camadas do epistêmico ao geo-econômico. Cada camada sustenta a de cima.</p>
+    </div>
+    <div class="layers-stack">
+      <div class="layer-card reveal">
+<div class="layer-num" data-i18n="t32">P¹</div>
+        <div>
+<h3 data-i18n="t33">Polímata <span class="camada">— Camada Cognitiva</span></h3>
+<p data-i18n="t34">Coordenação informada entre múltiplas áreas de conhecimento — não expertise vertical em cada uma. O regente não toca clarinete melhor que o clarinetista; coordena o clarinete dentro da partitura inteira. <span class="highlight">Método unificado de análise (TATS), distribuído entre humano + agentes + especialistas.</span></p>
         </div>
-        <div class="card">
-          <h3 data-key="tese.poliglota.title">Poliglota</h3>
-          <p data-key="tese.poliglota.desc">Capacidade de transitar entre múltiplas linguagens — naturais, formais e operacionais — combinando domínio direto, tradução assistida por agentes e parcerias com falantes nativos.</p>
-          <div class="card-meta" data-key="tese.poliglota.meta">Camada semiótica</div>
+      </div>
+      <div class="layer-card reveal reveal-delay-1">
+<div class="layer-num" data-i18n="t35">P²</div>
+        <div>
+<h3 data-i18n="t36">Poliglota <span class="camada">— Camada Semiótica</span></h3>
+<p data-i18n="t37">Transição entre múltiplas linguagens — naturais, formais e operacionais. Português e inglês como base. Espanhol e francês via familiaridade. Mandarim via parceiros. <span class="highlight">Linguagens jurídicas via Gonçalves et Alii. Linguagens técnicas como vocabulário de coordenação.</span></p>
         </div>
-        <div class="card">
-          <h3 data-key="tese.multicloud.title">Multicloud</h3>
-          <p data-key="tese.multicloud.desc">Independência de fornecedor único. Operação em AWS, Azure, GCP, OCI, providers regionais e on-premise quando justificado. Expressão técnica da soberania digital.</p>
-          <div class="card-meta" data-key="tese.multicloud.meta">Camada infraestrutural</div>
+      </div>
+      <div class="layer-card reveal reveal-delay-2">
+<div class="layer-num" data-i18n="t38">M¹</div>
+        <div>
+<h3 data-i18n="t39">Multicloud <span class="camada">— Camada Infraestrutural</span></h3>
+<p data-i18n="t40">Independência de fornecedor único. Capacidade de operar em AWS, Azure, GCP, OCI, providers regionais (Magalu Cloud, Locaweb, Hetzner) e on-premise. <span class="highlight">Multicloud é a expressão técnica da posição política sobre soberania digital.</span></p>
         </div>
-        <div class="card">
-          <h3 data-key="tese.multiagente.title">Multiagente</h3>
-          <p data-key="tese.multiagente.desc">Orquestração de agentes autônomos para execução de tarefas. Alavanca histórica de 2026 que torna a regência transversal humanamente sustentável.</p>
-          <div class="card-meta" data-key="tese.multiagente.meta">Camada executória</div>
+      </div>
+      <div class="layer-card reveal reveal-delay-3">
+<div class="layer-num" data-i18n="t41">M²</div>
+        <div>
+<h3 data-i18n="t42">Multiagente <span class="camada">— Camada Executória</span></h3>
+<p data-i18n="t43">Orquestração de agentes autônomos via MCP, Claude/GPT/Gemini, frameworks de orquestração. <span class="highlight">ESTA é a camada que torna as três anteriores humanamente sustentáveis em 2026.</span> Baixa o teto cognitivo de impossível para operável. O regente delega rotinas a agentes e mantém autoridade auditável.</p>
         </div>
-        <div class="card">
-          <h3 data-key="tese.multilateral.title">Multilateral</h3>
-          <p data-key="tese.multilateral.desc">Não-dependência de um único mercado, bloco regulatório, moeda de referência ou alinhamento geopolítico. Brasil como nó multilateral com singularidade geo-estratégica.</p>
-          <div class="card-meta" data-key="tese.multilateral.meta">Camada geo-econômica</div>
+      </div>
+      <div class="layer-card reveal reveal-delay-4">
+<div class="layer-num" data-i18n="t44">M³</div>
+        <div>
+<h3 data-i18n="t45">Multilateral <span class="camada">— Camada Geo-Econômica</span></h3>
+<p data-i18n="t46">Não-dependência de um único mercado, bloco regulatório, moeda de referência ou alinhamento geopolítico. <span class="highlight">BRICS+ ampliado, Mercosul-UE, CPLP-PALOP, controles de exportação cruzados.</span> O mesmo princípio de não-dependência que M¹ aplica à infraestrutura — escala diferente, lógica idêntica.</p>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section id="camadas">
-    <div class="container">
-      <h2 class="section-title" data-key="camadas.title">As Cinco Camadas P²M³</h2>
-      <p class="section-subtitle" data-key="camadas.subtitle">
-        Ordem do epistêmico ao geo-econômico. Cada camada sustenta a de cima.
-      </p>
-      <div class="graph-container">
-        <h3 class="graph-title" data-key="camadas.graphTitle">Arquitetura P²M³ — Camadas</h3>
-        <svg class="graph-svg" viewBox="0 0 600 500" xmlns="http://www.w3.org/2000/svg">
+<!-- ═══════════ PRINCÍPIOS DE VIABILIDADE ═══════════ -->
+<section class="section" id="principios">
+  <div class="container">
+    <div class="section-header reveal">
+<span class="label label-blue" data-i18n="t47">Viabilidade Operacional</span>
+<h2 data-i18n="t48">Três Princípios</h2>
+<p data-i18n="t49">O que torna P²M³ humanamente operável — não pretensão biográfica de super-humano</p>
+    </div>
+    <div class="principios-grid">
+      <div class="principio-card reveal">
+<div class="num" data-i18n="t50">01</div>
+<h3 data-i18n="t51">Regência ≠ Execução</h3>
+<p data-i18n="t52">O regente não executa em todas as camadas. Coordena especialistas humanos e agentes computacionais. Polimatia P²M³ é <strong>coordenação informada</strong> — não acúmulo enciclopédico. Reconhece quando cada camada é afetada, sabe quem chamar, que perguntas fazer, que evidência exigir.</p>
+      </div>
+      <div class="principio-card reveal reveal-delay-1">
+<div class="num" data-i18n="t53">02</div>
+<h3 data-i18n="t54">M² como Alavanca Histórica</h3>
+<p data-i18n="t55">2026 é o primeiro ano em que a regência transversal por solopreneur com método se torna <strong>materialmente possível</strong>. Antes não era. Agora é. Agentes computacionais baixam o teto cognitivo de impossível para operável. A janela competitiva é estimada em 24-36 meses.</p>
+      </div>
+      <div class="principio-card reveal reveal-delay-2">
+<div class="num" data-i18n="t56">03</div>
+<h3 data-i18n="t57">Ecossistema com Handoffs</h3>
+<p data-i18n="t58">P²M³ não opera como pessoa única. Opera como <strong>instâncias com interfaces desenhadas</strong>. FSA (instância 01), Gonçalves et Alii (instância 02), parceiros pontuais acionáveis. Nenhuma instância tenta cobrir tudo — cada uma cobre seu mandato.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ OS SETE CAMPOS ═══════════ -->
+<section class="section" id="campos" style="background:var(--bg-secondary);">
+  <div class="container">
+    <div class="section-header reveal">
+<span class="label label-cyan" data-i18n="t59">Integração Transversal</span>
+<h2 data-i18n="t60">Sete Campos, Um Regente</h2>
+<p data-i18n="t61">Campos antes operados em silos, agora integrados sob coordenação unificada</p>
+    </div>
+    <div class="campos-grid">
+      <div class="campo-card reveal">
+        <div class="campo-icon" style="background:var(--blue-dim);color:var(--blue);"><i class="fas fa-code"></i></div>
+        <div><h4>Engenharia Full-Stack</h4><p>Frontend, backend, infraestrutura, DevOps. Escopo original de 2024, mantido integralmente.</p></div>
+      </div>
+      <div class="campo-card reveal reveal-delay-1">
+        <div class="campo-icon" style="background:var(--orange-dim);color:var(--orange);"><i class="fas fa-clipboard-check"></i></div>
+        <div><h4>Compliance Técnico-Operacional</h4><p>Observabilidade, auditabilidade, conformidade de pipelines de dados, evidência técnica.</p></div>
+      </div>
+      <div class="campo-card reveal reveal-delay-2">
+        <div class="campo-icon" style="background:rgba(236,72,153,0.15);color:var(--pink);"><i class="fas fa-shield-alt"></i></div>
+        <div><h4>Cybersecurity</h4><p>Perímetro, identidade, criptografia clássica, gestão de vulnerabilidades, incident response.</p></div>
+      </div>
+      <div class="campo-card reveal reveal-delay-3">
+        <div class="campo-icon" style="background:rgba(139,92,246,0.15);color:var(--purple);"><i class="fas fa-lock"></i></div>
+        <div><h4>PQC — Post-Quantum Cryptography</h4><p>Inventário criptográfico, crypto-agility, planejamento de migração. Kyber, Dilithium, SPHINCS+.</p></div>
+      </div>
+      <div class="campo-card reveal">
+        <div class="campo-icon" style="background:rgba(16,185,129,0.15);color:var(--green);"><i class="fas fa-robot"></i></div>
+        <div><h4>AI Safety</h4><p>Alignment, interpretability, robustness, controllability, red-teaming. Sistemas em produção.</p></div>
+      </div>
+      <div class="campo-card reveal reveal-delay-1">
+        <div class="campo-icon" style="background:rgba(255,106,0,0.15);color:var(--orange);"><i class="fas fa-bug"></i></div>
+        <div><h4>AI Security</h4><p>Adversarial robustness, prompt injection, model theft, training data poisoning, supply chain.</p></div>
+      </div>
+      <div class="campo-card reveal reveal-delay-2">
+        <div class="campo-icon" style="background:var(--cyan-dim);color:var(--cyan);"><i class="fas fa-gavel"></i></div>
+        <div><h4>GRC de IA</h4><p>ISO/IEC 42001:2023, NIST AI RMF, EU AI Act, PL 2338/2023, futura regulamentação brasileira.</p></div>
+      </div>
+      <div class="bridge-card reveal">
+        <div class="bridge-icon"><i class="fas fa-exchange-alt"></i></div>
+        <div>
+<h4 data-i18n="t62">Integração Business ↔ Tecnologia via CFO</h4>
+<p data-i18n="t63">Ponte entre o time técnico e o financeiro. Exemplificada pelo EBITTDA: o CFO precisa entender custo de tokens; o time técnico precisa entender margem operacional. O FSA opera essa fronteira.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ EBITTDA ═══════════ -->
+<section class="section" id="ebitdda">
+  <div class="container">
+    <div class="section-header reveal">
+<span class="label label-orange" data-i18n="t64">Case Method</span>
+<h2 data-i18n="t65">EBITTDA — O Segundo T é Tokens</h2>
+<p data-i18n="t66">Métrica operacional paradigmática de regência. Necessidade contábil em construção.</p>
+    </div>
+    <div class="ebitdda-wrap">
+      <div class="ebitdda-left reveal">
+<h3 data-i18n="t67">O Problema</h3>
+<p data-i18n="t68">Em 2026, empresas que adotaram IA generativa em escala têm uma linha de custo nova — <strong>tokens</strong> — que não está mapeada em nenhuma régua tradicional.</p>
+<p data-i18n="t69">Esses custos têm três características que escapam ao planejamento financeiro:</p>
+        <div style="margin:1rem 0;">
+<p style="margin-bottom:0.5rem;" data-i18n="t70"><i class="fas fa-exclamation-circle" style="color:var(--orange);margin-right:0.5rem;"></i><strong>Imprevisibilidade</strong> — variam por uso, não por contrato fixo</p>
+<p style="margin-bottom:0.5rem;" data-i18n="t71"><i class="fas fa-exclamation-circle" style="color:var(--orange);margin-right:0.5rem;"></i><strong>Não-auditabilidade</strong> — registros distribuídos entre múltiplos providers</p>
+<p data-i18n="t72"><i class="fas fa-exclamation-circle" style="color:var(--orange);margin-right:0.5rem;"></i><strong>Ausência de governança</strong> — nenhuma área tem mandato claro</p>
+        </div>
+        <div class="ebitdda-formula">
+          <div class="formula">
+            Earnings Before Interest, Taxes, <span class="highlight-t">Tokens</span>, Depreciation & Amortization
+          </div>
+<div class="formula-label" data-i18n="t73">O EBITDA tradicional não vê essa realidade.</div>
+        </div>
+      </div>
+      <div class="ebitdda-right reveal reveal-delay-1">
+<h3 style="font-size:1.2rem;font-weight:700;margin-bottom:0.5rem;" data-i18n="t74">A Consequência em Silos</h3>
+        <div class="ebitdda-trio">
+          <div class="trio-icon" style="color:var(--orange);"><i class="fas fa-chart-line"></i></div>
+          <div><h4>CFOs descobrem buracos</h4><p>Gastos imprevisíveis com compute de inferência, fora de controle de auditoria e planejamento.</p></div>
+        </div>
+        <div class="ebitdda-trio">
+          <div class="trio-icon" style="color:var(--pink);"><i class="fas fa-user-shield"></i></div>
+          <div><h4>CISOs descobrem exfiltração</h4><p>Dados sensíveis enviados via APIs de LLM para providers em jurisdições não-conformes.</p></div>
+        </div>
+        <div class="ebitdda-trio">
+          <div class="trio-icon" style="color:var(--purple);"><i class="fas fa-file-contract"></i></div>
+          <div><h4>Compliance descobre não-conformidade</h4><p>Processamento de dados pessoais sem base legal adequada, em múltiplos providers.</p></div>
+        </div>
+        <div style="margin-top:1rem;padding:1.2rem;border-radius:var(--radius-sm);background:rgba(0,240,255,0.05);border:1px solid rgba(0,240,255,0.12);">
+<p style="font-size:0.9rem;color:var(--text-secondary);" data-i18n="t75"><i class="fas fa-check-circle" style="color:var(--cyan);margin-right:0.5rem;"></i><strong>Resposta FSA:</strong> instrumentação transversal. Métrica unificada, rastreabilidade técnica, conformidade verificável, governança clara sobre o conjunto.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ BRASIL MULTILATERAL ═══════════ -->
+<section class="section" id="brasil" style="background:var(--bg-secondary);">
+  <div class="container">
+    <div class="section-header reveal">
+<span class="label label-cyan" data-i18n="t76">Camada M³</span>
+<h2 data-i18n="t77">Brasil: Nó Multilateral</h2>
+<p data-i18n="t78">Posicionamento geo-estratégico com formulação técnica, não declarativa</p>
+    </div>
+    <div class="brasil-wrap">
+      <div class="brasil-intro reveal">
+<p data-i18n="t79">Para deep tech sediada no Rio de Janeiro operando sob tese P²M³, o posicionamento do Brasil é <strong>vantagem operacional não-replicável</strong> por venture builders em Tel Aviv, Singapura, Berlim ou Bay Area — não porque sejam piores, mas porque cada uma opera sob constrangimentos geo-estratégicos mais estreitos.</p>
+      </div>
+
+      <!-- ═══ GRAFO MULTILATERAL ═══ -->
+      <div class="brasil-graph reveal" style="margin-bottom:3rem;">
+        <svg viewBox="0 0 800 540" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:800px;display:block;margin:0 auto;" aria-label="Grafo: Brasil como nó multilateral">
           <defs>
-            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-              <polygon points="0 0, 10 3.5, 0 7" fill="var(--text-secondary)"/>
-            </marker>
+            <radialGradient id="glow-br" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#00F0FF" stop-opacity="0.18"/>
+              <stop offset="100%" stop-color="#00F0FF" stop-opacity="0"/>
+            </radialGradient>
+            <filter id="blur-glow">
+              <feGaussianBlur stdDeviation="8" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <style>
+              /* ── linhas ── */
+              .g-line { stroke-dasharray: 6 4; animation: dash-flow 2.5s linear infinite; }
+              @keyframes dash-flow { to { stroke-dashoffset: -20; } }
+              /* ── nó central ── */
+              .g-br { font-family:'Inter',sans-serif; font-weight:900; fill:#060a14; text-anchor:middle; dominant-baseline:central; font-size:18px; letter-spacing:0.06em; }
+              /* ── label dentro do nó ── */
+              .g-node { font-family:'Inter',sans-serif; font-weight:700; fill:#e2e8f0; text-anchor:middle; dominant-baseline:central; font-size:11px; letter-spacing:0.03em; }
+              /* ── tag externa ── */
+              .g-tag { font-family:'Inter',sans-serif; font-weight:500; text-anchor:middle; font-size:9.5px; letter-spacing:0.02em; }
+              /* ── moeda ── */
+              .g-cur { font-family:'Inter',sans-serif; font-weight:600; font-size:9px; text-anchor:middle; letter-spacing:0.04em; }
+              /* ── legenda ── */
+              .g-leg { font-family:'Inter',sans-serif; font-weight:400; font-size:10.5px; fill:#475569; text-anchor:middle; }
+            </style>
           </defs>
-          <!-- Camadas -->
-          <rect x="200" y="50" width="200" height="60" class="graph-node"/>
-          <text x="300" y="75" class="graph-node-text">Polímata</text>
-          <text x="300" y="95" class="graph-node-subtitle">Camada cognitiva</text>
 
-          <rect x="200" y="130" width="200" height="60" class="graph-node"/>
-          <text x="300" y="155" class="graph-node-text">Poliglota</text>
-          <text x="300" y="175" class="graph-node-subtitle">Camada semiótica</text>
+          <!-- glow centro -->
+          <circle cx="400" cy="245" r="200" fill="url(#glow-br)"/>
 
-          <rect x="200" y="210" width="200" height="60" class="graph-node"/>
-          <text x="300" y="235" class="graph-node-text">Multicloud</text>
-          <text x="300" y="255" class="graph-node-subtitle">Camada infraestrutural</text>
+          <!-- ═══ CONEXÕES ═══ -->
+          <line x1="400" y1="245" x2="155" y2="80" stroke="#FF6A00" stroke-width="1.5" opacity="0.4" class="g-line"/>
+          <line x1="400" y1="245" x2="645" y2="80" stroke="#007BFF" stroke-width="1.5" opacity="0.4" class="g-line" style="animation-delay:-.4s"/>
+          <line x1="400" y1="245" x2="110" y2="285" stroke="#10b981" stroke-width="1.5" opacity="0.4" class="g-line" style="animation-delay:-.8s"/>
+          <line x1="400" y1="245" x2="690" y2="265" stroke="#8b5cf6" stroke-width="1.5" opacity="0.4" class="g-line" style="animation-delay:-1.2s"/>
+          <line x1="400" y1="245" x2="225" y2="430" stroke="#ec4899" stroke-width="1.5" opacity="0.4" class="g-line" style="animation-delay:-1.6s"/>
+          <line x1="400" y1="245" x2="585" y2="430" stroke="#64748b" stroke-width="1.5" opacity="0.3" class="g-line" style="animation-delay:-2s"/>
 
-          <rect x="200" y="290" width="200" height="60" class="graph-node"/>
-          <text x="300" y="315" class="graph-node-text">Multiagente</text>
-          <text x="300" y="335" class="graph-node-subtitle">Camada executória</text>
+          <!-- trilhos entre blocos -->
+          <line x1="155" y1="80" x2="645" y2="80" stroke="#1e293b" stroke-width="1" opacity="0.4" stroke-dasharray="3 6"/>
+          <line x1="110" y1="285" x2="225" y2="430" stroke="#1e293b" stroke-width="1" opacity="0.3" stroke-dasharray="3 6"/>
+          <line x1="690" y1="265" x2="645" y2="80" stroke="#1e293b" stroke-width="1" opacity="0.3" stroke-dasharray="3 6"/>
 
-          <rect x="200" y="370" width="200" height="60" class="graph-node"/>
-          <text x="300" y="395" class="graph-node-text">Multilateral</text>
-          <text x="300" y="415" class="graph-node-subtitle">Camada geo-econômica</text>
+          <!-- ═══ NÓS ═══ -->
 
-          <!-- Setas -->
-          <path d="M300 110 L300 130" class="graph-edge"/>
-          <path d="M300 190 L300 210" class="graph-edge"/>
-          <path d="M300 270 L300 290" class="graph-edge"/>
-          <path d="M300 350 L300 370" class="graph-edge"/>
+          <!-- BRICS+ -->
+          <circle cx="155" cy="80" r="28" fill="rgba(255,106,0,0.07)" stroke="#FF6A00" stroke-width="1.5"/>
+          <text x="155" y="80" class="g-node" fill="#FF6A00">BRICS+</text>
+          <rect x="105" y="116" width="100" height="20" rx="10" fill="rgba(255,106,0,0.08)"/>
+          <text x="155" y="130" class="g-tag" fill="#FF6A00">China · Índia · +6</text>
+
+          <!-- UE -->
+          <circle cx="645" cy="80" r="28" fill="rgba(0,123,255,0.07)" stroke="#007BFF" stroke-width="1.5"/>
+          <text x="645" y="80" class="g-node" fill="#007BFF">UE</text>
+          <rect x="597" y="116" width="96" height="20" rx="10" fill="rgba(0,123,255,0.08)"/>
+          <text x="645" y="130" class="g-tag" fill="#007BFF">Mercosul-UE</text>
+
+          <!-- CPLP -->
+          <circle cx="110" cy="285" r="28" fill="rgba(16,185,129,0.07)" stroke="#10b981" stroke-width="1.5"/>
+          <text x="110" y="285" class="g-node" fill="#10b981">CPLP</text>
+          <rect x="62" y="321" width="96" height="20" rx="10" fill="rgba(16,185,129,0.08)"/>
+          <text x="110" y="335" class="g-tag" fill="#10b981">3 continentes</text>
+
+          <!-- G20 -->
+          <circle cx="690" cy="265" r="28" fill="rgba(139,92,246,0.07)" stroke="#8b5cf6" stroke-width="1.5"/>
+          <text x="690" y="265" class="g-node" fill="#8b5cf6">G20</text>
+          <rect x="652" y="301" width="76" height="20" rx="10" fill="rgba(139,92,246,0.08)"/>
+          <text x="690" y="315" class="g-tag" fill="#8b5cf6">Presidência BR</text>
+
+          <!-- Fórum Macau -->
+          <circle cx="225" cy="430" r="28" fill="rgba(236,72,153,0.07)" stroke="#ec4899" stroke-width="1.5"/>
+          <text x="225" y="430" class="g-node" fill="#ec4899">Macau</text>
+          <rect x="179" y="466" width="92" height="20" rx="10" fill="rgba(236,72,153,0.08)"/>
+          <text x="225" y="480" class="g-tag" fill="#ec4899">Porta → China</text>
+
+          <!-- Neutralidade -->
+          <circle cx="585" cy="430" r="28" fill="rgba(100,116,139,0.07)" stroke="#64748b" stroke-width="1.5"/>
+          <text x="585" y="430" class="g-node" fill="#94a3b8">Neutro</text>
+          <rect x="543" y="466" width="84" height="20" rx="10" fill="rgba(100,116,139,0.08)"/>
+          <text x="585" y="480" class="g-tag" fill="#94a3b8">EUA ↔ China</text>
+
+          <!-- ═══ MOEDAS ═══ -->
+          <rect x="272" y="158" width="32" height="16" rx="8" fill="rgba(255,106,0,0.1)" stroke="#FF6A00" stroke-width="0.5" opacity="0.5"/>
+          <text x="288" y="170" class="g-cur" fill="#FF6A00" opacity="0.6">BRL</text>
+
+          <rect x="496" y="158" width="32" height="16" rx="8" fill="rgba(0,123,255,0.1)" stroke="#007BFF" stroke-width="0.5" opacity="0.5"/>
+          <text x="512" y="170" class="g-cur" fill="#007BFF" opacity="0.6">EUR</text>
+
+          <rect x="210" y="355" width="48" height="16" rx="8" fill="rgba(16,185,129,0.1)" stroke="#10b981" stroke-width="0.5" opacity="0.5"/>
+          <text x="234" y="367" class="g-cur" fill="#10b981" opacity="0.6">BRL·EUR</text>
+
+          <rect x="545" y="355" width="32" height="16" rx="8" fill="rgba(139,92,246,0.1)" stroke="#8b5cf6" stroke-width="0.5" opacity="0.5"/>
+          <text x="561" y="367" class="g-cur" fill="#8b5cf6" opacity="0.6">USD</text>
+
+          <!-- ═══ NÓ CENTRAL ═══ -->
+          <circle cx="400" cy="245" r="44" fill="#00F0FF" filter="url(#blur-glow)" opacity="0.1"/>
+          <circle cx="400" cy="245" r="36" fill="#00F0FF"/>
+          <text x="400" y="245" class="g-br">BR</text>
+
+          <!-- legenda -->
+          <text x="400" y="525" class="g-leg">Cada linha = interface operacional · Cada nó = bloco/região · Moeda = referência de receita</text>
         </svg>
       </div>
-    </div>
-  </section>
 
-  <section id="principios">
-    <div class="container">
-      <h2 class="section-title" data-key="principios.title">Princípios de Viabilidade Operacional</h2>
-      <p class="section-subtitle" data-key="principios.subtitle">
-        Três princípios estruturais que tornam a tese P²M³ humanamente operável e não pretensão biográfica.
-      </p>
-      <div class="graph-container">
-        <h3 class="graph-title" data-key="principios.graphTitle">Princípios de Viabilidade Operacional</h3>
-        <svg class="graph-svg" viewBox="0 0 600 350" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <marker id="arrowhead2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-              <polygon points="0 0, 10 3.5, 0 7" fill="var(--text-secondary)"/>
-            </marker>
-          </defs>
-          <!-- Princípios -->
-          <rect x="50" y="100" width="150" height="70" class="graph-node"/>
-          <text x="125" y="125" class="graph-node-text">Regência ≠ Execução</text>
-          <text x="125" y="145" class="graph-node-subtitle">Coordenação, não execução</text>
-
-          <rect x="225" y="100" width="150" height="70" class="graph-node"/>
-          <text x="300" y="125" class="graph-node-text">M² como alavanca</text>
-          <text x="300" y="145" class="graph-node-subtitle">Agentes em 2026</text>
-
-          <rect x="400" y="100" width="150" height="70" class="graph-node"/>
-          <text x="475" y="125" class="graph-node-text">Ecossistema com handoffs</text>
-          <text x="475" y="145" class="graph-node-subtitle">Instâncias e parceiros</text>
-
-          <!-- Conexões -->
-          <path d="M200 135 L225 135" class="graph-edge-dashed"/>
-          <path d="M375 135 L400 135" class="graph-edge-dashed"/>
-
-          <!-- Label central -->
-          <text x="300" y="220" class="graph-label" text-anchor="middle">
-            Sem qualquer um dos três, a tese colapsa em descrição de super-humano impossível.
-          </text>
-        </svg>
+      <div class="brasil-grid">
+        <div class="brasil-item reveal">
+          <div class="bi-icon"><i class="fas fa-handshake"></i></div>
+          <div><h4>BRICS+ Ampliado</h4><p>Membro ativo. Canal de cooperação tecnológica com China, Índia, Rússia, África do Sul e expansão 2024-2025.</p></div>
+        </div>
+        <div class="brasil-item reveal reveal-delay-1">
+          <div class="bi-icon"><i class="fas fa-landmark"></i></div>
+          <div><h4>Mercosul-UE</h4><p>Parceiro estratégico da União Europeia. Acordo assinado dez/2024, em ratificação parlamentar.</p></div>
+        </div>
+        <div class="brasil-item reveal reveal-delay-2">
+          <div class="bi-icon"><i class="fas fa-language"></i></div>
+          <div><h4>CPLP-PALOP</h4><p>Eixo lusófono com presença em três continentes: Américas, Europa, África.</p></div>
+        </div>
+        <div class="brasil-item reveal reveal-delay-3">
+          <div class="bi-icon"><i class="fas fa-globe"></i></div>
+          <div><h4>G20 2024</h4><p>Capital institucional na governança global da economia. Presidência brasileira.</p></div>
+        </div>
+        <div class="brasil-item reveal">
+          <div class="bi-icon"><i class="fas fa-balance-scale"></i></div>
+          <div><h4>Neutralidade Tech</h4><p>Neutralidade prática diante da bifurcação tech EUA-China. Vantagem que Israel, Reino Unido e UE perderam.</p></div>
+        </div>
+        <div class="brasil-item reveal reveal-delay-1">
+          <div class="bi-icon"><i class="fas fa-project-diagram"></i></div>
+          <div><h4>Fórum Macau</h4><p>Lusofonia como porta institucional para a China. Ativo desde 2003. Via Macau, acesso ao mercado chinês.</p></div>
+        </div>
       </div>
-      <div class="principles-grid">
-        <div class="principle">
-          <h3 data-key="principios.1.title">1. Regência ≠ Execução</h3>
-          <p data-key="principios.1.desc">O regente não executa em todas as camadas. Coordena especialistas humanos e agentes computacionais que executam. Polimatia é coordenação informada, não acúmulo enciclopédico.</p>
-        </div>
-        <div class="principle">
-          <h3 data-key="principios.2.title">2. M² como alavanca histórica</h3>
-          <p data-key="principios.2.desc">Sem agentes computacionais, P²M³ seria pretensão impossível. Em 2026, a regência transversal por solopreneur com método se tornou materialmente possível pela primeira vez.</p>
-        </div>
-        <div class="principle">
-          <h3 data-key="principios.3.title">3. Ecossistema com handoffs</h3>
-          <p data-key="principios.3.desc">P²M³ não opera como pessoa única. Opera como instâncias com interfaces desenhadas (FSA, Gonçalves et Alii, futuras instâncias) e parceiros pontuais acionáveis.</p>
-        </div>
+      <div class="brasil-footnote reveal">
+<p data-i18n="t80">"Diversificação de moeda de receita — BRL para Brasil, EUR para Portugal/UE, USD apenas para cliente internacional — como aplicação concreta da camada M³."</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section id="instancias">
-    <div class="container">
-      <h2 class="section-title" data-key="instancias.title">Instâncias da Arquitetura</h2>
-      <p class="section-subtitle" data-key="instancias.subtitle">
-        Aplicações concretas da arquitetura P²M³ a domínios profissionais específicos.
-      </p>
-      <div class="graph-container">
-        <h3 class="graph-title" data-key="instancias.graphTitle">Instâncias Irmãs — FSA & Gonçalves et Alii</h3>
-        <svg class="graph-svg" viewBox="0 0 600 350" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <marker id="arrowhead3" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-              <polygon points="0 0, 10 3.5, 0 7" fill="var(--text-secondary)"/>
-            </marker>
-          </defs>
-          <!-- Instâncias -->
-          <rect x="100" y="100" width="180" height="70" class="graph-node"/>
-          <text x="190" y="125" class="graph-node-text">FSA</text>
-          <text x="190" y="145" class="graph-node-subtitle">Full Stack Advocate</text>
-
-          <rect x="320" y="100" width="180" height="70" class="graph-node"/>
-          <text x="410" y="125" class="graph-node-text">Gonçalves et Alii</text>
-          <text x="410" y="145" class="graph-node-subtitle">Legal-Regulatory Advocate</text>
-
-          <!-- Conexão -->
-          <path d="M280 135 L320 135" class="graph-edge-dashed"/>
-          <text x="300" y="120" class="graph-label" text-anchor="middle">handoff</text>
-
-          <!-- Overlap -->
-          <rect x="250" y="200" width="100" height="50" class="graph-node"/>
-          <text x="300" y="220" class="graph-node-text">Compliance</text>
-          <text x="300" y="240" class="graph-node-subtitle">Camada sobreposta</text>
-
-          <path d="M190 170 L300 200" class="graph-edge-dashed"/>
-          <path d="M410 170 L300 200" class="graph-edge-dashed"/>
-        </svg>
-      </div>
-
-      <div class="instance">
-        <div class="instance-header">
-          <h3 data-key="instancias.fsa.title">FSA — Full Stack Advocate</h3>
-          <span class="instance-badge" data-key="instancias.fsa.badge">Instância 01</span>
+<!-- ═══════════ ECOSSISTEMA ═══════════ -->
+<section class="section" id="ecossistema">
+  <div class="container">
+    <div class="section-header reveal">
+<span class="label label-blue" data-i18n="t81">Instâncias</span>
+<h2 data-i18n="t82">Ecossistema Hubstry</h2>
+<p data-i18n="t83">Regência não é centralização. É coordenação entre nodos autônomos com interfaces explícitas.</p>
+    </div>
+    <div class="eco-wrap">
+      <div class="eco-main">
+        <div class="eco-card reveal">
+<div class="eco-badge" data-i18n="t84">Instância 01</div>
+<h3 data-i18n="t85">Full Stack Advocate</h3>
+<p data-i18n="t86">Integrador transversal. Engenharia full-stack, compliance técnico-operacional, cybersecurity, PQC, AI safety, AI security, GRC de IA e a ponte business-tech via CFO. Ativo desde agosto de 2024.</p>
         </div>
-        <div class="instance-content">
-          <p data-key="instancias.fsa.desc1"><strong>Integrador transversal</strong> que conecta sete campos antes operados em silos:</p>
-          <ul>
-            <li data-key="instancias.fsa.list1">Engenharia full-stack tradicional</li>
-            <li data-key="instancias.fsa.list2">Compliance técnico-operacional</li>
-            <li data-key="instancias.fsa.list3">Cybersecurity</li>
-            <li data-key="instancias.fsa.list4">PQC (Post-Quantum Cryptography)</li>
-            <li data-key="instancias.fsa.list5">AI Safety</li>
-            <li data-key="instancias.fsa.list6">AI Security</li>
-            <li data-key="instancias.fsa.list7">GRC de IA</li>
-            <li data-key="instancias.fsa.list8">Integração business ↔ tecnologia via CFO (exemplificada pelo EBITTDA)</li>
-          </ul>
-          <p data-key="instancias.fsa.desc2"><strong>Modo operacional:</strong> coordenação humana com método P²M³ + instrumentação por agentes computacionais + handoffs com instância irmã Gonçalves et Alii + parcerias pontuais com especialistas verticais.</p>
+        <div class="eco-card reveal reveal-delay-1">
+<div class="eco-badge" data-i18n="t87">Instância 02</div>
+<h3 data-i18n="t88">Gonçalves et Alii</h3>
+<p data-i18n="t89">Plataforma de orquestração jurídico-regulatória. Full Stack Legal Advocate. Irmã do FSA com sobreposição na camada compliance e interfaces explícitas de handoff. Lançamento previsto 2026.</p>
         </div>
       </div>
-
-      <div class="instance">
-        <div class="instance-header">
-          <h3 data-key="instancias.goncalves.title">Gonçalves et Alii</h3>
-          <span class="instance-badge" data-key="instancias.goncalves.badge">Instância 02</span>
-        </div>
-        <div class="instance-content">
-          <p data-key="instancias.goncalves.desc1"><strong>Plataforma de orquestração jurídico-regulatória.</strong> Full Stack Legal Advocate. O cérebro jurídico-de-compliance que conecta direito, dados, governança, ética e operação.</p>
-          <p data-key="instancias.goncalves.desc2"><strong>Relação com FSA:</strong> instâncias irmãs com sobreposição na camada compliance e interfaces explícitas de handoff. FSA opera o lado técnico-operacional; Gonçalves et Alii opera o lado jurídico-regulatório.</p>
-          <p data-key="instancias.goncalves.desc3"><strong>Lançamento previsto:</strong> 2026.</p>
-        </div>
-      </div>
-
-      <div class="instance">
-        <div class="instance-header">
-          <h3 data-key="instancias.outras.title">Outras instâncias candidatas</h3>
-          <span class="instance-badge" data-key="instancias.outras.badge">Futuras</span>
-        </div>
-        <div class="instance-content">
-          <ul>
-            <li data-key="instancias.outras.list1">Full Stack Governance Advocate</li>
-            <li data-key="instancias.outras.list2">Full Stack Risk Advocate</li>
-            <li data-key="instancias.outras.list3">Full Stack Data Advocate</li>
-            <li data-key="instancias.outras.list4">Full Stack Innovation Advocate</li>
-            <li data-key="instancias.outras.list5">Full Stack Geopolitical Advocate (candidata v3)</li>
-          </ul>
-          <p data-key="instancias.outras.desc">Princípio de não-fragmentação prematura: manter todas as instâncias documentadas no framework até que uma vertical amadureça a ponto de justificar repositório próprio e marca autônoma.</p>
+      <div class="eco-future reveal">
+<h4 data-i18n="t90">Futuras Instâncias Candidatas</h4>
+        <div class="eco-chips">
+          <div class="eco-chip"><i class="fas fa-chess-king" style="margin-right:0.4rem;"></i>Governance Advocate</div>
+          <div class="eco-chip"><i class="fas fa-shield-alt" style="margin-right:0.4rem;"></i>Risk Advocate</div>
+          <div class="eco-chip"><i class="fas fa-database" style="margin-right:0.4rem;"></i>Data Advocate</div>
+          <div class="eco-chip"><i class="fas fa-lightbulb" style="margin-right:0.4rem;"></i>Innovation Advocate</div>
+          <div class="eco-chip"><i class="fas fa-globe-americas" style="margin-right:0.4rem;"></i>Geopolitical Advocate</div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <footer id="contato">
-    <div class="container">
-      <div class="footer-links">
-        <a href="#tese" data-key="footer.tese">Tese</a>
-        <a href="#camadas" data-key="footer.camadas">Camadas</a>
-        <a href="#principios" data-key="footer.principios">Princípios</a>
-        <a href="#instancias" data-key="footer.instancias">Instâncias</a>
-      </div>
-      <p class="footer-license" data-key="footer.license">
-        P²M³ Framework — Documento de Trabalho v3 (2026-06-27) · Licença pretendida: CC BY-NC-SA 4.0
-      </p>
+<!-- ═══════════ PLANOS ═══════════ -->
+<section class="section" id="planos" style="background:var(--bg-secondary);">
+  <div class="container">
+    <div class="section-header reveal">
+<span class="label label-cyan" data-i18n="t91">Modelo</span>
+<h2 data-i18n="t92">Planos</h2>
+<p data-i18n="t93">Regência transversal a fração do custo da soma de sete especialistas</p>
     </div>
-  </footer>
+    <div class="planos-grid">
+      <div class="plano-card reveal">
+<h3 data-i18n="t94">FSA Lite</h3>
+<p class="plano-note" data-i18n="t95">Ideal para startups e PMEs pequenas</p>
+<div class="plano-price" data-i18n="t96">Sob consulta</div>
+        <ul class="plano-features">
+<li data-i18n="t97"><i class="fas fa-check"></i> 4 horas de consultoria técnica/mês</li>
+<li data-i18n="t98"><i class="fas fa-check"></i> Análise de arquitetura</li>
+<li data-i18n="t99"><i class="fas fa-check"></i> Relatório mensal de saúde técnica</li>
+<li data-i18n="t100"><i class="fas fa-check"></i> Recomendações prioritárias</li>
+<li data-i18n="t101"><i class="fas fa-check"></i> Diagnóstico P²M³ básico</li>
+        </ul>
+<button class="plano-btn plano-btn-outline" onclick="window.open('https://calendly.com/guilherme-machado-ceo/30min')" data-i18n="t102">Escolher Plano</button>
+      </div>
+      <div class="plano-card popular reveal reveal-delay-1">
+<h3 data-i18n="t103">FSA Pro</h3>
+<p class="plano-note" data-i18n="t104">Para empresas em crescimento</p>
+<div class="plano-price" data-i18n="t105">Sob consulta</div>
+        <ul class="plano-features">
+<li data-i18n="t106"><i class="fas fa-check"></i> 16 horas de acompanhamento/semana</li>
+<li data-i18n="t107"><i class="fas fa-check"></i> Integração com equipe</li>
+<li data-i18n="t108"><i class="fas fa-check"></i> Definição de padrões técnicos</li>
+<li data-i18n="t109"><i class="fas fa-check"></i> Revisão de código</li>
+<li data-i18n="t110"><i class="fas fa-check"></i> Mentoria técnica P²M³</li>
+<li data-i18n="t111"><i class="fas fa-check"></i> Instrumentação EBITTDA</li>
+        </ul>
+<button class="plano-btn plano-btn-primary" onclick="window.open('https://calendly.com/guilherme-machado-ceo/30min')" data-i18n="t112">Escolher Plano</button>
+      </div>
+      <div class="plano-card reveal reveal-delay-2">
+<h3 data-i18n="t113">FSA Enterprise</h3>
+<p class="plano-note" data-i18n="t114">Para grandes empresas e ecossistemas</p>
+<div class="plano-price" data-i18n="t115">Sob consulta</div>
+        <ul class="plano-features">
+<li data-i18n="t116"><i class="fas fa-check"></i> Plataforma digital inclusa</li>
+<li data-i18n="t117"><i class="fas fa-check"></i> Dashboard de saúde técnica P²M³</li>
+<li data-i18n="t118"><i class="fas fa-check"></i> Monitoramento contínuo dos sete campos</li>
+<li data-i18n="t119"><i class="fas fa-check"></i> IA para análise automática</li>
+<li data-i18n="t120"><i class="fas fa-check"></i> Suporte prioritário 24/7</li>
+<li data-i18n="t121"><i class="fas fa-check"></i> Handoff com Gonçalves et Alii</li>
+        </ul>
+<button class="plano-btn plano-btn-outline" onclick="window.open('https://calendly.com/guilherme-machado-ceo/30min')" data-i18n="t122">Entrar em Contato</button>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <script>
-    // Traduções
-    const translations = {
-      pt: {
-        "nav.tese": "Tese",
-        "nav.camadas": "Camadas",
-        "nav.principios": "Princípios",
-        "nav.instancias": "Instâncias",
-        "nav.contato": "Contato",
-        "hero.title": "P²M³: <span class=\"p2m3\">Polímata, Poliglota, Multicloud, Multiagente, Multilateral</span>",
-        "hero.subtitle": "Arquitetura de stack profissional em cinco camadas: cognitiva, semiótica, infraestrutural, executória e geo-econômica. Regência transversal de engenharia, compliance, segurança e governança de IA sob eixo lusófono.",
-        "hero.btnTese": "Explorar a tese",
-        "hero.btnInstancias": "Ver instâncias",
-        "tese.title": "Tese P²M³",
-        "tese.subtitle": "Diagnóstico do zeitgeist: especialistas verticais estão obsoletos. O profissional contemporâneo é o regente de pipelines de conhecimento, saberes, técnicas e ferramentas, operando em fluxo contínuo dentro de uma arquitetura de ecossistema com mapa geo-econômico explícito.",
-        "tese.polimata.title": "Polímata",
-        "tese.polimata.desc": "Coordenação informada em múltiplas áreas de conhecimento — não expertise vertical em cada uma. O regente não executa em todas as camadas; coordena quem executa.",
-        "tese.polimata.meta": "Camada cognitiva",
-        "tese.poliglota.title": "Poliglota",
-        "tese.poliglota.desc": "Capacidade de transitar entre múltiplas linguagens — naturais, formais e operacionais — combinando domínio direto, tradução assistida por agentes e parcerias com falantes nativos.",
-        "tese.poliglota.meta": "Camada semiótica",
-        "tese.multicloud.title": "Multicloud",
-        "tese.multicloud.desc": "Independência de fornecedor único. Operação em AWS, Azure, GCP, OCI, providers regionais e on-premise quando justificado. Expressão técnica da soberania digital.",
-        "tese.multicloud.meta": "Camada infraestrutural",
-        "tese.multiagente.title": "Multiagente",
-        "tese.multiagente.desc": "Orquestração de agentes autônomos para execução de tarefas. Alavanca histórica de 2026 que torna a regência transversal humanamente sustentável.",
-        "tese.multiagente.meta": "Camada executória",
-        "tese.multilateral.title": "Multilateral",
-        "tese.multilateral.desc": "Não-dependência de um único mercado, bloco regulatório, moeda de referência ou alinhamento geopolítico. Brasil como nó multilateral com singularidade geo-estratégica.",
-        "tese.multilateral.meta": "Camada geo-econômica",
-        "camadas.title": "As Cinco Camadas P²M³",
-        "camadas.subtitle": "Ordem do epistêmico ao geo-econômico. Cada camada sustenta a de cima.",
-        "camadas.graphTitle": "Arquitetura P²M³ — Camadas",
-        "principios.title": "Princípios de Viabilidade Operacional",
-        "principios.subtitle": "Três princípios estruturais que tornam a tese P²M³ humanamente operável e não pretensão biográfica.",
-        "principios.graphTitle": "Princípios de Viabilidade Operacional",
-        "principios.1.title": "1. Regência ≠ Execução",
-        "principios.1.desc": "O regente não executa em todas as camadas. Coordena especialistas humanos e agentes computacionais que executam. Polimatia é coordenação informada, não acúmulo enciclopédico.",
-        "principios.2.title": "2. M² como alavanca histórica",
-        "principios.2.desc": "Sem agentes computacionais, P²M³ seria pretensão impossível. Em 2026, a regência transversal por solopreneur com método se tornou materialmente possível pela primeira vez.",
-        "principios.3.title": "3. Ecossistema com handoffs",
-        "principios.3.desc": "P²M³ não opera como pessoa única. Opera como instâncias com interfaces desenhadas (FSA, Gonçalves et Alii, futuras instâncias) e parceiros pontuais acionáveis.",
-        "instancias.title": "Instâncias da Arquitetura",
-        "instancias.subtitle": "Aplicações concretas da arquitetura P²M³ a domínios profissionais específicos.",
-        "instancias.graphTitle": "Instâncias Irmãs — FSA & Gonçalves et Alii",
-        "instancias.fsa.title": "FSA — Full Stack Advocate",
-        "instancias.fsa.badge": "Instância 01",
-        "instancias.fsa.desc1": "<strong>Integrador transversal</strong> que conecta sete campos antes operados em silos:",
-        "instancias.fsa.list1": "Engenharia full-stack tradicional",
-        "instancias.fsa.list2": "Compliance técnico-operacional",
-        "instancias.fsa.list3": "Cybersecurity",
-        "instancias.fsa.list4": "PQC (Post-Quantum Cryptography)",
-        "instancias.fsa.list5": "AI Safety",
-        "instancias.fsa.list6": "AI Security",
-        "instancias.fsa.list7": "GRC de IA",
-        "instancias.fsa.list8": "Integração business ↔ tecnologia via CFO (exemplificada pelo EBITTDA)",
-        "instancias.fsa.desc2": "<strong>Modo operacional:</strong> coordenação humana com método P²M³ + instrumentação por agentes computacionais + handoffs com instância irmã Gonçalves et Alii + parcerias pontuais com especialistas verticais.",
-        "instancias.goncalves.title": "Gonçalves et Alii",
-        "instancias.goncalves.badge": "Instância 02",
-        "instancias.goncalves.desc1": "<strong>Plataforma de orquestração jurídico-regulatória.</strong> Full Stack Legal Advocate. O cérebro jurídico-de-compliance que conecta direito, dados, governança, ética e operação.",
-        "instancias.goncalves.desc2": "<strong>Relação com FSA:</strong> instâncias irmãs com sobreposição na camada compliance e interfaces explícitas de handoff. FSA opera o lado técnico-operacional; Gonçalves et Alii opera o lado jurídico-regulatório.",
-        "instancias.goncalves.desc3": "<strong>Lançamento previsto:</strong> 2026.",
-        "instancias.outras.title": "Outras instâncias candidatas",
-        "instancias.outras.badge": "Futuras",
-        "instancias.outras.list1": "Full Stack Governance Advocate",
-        "instancias.outras.list2": "Full Stack Risk Advocate",
-        "instancias.outras.list3": "Full Stack Data Advocate",
-        "instancias.outras.list4": "Full Stack Innovation Advocate",
-        "instancias.outras.list5": "Full Stack Geopolitical Advocate (candidata v3)",
-        "instancias.outras.desc": "Princípio de não-fragmentação prematura: manter todas as instâncias documentadas no framework até que uma vertical amadureça a ponto de justificar repositório próprio e marca autônoma.",
-        "footer.tese": "Tese",
-        "footer.camadas": "Camadas",
-        "footer.principios": "Princípios",
-        "footer.instancias": "Instâncias",
-        "footer.license": "P²M³ Framework — Documento de Trabalho v3 (2026-06-27) · Licença pretendida: CC BY-NC-SA 4.0"
-      },
-      en: {
-        "nav.tese": "Thesis",
-        "nav.camadas": "Layers",
-        "nav.principios": "Principles",
-        "nav.instancias": "Instances",
-        "nav.contato": "Contact",
-        "hero.title": "P²M³: <span class=\"p2m3\">Polymath, Polyglot, Multicloud, Multiagent, Multilateral</span>",
-        "hero.subtitle": "Professional stack architecture across five layers: cognitive, semiotic, infrastructural, executive, and geo-economic. Transversal conductorship of engineering, compliance, security, and AI governance under a Lusophone axis.",
-        "hero.btnTese": "Explore the thesis",
-        "hero.btnInstancias": "See instances",
-        "tese.title": "P²M³ Thesis",
-        "tese.subtitle": "Diagnosis of the zeitgeist: vertical specialists are obsolete. The contemporary professional is the conductor of knowledge pipelines, operating in continuous flow within an ecosystem architecture with an explicit geo-economic map.",
-        "tese.polimata.title": "Polymath",
-        "tese.polimata.desc": "Informed coordination across multiple knowledge domains — not vertical expertise in each. The conductor does not execute in all layers; coordinates who executes.",
-        "tese.polimata.meta": "Cognitive layer",
-        "tese.poliglota.title": "Polyglot",
-        "tese.poliglota.desc": "Ability to transit between multiple languages — natural, formal, and operational — combining direct mastery, AI-assisted translation, and partnerships with native speakers.",
-        "tese.poliglota.meta": "Semiotic layer",
-        "tese.multicloud.title": "Multicloud",
-        "nota": "… continuação das traduções em inglês e espanhol conforme necessário …"
-      },
-      es: {
-        "nav.tese": "Tesis",
-        "nav.camadas": "Capas",
-        "nav.principios": "Principios",
-        "nav.instancias": "Instancias",
-        "nav.contato": "Contacto",
-        "hero.title": "P²M³: <span class=\"p2m3\">Polímata, Políglota, Multicloud, Multiagente, Multilateral</span>",
-        "hero.subtitle": "Arquitectura de stack profesional en cinco capas: cognitiva, semiótica, infraestructural, ejecutiva y geo-económica. Dirección transversal de ingeniería, cumplimiento, seguridad y gobernanza de IA bajo un eje lusófono.",
-        "hero.btnTese": "Explorar la tesis",
-        "hero.btnInstancias": "Ver instancias",
-        "tese.title": "Tesis P²M³",
-        "tese.subtitle": "Diagnóstico del zeitgeist: los especialistas verticales están obsoletos. El profesional contemporáneo es el director de pipelines de conocimiento, operando en flujo continuo dentro de una arquitectura de ecosistema con mapa geo-económico explícito.",
-        "tese.polimata.title": "Polímata",
-        "tese.polimata.desc": "Coordinación informada en múltiples áreas de conocimiento — no expertise vertical en cada una. El director no ejecuta en todas las capas; coordina quién ejecuta.",
-        "tese.polimata.meta": "Capa cognitiva",
-        "tese.poliglota.title": "Políglota",
-        "tese.poliglota.desc": "Capacidad de transitar entre múltiples lenguajes — naturales, formales y operacionales — combinando dominio directo, traducción asistida por agentes y alianzas con hablantes nativos.",
-        "tese.poliglota.meta": "Capa semiótica",
-        "tese.multicloud.title": "Multicloud",
-        "nota": "… continuação das traduções em espanhol conforme necessário …"
+<!-- ═══════════ STACK DE REFERÊNCIA ═══════════ -->
+<section class="section" id="stack">
+  <div class="container">
+    <div class="section-header reveal">
+<span class="label label-orange" data-i18n="t123">Tecnologias</span>
+<h2 data-i18n="t124">Stack de Referência</h2>
+<p data-i18n="t125">Ferramentas e frameworks que operam nas sete camadas do FSA</p>
+    </div>
+    <div class="stack-cats">
+      <div class="stack-cat reveal">
+<h4 data-i18n="t126"><i class="fas fa-desktop" style="color:var(--blue);"></i> Frontend</h4>
+        <div class="stack-tags">
+<span class="stack-tag" data-i18n="t127">React</span><span class="stack-tag">Vue.js</span><span class="stack-tag">Angular</span>
+<span class="stack-tag" data-i18n="t128">Next.js</span><span class="stack-tag">TypeScript</span><span class="stack-tag">Svelte</span>
+        </div>
+      </div>
+      <div class="stack-cat reveal reveal-delay-1">
+<h4 data-i18n="t129"><i class="fas fa-server" style="color:var(--purple);"></i> Backend</h4>
+        <div class="stack-tags">
+<span class="stack-tag" data-i18n="t130">Node.js</span><span class="stack-tag">Python</span><span class="stack-tag">Java</span>
+<span class="stack-tag" data-i18n="t131">.NET</span><span class="stack-tag">Go</span><span class="stack-tag">Rust</span>
+        </div>
+      </div>
+      <div class="stack-cat reveal reveal-delay-2">
+<h4 data-i18n="t132"><i class="fas fa-cloud" style="color:var(--cyan);"></i> Infraestrutura</h4>
+        <div class="stack-tags">
+<span class="stack-tag" data-i18n="t133">AWS</span><span class="stack-tag">Azure</span><span class="stack-tag">GCP</span>
+<span class="stack-tag" data-i18n="t134">Docker</span><span class="stack-tag">Kubernetes</span><span class="stack-tag">Terraform</span>
+        </div>
+      </div>
+      <div class="stack-cat reveal reveal-delay-3">
+<h4 data-i18n="t135"><i class="fas fa-infinity" style="color:var(--orange);"></i> DevOps</h4>
+        <div class="stack-tags">
+<span class="stack-tag" data-i18n="t136">GitLab CI</span><span class="stack-tag">GitHub Actions</span><span class="stack-tag">Ansible</span>
+<span class="stack-tag" data-i18n="t137">Grafana</span><span class="stack-tag">Prometheus</span>
+        </div>
+      </div>
+      <div class="stack-cat reveal">
+<h4 data-i18n="t138"><i class="fas fa-database" style="color:var(--green);"></i> Database</h4>
+        <div class="stack-tags">
+<span class="stack-tag" data-i18n="t139">PostgreSQL</span><span class="stack-tag">MongoDB</span><span class="stack-tag">Redis</span>
+<span class="stack-tag" data-i18n="t140">MySQL</span><span class="stack-tag">pgvector</span><span class="stack-tag">Pinecone</span><span class="stack-tag">Weaviate</span>
+        </div>
+      </div>
+      <div class="stack-cat reveal reveal-delay-1">
+<h4 data-i18n="t141"><i class="fas fa-clipboard-check" style="color:var(--orange);"></i> Compliance</h4>
+        <div class="stack-tags">
+<span class="stack-tag" data-i18n="t142">ISO 27001</span><span class="stack-tag">ISO 27701</span><span class="stack-tag">SOC 2</span>
+<span class="stack-tag" data-i18n="t143">Vanta</span><span class="stack-tag">Drata</span>
+        </div>
+      </div>
+      <div class="stack-cat reveal reveal-delay-2">
+<h4 data-i18n="t144"><i class="fas fa-shield-alt" style="color:var(--pink);"></i> Cybersecurity</h4>
+        <div class="stack-tags">
+<span class="stack-tag" data-i18n="t145">SIEM/SOAR</span><span class="stack-tag">Okta</span><span class="stack-tag">Auth0</span>
+<span class="stack-tag" data-i18n="t146">Keycloak</span><span class="stack-tag">Snyk</span><span class="stack-tag">Trivy</span>
+        </div>
+      </div>
+      <div class="stack-cat reveal reveal-delay-3">
+<h4 data-i18n="t147"><i class="fas fa-lock" style="color:var(--purple);"></i> PQC</h4>
+        <div class="stack-tags">
+<span class="stack-tag" data-i18n="t148">Kyber</span><span class="stack-tag">Dilithium</span><span class="stack-tag">SPHINCS+</span>
+<span class="stack-tag" data-i18n="t149">FALCON</span><span class="stack-tag">CryptoNext</span>
+        </div>
+      </div>
+      <div class="stack-cat reveal">
+<h4 data-i18n="t150"><i class="fas fa-robot" style="color:var(--green);"></i> AI Safety</h4>
+        <div class="stack-tags">
+<span class="stack-tag" data-i18n="t151">HELM</span><span class="stack-tag">BIG-bench</span><span class="stack-tag">SHAP</span>
+<span class="stack-tag" data-i18n="t152">LIME</span><span class="stack-tag">garak</span><span class="stack-tag">PyRIT</span>
+        </div>
+      </div>
+      <div class="stack-cat reveal reveal-delay-1">
+<h4 data-i18n="t153"><i class="fas fa-bug" style="color:var(--orange);"></i> AI Security</h4>
+        <div class="stack-tags">
+<span class="stack-tag" data-i18n="t154">Lakera Guard</span><span class="stack-tag">NeMo Guardrails</span><span class="stack-tag">Rebuff</span>
+<span class="stack-tag" data-i18n="t155">IBM ART</span>
+        </div>
+      </div>
+      <div class="stack-cat reveal reveal-delay-2">
+<h4 data-i18n="t156"><i class="fas fa-gavel" style="color:var(--cyan);"></i> GRC de IA</h4>
+        <div class="stack-tags">
+<span class="stack-tag" data-i18n="t157">ISO 42001</span><span class="stack-tag">NIST AI RMF</span><span class="stack-tag">Model Cards</span>
+<span class="stack-tag" data-i18n="t158">AI Incident DB</span>
+        </div>
+      </div>
+      <div class="stack-cat reveal reveal-delay-3">
+<h4 data-i18n="t159"><i class="fas fa-exchange-alt" style="color:var(--cyan);"></i> Business-Tech</h4>
+        <div class="stack-tags">
+<span class="stack-tag" data-i18n="t160">FinOps</span><span class="stack-tag">Helicone</span><span class="stack-tag">Langfuse</span>
+<span class="stack-tag" data-i18n="t161">EBITTDA dashboards</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ CONTATO ═══════════ -->
+<section class="section" id="contato" style="background:var(--bg-secondary);">
+  <div class="container">
+    <div class="contato-wrap reveal">
+<span class="label label-cyan" data-i18n="t162">Comece Agora</span>
+<h2 data-i18n="t163">Pronto para operar na arquitetura P²M³?</h2>
+<p data-i18n="t164">Agende uma conversa e descubra como o FSA pode integrar os sete campos da sua operação técnica.</p>
+      <div class="contato-grid">
+        <a href="mailto:guilhermemachado.ceo@hubstry.dev" class="contato-item">
+          <div class="ci-icon"><i class="fas fa-envelope"></i></div>
+<h4 data-i18n="t165">Email</h4>
+<span data-i18n="t166">guilhermemachado.ceo@hubstry.dev</span>
+        </a>
+        <a href="https://wa.me/5511994555772" target="_blank" class="contato-item">
+          <div class="ci-icon" style="background:rgba(16,185,129,0.15);color:var(--green);"><i class="fab fa-whatsapp"></i></div>
+<h4 data-i18n="t167">WhatsApp</h4>
+<span data-i18n="t168">+55 11 99455-5772</span>
+        </a>
+        <a href="https://calendly.com/guilherme-machado-ceo/30min" target="_blank" class="contato-item">
+          <div class="ci-icon" style="background:var(--orange-dim);color:var(--orange);"><i class="fas fa-calendar-check"></i></div>
+<h4 data-i18n="t169">Calendly</h4>
+<span data-i18n="t170">Agende uma call</span>
+        </a>
+        <a href="https://www.hubstry.dev" target="_blank" class="contato-item">
+          <div class="ci-icon" style="background:rgba(139,92,246,0.15);color:var(--purple);"><i class="fas fa-globe"></i></div>
+<h4 data-i18n="t171">Website</h4>
+<span data-i18n="t172">hubstry.dev</span>
+        </a>
+      </div>
+      <a href="https://calendly.com/guilherme-machado-ceo/30min" target="_blank" class="btn-primary" style="margin-top:0.5rem;">
+        <i class="fas fa-arrow-right"></i> Agendar Conversa
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer class="footer">
+  <div class="container">
+<div class="footer-logo" data-i18n="t173">Full Stack Advocate</div>
+<p data-i18n="t174">Arquitetura P²M³ — Polímata, Poliglota, Multicloud, Multiagente, Multilateral</p>
+<p data-i18n="t175">© 2024–2026 Full Stack Advocate · Hubstry</p>
+    <div class="footer-links">
+<a href="https://github.com/guilherme-machado-ceo/fullstack-advocate" target="_blank" data-i18n="t176"><i class="fab fa-github"></i> GitHub</a>
+<a href="https://www.hubstry.dev" target="_blank" data-i18n="t177"><i class="fas fa-globe"></i> hubstry.dev</a>
+<a href="mailto:guilhermemachado.ceo@hubstry.dev" data-i18n="t178"><i class="fas fa-envelope"></i> Contato</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════ JAVASCRIPT ═══════════ -->
+<script>
+(function(){
+  /* Navbar scroll */
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  /* Hamburger */
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    navLinks.classList.toggle('open');
+  });
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      navLinks.classList.remove('open');
+    });
+  });
+
+  /* Active nav link on scroll */
+  const sections = document.querySelectorAll('section[id]');
+  const navAnchors = navLinks.querySelectorAll('a[href^="#"]');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      const top = s.offsetTop - 120;
+      if (window.scrollY >= top) current = s.getAttribute('id');
+    });
+    navAnchors.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  });
+
+  /* Intersection Observer — reveal on scroll */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
       }
-    };
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    // Função para mudar idioma
-    function changeLanguage(lang) {
-      document.documentElement.lang = lang;
-      const t = translations[lang];
-      document.querySelectorAll('[data-key]').forEach(el => {
-        const key = el.getAttribute('data-key');
-        if (t[key]) {
-          if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-            el.value = t[key];
-          } else {
-            el.innerHTML = t[key];
-          }
-        }
-      });
+  /* Particles */
+  const container = document.getElementById('particles');
+  if (container) {
+    for (let i = 0; i < 30; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const size = Math.random() * 3 + 1;
+      const colors = ['var(--cyan)', 'var(--blue)', 'var(--orange)'];
+      p.style.cssText = `
+        width:${size}px; height:${size}px;
+        background:${colors[Math.floor(Math.random()*colors.length)]};
+        left:${Math.random()*100}%;
+        animation-duration:${Math.random()*12+8}s;
+        animation-delay:${Math.random()*8}s;
+      `;
+      container.appendChild(p);
     }
+  }
+})();
+</script>
 
-    // Mobile menu toggle
-    const mobileToggle = document.getElementById('mobileToggle');
-    const navLinks = document.getElementById('navLinks');
+<!-- ═══════════ i18n SYSTEM ═══════════ -->
+<script>
+(function() {
+  const T = {"pt": {"t0": "FSA<span>P²M³</span>", "t1": "<a href=\"#problema\">Problema</a>", "t2": "<a href=\"#arquitetura\">Arquitetura</a>", "t3": "<a href=\"#principios\">Princípios</a>", "t4": "<a href=\"#campos\">Campos</a>", "t5": "<a href=\"#ecossistema\">Ecossistema</a>", "t6": "<a href=\"#planos\">Planos</a>", "t7": "<a href=\"#stack\">Stack</a>", "t8": "<i class=\"fas fa-arrow-right\"></i> Contato", "t9": "Full Stack <span class=\"gradient\">Advocate</span>", "t10": "Integrador transversal de engenharia, compliance, segurança e governança de IA", "t11": "Polímata · Poliglota · Multicloud · Multiagente · <span>Multilateral</span>", "t12": "<i class=\"fas fa-cubes\"></i> Conheça a Arquitetura", "t13": "<i class=\"fas fa-calendar-check\"></i> Agende uma Conversa", "t14": "Diagnóstico do Zeitgeist", "t15": "O Problema", "t16": "Sintomas convergentes que exigem uma nova categoria profissional", "t17": "Velocidade como Constante", "t18": "Crises se sobrepõem: pandemia + guerra + transformação digital + crise climática + IA generativa em escala industrial. A mudança é a única constante.", "t19": "Obsolescência do Especialista", "t20": "Quem domina apenas um silo perde relevância. Movimento detectado em todas as funções C-level: CFO, CIO, CCO, CISO.", "t21": "Learn-it-All", "t22": "O ethos profissional contemporâneo substitui o know-it-all. Lifelong learning é exigência, não opção. Bildung como categoria.", "t23": "Sete Campos, Um Só", "t24": "Engenharia, compliance, cybersecurity, PQC, AI safety, AI security e governança de IA — antes separados, agora exigem operação conjunta.", "t25": "Reordenamento Geopolítico", "t26": "Bifurcação tech EUA-China, BRICS+ ampliado, Mercosul-UE, controles de exportação cruzados. Operar sem mapa geo-econômico é inviável.", "t27": "PMEs Não Contratam Sete", "t28": "PMEs no eixo Brasil-Portugal não conseguem contratar CTO, CISO, AI Safety Officer, Compliance Officer e consultor de PQC separadamente.", "t29": "A Solução", "t30": "A Arquitetura P²M³", "t31": "Cinco camadas do epistêmico ao geo-econômico. Cada camada sustenta a de cima.", "t32": "P¹", "t33": "Polímata <span class=\"camada\">— Camada Cognitiva</span>", "t34": "Coordenação informada entre múltiplas áreas de conhecimento — não expertise vertical em cada uma. O regente não toca clarinete melhor que o clarinetista; coordena o clarinete dentro da partitura inteira. <span class=\"highlight\">Método unificado de análise (TATS), distribuído entre humano + agentes + especialistas.</span>", "t35": "P²", "t36": "Poliglota <span class=\"camada\">— Camada Semiótica</span>", "t37": "Transição entre múltiplas linguagens — naturais, formais e operacionais. Português e inglês como base. Espanhol e francês via familiaridade. Mandarim via parceiros. <span class=\"highlight\">Linguagens jurídicas via Gonçalves et Alii. Linguagens técnicas como vocabulário de coordenação.</span>", "t38": "M¹", "t39": "Multicloud <span class=\"camada\">— Camada Infraestrutural</span>", "t40": "Independência de fornecedor único. Capacidade de operar em AWS, Azure, GCP, OCI, providers regionais (Magalu Cloud, Locaweb, Hetzner) e on-premise. <span class=\"highlight\">Multicloud é a expressão técnica da posição política sobre soberania digital.</span>", "t41": "M²", "t42": "Multiagente <span class=\"camada\">— Camada Executória</span>", "t43": "Orquestração de agentes autônomos via MCP, Claude/GPT/Gemini, frameworks de orquestração. <span class=\"highlight\">ESTA é a camada que torna as três anteriores humanamente sustentáveis em 2026.</span> Baixa o teto cognitivo de impossível para operável. O regente delega rotinas a agentes e mantém autoridade auditável.", "t44": "M³", "t45": "Multilateral <span class=\"camada\">— Camada Geo-Econômica</span>", "t46": "Não-dependência de um único mercado, bloco regulatório, moeda de referência ou alinhamento geopolítico. <span class=\"highlight\">BRICS+ ampliado, Mercosul-UE, CPLP-PALOP, controles de exportação cruzados.</span> O mesmo princípio de não-dependência que M¹ aplica à infraestrutura — escala diferente, lógica idêntica.", "t47": "Viabilidade Operacional", "t48": "Três Princípios", "t49": "O que torna P²M³ humanamente operável — não pretensão biográfica de super-humano", "t50": "01", "t51": "Regência ≠ Execução", "t52": "O regente não executa em todas as camadas. Coordena especialistas humanos e agentes computacionais. Polimatia P²M³ é <strong>coordenação informada</strong> — não acúmulo enciclopédico. Reconhece quando cada camada é afetada, sabe quem chamar, que perguntas fazer, que evidência exigir.", "t53": "02", "t54": "M² como Alavanca Histórica", "t55": "2026 é o primeiro ano em que a regência transversal por solopreneur com método se torna <strong>materialmente possível</strong>. Antes não era. Agora é. Agentes computacionais baixam o teto cognitivo de impossível para operável. A janela competitiva é estimada em 24-36 meses.", "t56": "03", "t57": "Ecossistema com Handoffs", "t58": "P²M³ não opera como pessoa única. Opera como <strong>instâncias com interfaces desenhadas</strong>. FSA (instância 01), Gonçalves et Alii (instância 02), parceiros pontuais acionáveis. Nenhuma instância tenta cobrir tudo — cada uma cobre seu mandato.", "t59": "Integração Transversal", "t60": "Sete Campos, Um Regente", "t61": "Campos antes operados em silos, agora integrados sob coordenação unificada", "t62": "Integração Business ↔ Tecnologia via CFO", "t63": "Ponte entre o time técnico e o financeiro. Exemplificada pelo EBITTDA: o CFO precisa entender custo de tokens; o time técnico precisa entender margem operacional. O FSA opera essa fronteira.", "t64": "Case Method", "t65": "EBITTDA — O Segundo T é Tokens", "t66": "Métrica operacional paradigmática de regência. Necessidade contábil em construção.", "t67": "O Problema", "t68": "Em 2026, empresas que adotaram IA generativa em escala têm uma linha de custo nova — <strong>tokens</strong> — que não está mapeada em nenhuma régua tradicional.", "t69": "Esses custos têm três características que escapam ao planejamento financeiro:", "t70": "<i class=\"fas fa-exclamation-circle\" style=\"color:var(--orange);margin-right:0.5rem;\"></i><strong>Imprevisibilidade</strong> — variam por uso, não por contrato fixo", "t71": "<i class=\"fas fa-exclamation-circle\" style=\"color:var(--orange);margin-right:0.5rem;\"></i><strong>Não-auditabilidade</strong> — registros distribuídos entre múltiplos providers", "t72": "<i class=\"fas fa-exclamation-circle\" style=\"color:var(--orange);margin-right:0.5rem;\"></i><strong>Ausência de governança</strong> — nenhuma área tem mandato claro", "t73": "O EBITDA tradicional não vê essa realidade.", "t74": "A Consequência em Silos", "t75": "<i class=\"fas fa-check-circle\" style=\"color:var(--cyan);margin-right:0.5rem;\"></i><strong>Resposta FSA:</strong> instrumentação transversal. Métrica unificada, rastreabilidade técnica, conformidade verificável, governança clara sobre o conjunto.", "t76": "Camada M³", "t77": "Brasil: Nó Multilateral", "t78": "Posicionamento geo-estratégico com formulação técnica, não declarativa", "t79": "Para deep tech sediada no Rio de Janeiro operando sob tese P²M³, o posicionamento do Brasil é <strong>vantagem operacional não-replicável</strong> por venture builders em Tel Aviv, Singapura, Berlim ou Bay Area — não porque sejam piores, mas porque cada uma opera sob constrangimentos geo-estratégicos mais estreitos.", "t80": "\"Diversificação de moeda de receita — BRL para Brasil, EUR para Portugal/UE, USD apenas para cliente internacional — como aplicação concreta da camada M³.\"", "t81": "Instâncias", "t82": "Ecossistema Hubstry", "t83": "Regência não é centralização. É coordenação entre nodos autônomos com interfaces explícitas.", "t84": "Instância 01", "t85": "Full Stack Advocate", "t86": "Integrador transversal. Engenharia full-stack, compliance técnico-operacional, cybersecurity, PQC, AI safety, AI security, GRC de IA e a ponte business-tech via CFO. Ativo desde agosto de 2024.", "t87": "Instância 02", "t88": "Gonçalves et Alii", "t89": "Plataforma de orquestração jurídico-regulatória. Full Stack Legal Advocate. Irmã do FSA com sobreposição na camada compliance e interfaces explícitas de handoff. Lançamento previsto 2026.", "t90": "Futuras Instâncias Candidatas", "t91": "Modelo", "t92": "Planos", "t93": "Regência transversal a fração do custo da soma de sete especialistas", "t94": "FSA Lite", "t95": "Ideal para startups e PMEs pequenas", "t96": "Sob consulta", "t97": "<i class=\"fas fa-check\"></i> 4 horas de consultoria técnica/mês", "t98": "<i class=\"fas fa-check\"></i> Análise de arquitetura", "t99": "<i class=\"fas fa-check\"></i> Relatório mensal de saúde técnica", "t100": "<i class=\"fas fa-check\"></i> Recomendações prioritárias", "t101": "<i class=\"fas fa-check\"></i> Diagnóstico P²M³ básico", "t102": "Escolher Plano", "t103": "FSA Pro", "t104": "Para empresas em crescimento", "t105": "Sob consulta", "t106": "<i class=\"fas fa-check\"></i> 16 horas de acompanhamento/semana", "t107": "<i class=\"fas fa-check\"></i> Integração com equipe", "t108": "<i class=\"fas fa-check\"></i> Definição de padrões técnicos", "t109": "<i class=\"fas fa-check\"></i> Revisão de código", "t110": "<i class=\"fas fa-check\"></i> Mentoria técnica P²M³", "t111": "<i class=\"fas fa-check\"></i> Instrumentação EBITTDA", "t112": "Escolher Plano", "t113": "FSA Enterprise", "t114": "Para grandes empresas e ecossistemas", "t115": "Sob consulta", "t116": "<i class=\"fas fa-check\"></i> Plataforma digital inclusa", "t117": "<i class=\"fas fa-check\"></i> Dashboard de saúde técnica P²M³", "t118": "<i class=\"fas fa-check\"></i> Monitoramento contínuo dos sete campos", "t119": "<i class=\"fas fa-check\"></i> IA para análise automática", "t120": "<i class=\"fas fa-check\"></i> Suporte prioritário 24/7", "t121": "<i class=\"fas fa-check\"></i> Handoff com Gonçalves et Alii", "t122": "Entrar em Contato", "t123": "Tecnologias", "t124": "Stack de Referência", "t125": "Ferramentas e frameworks que operam nas sete camadas do FSA", "t126": "<i class=\"fas fa-desktop\" style=\"color:var(--blue);\"></i> Frontend", "t127": "React</span><span class=\"stack-tag\">Vue.js</span><span class=\"stack-tag\">Angular", "t128": "Next.js</span><span class=\"stack-tag\">TypeScript</span><span class=\"stack-tag\">Svelte", "t129": "<i class=\"fas fa-server\" style=\"color:var(--purple);\"></i> Backend", "t130": "Node.js</span><span class=\"stack-tag\">Python</span><span class=\"stack-tag\">Java", "t131": ".NET</span><span class=\"stack-tag\">Go</span><span class=\"stack-tag\">Rust", "t132": "<i class=\"fas fa-cloud\" style=\"color:var(--cyan);\"></i> Infraestrutura", "t133": "AWS</span><span class=\"stack-tag\">Azure</span><span class=\"stack-tag\">GCP", "t134": "Docker</span><span class=\"stack-tag\">Kubernetes</span><span class=\"stack-tag\">Terraform", "t135": "<i class=\"fas fa-infinity\" style=\"color:var(--orange);\"></i> DevOps", "t136": "GitLab CI</span><span class=\"stack-tag\">GitHub Actions</span><span class=\"stack-tag\">Ansible", "t137": "Grafana</span><span class=\"stack-tag\">Prometheus", "t138": "<i class=\"fas fa-database\" style=\"color:var(--green);\"></i> Database", "t139": "PostgreSQL</span><span class=\"stack-tag\">MongoDB</span><span class=\"stack-tag\">Redis", "t140": "MySQL</span><span class=\"stack-tag\">pgvector</span><span class=\"stack-tag\">Pinecone</span><span class=\"stack-tag\">Weaviate", "t141": "<i class=\"fas fa-clipboard-check\" style=\"color:var(--orange);\"></i> Compliance", "t142": "ISO 27001</span><span class=\"stack-tag\">ISO 27701</span><span class=\"stack-tag\">SOC 2", "t143": "Vanta</span><span class=\"stack-tag\">Drata", "t144": "<i class=\"fas fa-shield-alt\" style=\"color:var(--pink);\"></i> Cybersecurity", "t145": "SIEM/SOAR</span><span class=\"stack-tag\">Okta</span><span class=\"stack-tag\">Auth0", "t146": "Keycloak</span><span class=\"stack-tag\">Snyk</span><span class=\"stack-tag\">Trivy", "t147": "<i class=\"fas fa-lock\" style=\"color:var(--purple);\"></i> PQC", "t148": "Kyber</span><span class=\"stack-tag\">Dilithium</span><span class=\"stack-tag\">SPHINCS+", "t149": "FALCON</span><span class=\"stack-tag\">CryptoNext", "t150": "<i class=\"fas fa-robot\" style=\"color:var(--green);\"></i> AI Safety", "t151": "HELM</span><span class=\"stack-tag\">BIG-bench</span><span class=\"stack-tag\">SHAP", "t152": "LIME</span><span class=\"stack-tag\">garak</span><span class=\"stack-tag\">PyRIT", "t153": "<i class=\"fas fa-bug\" style=\"color:var(--orange);\"></i> AI Security", "t154": "Lakera Guard</span><span class=\"stack-tag\">NeMo Guardrails</span><span class=\"stack-tag\">Rebuff", "t155": "IBM ART", "t156": "<i class=\"fas fa-gavel\" style=\"color:var(--cyan);\"></i> GRC de IA", "t157": "ISO 42001</span><span class=\"stack-tag\">NIST AI RMF</span><span class=\"stack-tag\">Model Cards", "t158": "AI Incident DB", "t159": "<i class=\"fas fa-exchange-alt\" style=\"color:var(--cyan);\"></i> Business-Tech", "t160": "FinOps</span><span class=\"stack-tag\">Helicone</span><span class=\"stack-tag\">Langfuse", "t161": "EBITTDA dashboards", "t162": "Comece Agora", "t163": "Pronto para operar na arquitetura P²M³?", "t164": "Agende uma conversa e descubra como o FSA pode integrar os sete campos da sua operação técnica.", "t165": "Email", "t166": "guilhermemachado.ceo@hubstry.dev", "t167": "WhatsApp", "t168": "+55 11 99455-5772", "t169": "Calendly", "t170": "Agende uma call", "t171": "Website", "t172": "hubstry.dev", "t173": "Full Stack Advocate", "t174": "Arquitetura P²M³ — Polímata, Poliglota, Multicloud, Multiagente, Multilateral", "t175": "© 2024–2026 Full Stack Advocate · Hubstry", "t176": "<i class=\"fab fa-github\"></i> GitHub", "t177": "<i class=\"fas fa-globe\"></i> hubstry.dev", "t178": "<i class=\"fas fa-envelope\"></i> Contato"}, "en": {"t0": "FSA<span>P²M³</span>", "t1": "<a href=\"#problema\">Problem</a>", "t2": "<a href=\"#arquitetura\">Architecture</a>", "t3": "<a href=\"#principios\">Principles</a>", "t4": "<a href=\"#campos\">Fields</a>", "t5": "<a href=\"#ecossistema\">Ecosystem</a>", "t6": "<a href=\"#planos\">Plans</a>", "t7": "<a href=\"#stack\">Stack</a>", "t8": "<i class=\"fas fa-arrow-right\"></i> Contact", "t9": "Full Stack <span class=\"gradient\">Advocate</span>", "t10": "Cross-functional integrator of engineering, compliance, cybersecurity and AI governance", "t11": "Polymath · Polyglot · Multicloud · Multi-agent · <span>Multilateral</span>", "t12": "<i class=\"fas fa-cubes\"></i> Explore the Architecture", "t13": "<i class=\"fas fa-calendar-check\"></i> Schedule a Call", "t14": "Zeitgeist Diagnosis", "t15": "The Problem", "t16": "Converging symptoms that demand a new professional category", "t17": "Speed as a Constant", "t18": "Crises overlap: pandemic + war + digital transformation + climate crisis + generative AI at industrial scale. Change is the only constant.", "t19": "Specialist Obsolescence", "t20": "Those who master only one silo lose relevance. Detected across all C-level functions: CFO, CIO, CCO, CISO.", "t21": "Learn-it-All", "t22": "The contemporary professional ethos replaces the know-it-all. Lifelong learning is a requirement, not an option. Bildung as a category.", "t23": "Seven Fields, One", "t24": "Engineering, compliance, cybersecurity, PQC, AI safety, AI security and AI governance — once separate, now requiring joint operation.", "t25": "Geopolitical Reordering", "t26": "US-China tech bifurcation, expanded BRICS+, Mercosul-EU, cross-border export controls. Operating without a geo-economic map is unviable.", "t27": "SMEs Can't Hire Seven", "t28": "SMEs in the Brazil-Portugal axis cannot afford to hire CTO, CISO, AI Safety Officer, Compliance Officer and PQC consultant separately.", "t29": "The Solution", "t30": "The P²M³ Architecture", "t31": "Five layers from the epistemic to the geo-economic. Each layer sustains the one above.", "t32": "P¹", "t33": "Polymath <span class=\"camada\">— Cognitive Layer</span>", "t34": "Informed coordination across multiple knowledge areas — not vertical expertise in each. The conductor doesn't play clarinet better than the clarinetist; they coordinate the clarinet within the full score. <span class=\"highlight\">Unified analysis method (TATS), distributed among human + agents + specialists.</span>", "t35": "P²", "t36": "Polyglot <span class=\"camada\">— Semiotic Layer</span>", "t37": "Transition between multiple languages — natural, formal and operational. Portuguese and English as base. Spanish and French via familiarity. Mandarin via partners. <span class=\"highlight\">Legal languages via Gonçalves et Alii. Technical languages as coordination vocabulary.</span>", "t38": "M¹", "t39": "Multicloud <span class=\"camada\">— Infrastructure Layer</span>", "t40": "Vendor independence. Ability to operate on AWS, Azure, GCP, OCI, regional providers (Magalu Cloud, Locaweb, Hetzner) and on-premise. <span class=\"highlight\">Multicloud is the technical expression of the political position on digital sovereignty.</span>", "t41": "M²", "t42": "Multi-agent <span class=\"camada\">— Execution Layer</span>", "t43": "Orchestration of autonomous agents via MCP, Claude/GPT/Gemini, orchestration frameworks. <span class=\"highlight\">THIS is the layer that makes the previous three humanly sustainable in 2026.</span> Lowers the cognitive ceiling from impossible to operational. The conductor delegates routines to agents and maintains auditable authority.", "t44": "M³", "t45": "Multilateral <span class=\"camada\">— Geo-economic Layer</span>", "t46": "Non-dependence on a single market, regulatory bloc, reference currency or geopolitical alignment. <span class=\"highlight\">Expanded BRICS+, Mercosul-EU, CPLP-PALOP, cross-border export controls.</span> The same non-dependence principle that M¹ applies to infrastructure — different scale, identical logic.", "t47": "Operational Viability", "t48": "Three Principles", "t49": "What makes P²M³ humanly operational — not a biographical pretension of a superhuman", "t50": "01", "t51": "Conducting ≠ Execution", "t52": "The conductor doesn't execute across all layers. They coordinate human specialists and computational agents. Informed coordination, not encyclopedic accumulation. Polymathy in the P²M³ sense is <span class=\"highlight\">the ability to recognize when each layer is affected, know who to call, what questions to ask, what evidence to demand.</span>", "t53": "02", "t54": "M² as a Historical Lever", "t55": "2026 is the first year in which cross-functional conducting by a solopreneur with method becomes <span class=\"highlight\">materially possible</span>. Before it wasn't. Now it is. Computational agents lower the cognitive ceiling from impossible to operational. The competitive window is estimated at 24-36 months.", "t56": "03", "t57": "Ecosystem with Handoffs", "t58": "P²M³ doesn't operate as a single person. It operates as <span class=\"highlight\">instances with designed interfaces</span>. FSA (instance 01), Gonçalves et Alii (instance 02), point partners. No instance tries to cover everything — each covers its mandate.", "t59": "Cross-functional Integration", "t60": "Seven Fields, One Conductor", "t61": "Fields once operated in silos, now integrated under unified coordination", "t62": "Business ↔ Technology Integration via CFO", "t63": "Bridge between the technical and financial teams. Exemplified by EBITTDA: the CFO needs to understand token costs; the technical team needs to understand operating margin. The FSA operates that frontier.", "t64": "Case Method", "t65": "EBITTDA — The Second T is Tokens", "t66": "Paradigmatic operational metric of conducting. Accounting necessity under construction.", "t67": "The Problem", "t68": "In 2026, companies that adopted generative AI at scale have a new cost line — tokens — not mapped in any traditional metric. <span class=\"highlight\">These costs are unpredictable, non-auditable, and ungoverned.</span>", "t69": "These costs have three characteristics that escape traditional financial planning:", "t70": "<i class=\"fas fa-exclamation-circle\" style=\"color:var(--orange);margin-right:0.5rem;\"></i><strong>Unpredictability</strong> — vary by usage, not fixed contract", "t71": "<i class=\"fas fa-exclamation-circle\" style=\"color:var(--orange);margin-right:0.5rem;\"></i><strong>Non-auditability</strong> — records distributed across multiple providers", "t72": "<i class=\"fas fa-exclamation-circle\" style=\"color:var(--orange);margin-right:0.5rem;\"></i><strong>No governance</strong> — no area has a clear mandate", "t73": "Traditional EBITDA doesn't see this reality.", "t74": "The Silo Consequence", "t75": "<i class=\"fas fa-check-circle\" style=\"color:var(--cyan);margin-right:0.5rem;\"></i><strong>FSA Response:</strong> cross-functional instrumentation. Unified metric, technical traceability, verifiable compliance, clear governance.", "t76": "M³ Layer", "t77": "Brazil: Multilateral Node", "t78": "Geo-strategic positioning with technical formulation, not declarative", "t79": "For deep tech based in Rio de Janeiro operating under the P²M³ thesis, Brazil's positioning is a <strong>non-replicable operational advantage</strong> over venture builders in Tel Aviv, Singapore, Berlin or the Bay Area — not because they are worse, but because each operates under narrower geo-strategic constraints.", "t80": "\"Revenue currency diversification — BRL for Brazil, EUR for Portugal/EU, USD only for international clients — as a concrete application of the M³ layer.\"", "t81": "Instances", "t82": "Hubstry Ecosystem", "t83": "Conducting is not centralization. It is coordination between autonomous nodes with explicit interfaces.", "t84": "Instance 01", "t85": "Full Stack Advocate", "t86": "Cross-functional integrator. Full-stack engineering, technical-operational compliance, cybersecurity, PQC, AI safety, AI security, AI GRC and the business-tech bridge via CFO. Active since August 2024.", "t87": "Instance 02", "t88": "Gonçalves et Alii", "t89": "Legal-regulatory orchestration platform. Full Stack Legal Advocate. Sister of FSA with overlap in the compliance layer and explicit handoff interfaces. Launch expected 2026.", "t90": "Future Candidate Instances", "t91": "Model", "t92": "Plans", "t93": "Cross-functional conducting at a fraction of the cost of hiring seven specialists", "t94": "FSA Lite", "t95": "Ideal for startups and small SMEs", "t96": "On request", "t97": "<i class=\"fas fa-check\"></i> 4 hours of technical consulting/month", "t98": "<i class=\"fas fa-check\"></i> Architecture analysis", "t99": "<i class=\"fas fa-check\"></i> Monthly technical health report", "t100": "<i class=\"fas fa-check\"></i> Priority recommendations", "t101": "<i class=\"fas fa-check\"></i> Basic P²M³ diagnostic", "t102": "Choose Plan", "t103": "FSA Pro", "t104": "For growing companies", "t105": "On request", "t106": "<i class=\"fas fa-check\"></i> 16 hours of support/week", "t107": "<i class=\"fas fa-check\"></i> Team integration", "t108": "<i class=\"fas fa-check\"></i> Technical standards definition", "t109": "<i class=\"fas fa-check\"></i> Code review", "t110": "<i class=\"fas fa-check\"></i> P²M³ technical mentoring", "t111": "<i class=\"fas fa-check\"></i> EBITTDA instrumentation", "t112": "Choose Plan", "t113": "FSA Enterprise", "t114": "For large companies and ecosystems", "t115": "On request", "t116": "<i class=\"fas fa-check\"></i> Digital platform included", "t117": "<i class=\"fas fa-check\"></i> P²M³ technical health dashboard", "t118": "<i class=\"fas fa-check\"></i> Continuous monitoring of seven fields", "t119": "<i class=\"fas fa-check\"></i> AI for automated analysis", "t120": "<i class=\"fas fa-check\"></i> Priority 24/7 support", "t121": "<i class=\"fas fa-check\"></i> Handoff with Gonçalves et Alii", "t122": "Get in Touch", "t123": "Technologies", "t124": "Reference Stack", "t125": "Tools and frameworks operating across the seven FSA layers", "t126": "<i class=\"fas fa-desktop\" style=\"color:var(--blue);\"></i> Frontend", "t129": "<i class=\"fas fa-server\" style=\"color:var(--purple);\"></i> Backend", "t132": "<i class=\"fas fa-cloud\" style=\"color:var(--cyan);\"></i> Infrastructure", "t135": "<i class=\"fas fa-infinity\" style=\"color:var(--orange);\"></i> DevOps", "t138": "<i class=\"fas fa-database\" style=\"color:var(--green);\"></i> Database", "t141": "<i class=\"fas fa-clipboard-check\" style=\"color:var(--orange);\"></i> Compliance", "t144": "<i class=\"fas fa-shield-alt\" style=\"color:var(--pink);\"></i> Cybersecurity", "t147": "<i class=\"fas fa-lock\" style=\"color:var(--purple);\"></i> PQC", "t150": "<i class=\"fas fa-robot\" style=\"color:var(--green);\"></i> AI Safety", "t153": "<i class=\"fas fa-bug\" style=\"color:var(--orange);\"></i> AI Security", "t156": "<i class=\"fas fa-gavel\" style=\"color:var(--cyan);\"></i> AI GRC", "t159": "<i class=\"fas fa-exchange-alt\" style=\"color:var(--cyan);\"></i> Business-Tech", "t162": "Get Started", "t163": "Ready to operate under the P²M³ architecture?", "t164": "Schedule a conversation and discover how FSA can integrate the seven fields of your technical operation.", "t165": "Email", "t167": "WhatsApp", "t169": "Calendly", "t170": "Schedule a call", "t171": "Website", "t173": "Full Stack Advocate", "t174": "P²M³ Architecture — Polymath, Polyglot, Multicloud, Multi-agent, Multilateral", "t175": "© 2024–2026 Full Stack Advocate · Hubstry", "t176": "<i class=\"fab fa-github\"></i> GitHub", "t177": "<i class=\"fas fa-globe\"></i> hubstry.dev", "t178": "<i class=\"fas fa-envelope\"></i> Contact", "t140": "MySQL</span><span class=\"stack-tag\">pgvector</span><span class=\"stack-tag\">Pinecone</span><span class=\"stack-tag\">Weaviate", "t151": "HELM</span><span class=\"stack-tag\">BIG-bench</span><span class=\"stack-tag\">SHAP", "t128": "Next.js</span><span class=\"stack-tag\">TypeScript</span><span class=\"stack-tag\">Svelte", "t148": "Kyber</span><span class=\"stack-tag\">Dilithium</span><span class=\"stack-tag\">SPHINCS+", "t133": "AWS</span><span class=\"stack-tag\">Azure</span><span class=\"stack-tag\">GCP", "t145": "SIEM/SOAR</span><span class=\"stack-tag\">Okta</span><span class=\"stack-tag\">Auth0", "t149": "FALCON</span><span class=\"stack-tag\">CryptoNext", "t155": "IBM ART", "t130": "Node.js</span><span class=\"stack-tag\">Python</span><span class=\"stack-tag\">Java", "t136": "GitLab CI</span><span class=\"stack-tag\">GitHub Actions</span><span class=\"stack-tag\">Ansible", "t131": ".NET</span><span class=\"stack-tag\">Go</span><span class=\"stack-tag\">Rust", "t172": "hubstry.dev", "t161": "EBITTDA dashboards", "t134": "Docker</span><span class=\"stack-tag\">Kubernetes</span><span class=\"stack-tag\">Terraform", "t160": "FinOps</span><span class=\"stack-tag\">Helicone</span><span class=\"stack-tag\">Langfuse", "t127": "React</span><span class=\"stack-tag\">Vue.js</span><span class=\"stack-tag\">Angular", "t137": "Grafana</span><span class=\"stack-tag\">Prometheus", "t143": "Vanta</span><span class=\"stack-tag\">Drata", "t168": "+55 11 99455-5772", "t166": "guilhermemachado.ceo@hubstry.dev", "t142": "ISO 27001</span><span class=\"stack-tag\">ISO 27701</span><span class=\"stack-tag\">SOC 2", "t158": "AI Incident DB", "t157": "ISO 42001</span><span class=\"stack-tag\">NIST AI RMF</span><span class=\"stack-tag\">Model Cards", "t146": "Keycloak</span><span class=\"stack-tag\">Snyk</span><span class=\"stack-tag\">Trivy", "t154": "Lakera Guard</span><span class=\"stack-tag\">NeMo Guardrails</span><span class=\"stack-tag\">Rebuff", "t139": "PostgreSQL</span><span class=\"stack-tag\">MongoDB</span><span class=\"stack-tag\">Redis", "t152": "LIME</span><span class=\"stack-tag\">garak</span><span class=\"stack-tag\">PyRIT"}, "es": {"t0": "FSA<span>P²M³</span>", "t1": "<a href=\"#problema\">Problema</a>", "t2": "<a href=\"#arquitetura\">Arquitectura</a>", "t3": "<a href=\"#principios\">Principios</a>", "t4": "<a href=\"#campos\">Campos</a>", "t5": "<a href=\"#ecossistema\">Ecosistema</a>", "t6": "<a href=\"#planos\">Planes</a>", "t7": "<a href=\"#stack\">Stack</a>", "t8": "<i class=\"fas fa-arrow-right\"></i> Contacto", "t9": "Full Stack <span class=\"gradient\">Advocate</span>", "t10": "Integrador transversal de ingeniería, compliance, ciberseguridad y gobernanza de IA", "t11": "Polímata · Políglota · Multicloud · Multiagente · <span>Multilateral</span>", "t12": "<i class=\"fas fa-cubes\"></i> Explora la Arquitectura", "t13": "<i class=\"fas fa-calendar-check\"></i> Agenda una Llamada", "t14": "Diagnóstico del Zeitgeist", "t15": "El Problema", "t16": "Síntomas convergentes que exigen una nueva categoría profesional", "t17": "Velocidad como Constante", "t18": "Las crisis se superponen: pandemia + guerra + transformación digital + crisis climática + IA generativa a escala industrial. El cambio es la única constante.", "t19": "Obsolescencia del Especialista", "t20": "Quien domina solo un silo pierde relevancia. Detectado en todas las funciones C-level: CFO, CIO, CCO, CISO.", "t21": "Learn-it-All", "t22": "El ethos profesional contemporáneo sustituye al know-it-all. El aprendizaje continuo es exigencia, no opción. Bildung como categoría.", "t23": "Siete Campos, Uno Solo", "t24": "Ingeniería, compliance, ciberseguridad, PQC, AI safety, AI security y gobernanza de IA — antes separados, ahora exigen operación conjunta.", "t25": "Reordenamiento Geopolítico", "t26": "Bifurcación tech EE.UU.-China, BRICS+ ampliado, Mercosul-UE, controles de exportación cruzados. Operar sin mapa geo-económico es inviable.", "t27": "Las PYMES No Contratan Siete", "t28": "Las PYMES en el eje Brasil-Portugal no pueden contratar por separado CTO, CISO, AI Safety Officer, Compliance Officer y consultor de PQC.", "t29": "La Solución", "t30": "La Arquitectura P²M³", "t31": "Cinco capas de lo epistémico a lo geo-económico. Cada capa sostiene la superior.", "t32": "P¹", "t33": "Polímata <span class=\"camada\">— Capa Cognitiva</span>", "t34": "Coordinación informada entre múltiples áreas de conocimiento — no experiencia vertical en cada una. El director de orquesta no toca el clarinete mejor que el clarinetista; coordina el clarinete dentro de la partitura completa. <span class=\"highlight\">Método de análisis unificado (TATS), distribuido entre humano + agentes + especialistas.</span>", "t35": "P²", "t36": "Políglota <span class=\"camada\">— Capa Semiótica</span>", "t37": "Transición entre múltiples lenguajes — naturales, formales y operacionales. Portugués e inglés como base. Español y francés por familiaridad. Mandarín mediante socios. <span class=\"highlight\">Lenguajes jurídicos vía Gonçalves et Alii. Lenguajes técnicos como vocabulario de coordinación.</span>", "t38": "M¹", "t39": "Multicloud <span class=\"camada\">— Capa de Infraestructura</span>", "t40": "Independencia de proveedor único. Capacidad de operar en AWS, Azure, GCP, OCI, proveedores regionales (Magalu Cloud, Locaweb, Hetzner) y on-premise. <span class=\"highlight\">Multicloud es la expresión técnica de la posición política sobre soberanía digital.</span>", "t41": "M²", "t42": "Multiagente <span class=\"camada\">— Capa de Ejecución</span>", "t43": "Orquestación de agentes autónomos vía MCP, Claude/GPT/Gemini, frameworks de orquestación. <span class=\"highlight\">ESTA es la capa que hace las tres anteriores humanamente sostenibles en 2026.</span> Reduce el techo cognitivo de imposible a operable. El director delega rutinas a agentes y mantiene autoridad auditable.", "t44": "M³", "t45": "Multilateral <span class=\"camada\">— Capa Geo-económica</span>", "t46": "No dependencia de un único mercado, bloque regulatorio, moneda de referencia o alineamiento geopolítico. <span class=\"highlight\">BRICS+ ampliado, Mercosul-UE, CPLP-PALOP, controles de exportación cruzados.</span> El mismo principio de no dependencia que M¹ aplica a la infraestructura — escala diferente, lógica idéntica.", "t47": "Viabilidad Operacional", "t48": "Tres Principios", "t49": "Lo que hace P²M³ humanamente operable — no pretensión biográfica de un superhumano", "t50": "01", "t51": "Dirección ≠ Ejecución", "t52": "El director no ejecuta en todas las capas. Coordina especialistas humanos y agentes computacionales. Coordinación informada, no acumulación enciclopédica. La polimathia en el sentido P²M³ es <span class=\"highlight\">la capacidad de reconocer cuándo cada capa se ve afectada, saber a quién llamar, qué preguntas hacer, qué evidencia exigir.</span>", "t53": "02", "t54": "M² como Palanca Histórica", "t55": "2026 es el primer año en que la dirección transversal por solopreneur con método se vuelve <span class=\"highlight\">materialmente posible</span>. Antes no lo era. Ahora sí. Los agentes computacionales reducen el techo cognitivo de imposible a operable. La ventana competitiva se estima en 24-36 meses.", "t56": "03", "t57": "Ecosistema con Handoffs", "t58": "P²M³ no opera como una sola persona. Opera como <span class=\"highlight\">instancias con interfaces diseñadas</span>. FSA (instancia 01), Gonçalves et Alii (instancia 02), socios puntuales. Ninguna instancia intenta cubrirlo todo — cada una cubre su mandato.", "t59": "Integración Transversal", "t60": "Siete Campos, Un Director", "t61": "Campos antes operados en silos, ahora integrados bajo coordinación unificada", "t62": "Integración Negocio ↔ Tecnología vía CFO", "t63": "Puente entre el equipo técnico y el financiero. Ejemplificado por EBITTDA: el CFO necesita entender costos de tokens; el equipo técnico necesita entender margen operativo. El FSA opera esa frontera.", "t64": "Case Method", "t65": "EBITTDA — La Segunda T es Tokens", "t66": "Métrica operacional paradigmática de dirección. Necesidad contable en construcción.", "t67": "El Problema", "t68": "En 2026, las empresas que adoptaron IA generativa a escala tienen una nueva línea de costo — tokens — no mapeada en ninguna métrica tradicional. <span class=\"highlight\">Estos costos son imprevisibles, no auditables y sin gobernanza.</span>", "t69": "Estos costos tienen tres características que escapan a la planificación financiera tradicional:", "t70": "<i class=\"fas fa-exclamation-circle\" style=\"color:var(--orange);margin-right:0.5rem;\"></i><strong>Imprevisibilidad</strong> — varían por uso, no por contrato fijo", "t71": "<i class=\"fas fa-exclamation-circle\" style=\"color:var(--orange);margin-right:0.5rem;\"></i><strong>No auditabilidad</strong> — registros distribuidos entre múltiples proveedores", "t72": "<i class=\"fas fa-exclamation-circle\" style=\"color:var(--orange);margin-right:0.5rem;\"></i><strong>Sin gobernanza</strong> — ningún área tiene un mandato claro", "t73": "El EBITDA tradicional no ve esta realidad.", "t74": "La Consecuencia en Silos", "t75": "<i class=\"fas fa-check-circle\" style=\"color:var(--cyan);margin-right:0.5rem;\"></i><strong>Respuesta FSA:</strong> instrumentación transversal. Métrica unificada, trazabilidad técnica, cumplimiento verificable, gobernanza clara.", "t76": "Capa M³", "t77": "Brasil: Nodo Multilateral", "t78": "Posicionamiento geo-estratégico con formulación técnica, no declarativa", "t79": "Para deep tech con sede en Río de Janeiro operando bajo la tesis P²M³, el posicionamiento de Brasil es una <strong>ventaja operacional no replicable</strong> frente a venture builders en Tel Aviv, Singapur, Berlín o Bay Area — no porque sean peores, sino porque cada uno opera bajo restricciones geo-estratégicas más estrechas.", "t80": "\"Diversificación de moneda de ingresos — BRL para Brasil, EUR para Portugal/UE, USD solo para clientes internacionales — como aplicación concreta de la capa M³.\"", "t81": "Instancias", "t82": "Ecosistema Hubstry", "t83": "La dirección no es centralización. Es coordinación entre nodos autónomos con interfaces explícitas.", "t84": "Instancia 01", "t85": "Full Stack Advocate", "t86": "Integrador transversal. Ingeniería full-stack, compliance técnico-operacional, ciberseguridad, PQC, AI safety, AI security, GRC de IA y el puente negocio-tecnología vía CFO. Activo desde agosto de 2024.", "t87": "Instancia 02", "t88": "Gonçalves et Alii", "t89": "Plataforma de orquestación jurídico-regulatoria. Full Stack Legal Advocate. Hermana del FSA con superposición en la capa de compliance e interfaces de handoff explícitas. Lanzamiento previsto 2026.", "t90": "Futuras Instancias Candidatas", "t91": "Modelo", "t92": "Planes", "t93": "Dirección transversal a una fracción del costo de contratar siete especialistas", "t94": "FSA Lite", "t95": "Ideal para startups y PYMES pequeñas", "t96": "Bajo consulta", "t97": "<i class=\"fas fa-check\"></i> 4 horas de consultoría técnica/mes", "t98": "<i class=\"fas fa-check\"></i> Análisis de arquitectura", "t99": "<i class=\"fas fa-check\"></i> Informe mensual de salud técnica", "t100": "<i class=\"fas fa-check\"></i> Recomendaciones prioritarias", "t101": "<i class=\"fas fa-check\"></i> Diagnóstico P²M³ básico", "t102": "Elegir Plan", "t103": "FSA Pro", "t104": "Para empresas en crecimiento", "t105": "Bajo consulta", "t106": "<i class=\"fas fa-check\"></i> 16 horas de acompañamiento/semana", "t107": "<i class=\"fas fa-check\"></i> Integración con el equipo", "t108": "<i class=\"fas fa-check\"></i> Definición de estándares técnicos", "t109": "<i class=\"fas fa-check\"></i> Revisión de código", "t110": "<i class=\"fas fa-check\"></i> Mentoría técnica P²M³", "t111": "<i class=\"fas fa-check\"></i> Instrumentación EBITTDA", "t112": "Elegir Plan", "t113": "FSA Enterprise", "t114": "Para grandes empresas y ecosistemas", "t115": "Bajo consulta", "t116": "<i class=\"fas fa-check\"></i> Plataforma digital incluida", "t117": "<i class=\"fas fa-check\"></i> Dashboard de salud técnica P²M³", "t118": "<i class=\"fas fa-check\"></i> Monitoreo continuo de los siete campos", "t119": "<i class=\"fas fa-check\"></i> IA para análisis automatizado", "t120": "<i class=\"fas fa-check\"></i> Soporte prioritario 24/7", "t121": "<i class=\"fas fa-check\"></i> Handoff con Gonçalves et Alii", "t122": "Contactar", "t123": "Tecnologías", "t124": "Stack de Referencia", "t125": "Herramientas y frameworks que operan en las siete capas del FSA", "t126": "<i class=\"fas fa-desktop\" style=\"color:var(--blue);\"></i> Frontend", "t129": "<i class=\"fas fa-server\" style=\"color:var(--purple);\"></i> Backend", "t132": "<i class=\"fas fa-cloud\" style=\"color:var(--cyan);\"></i> Infraestructura", "t135": "<i class=\"fas fa-infinity\" style=\"color:var(--orange);\"></i> DevOps", "t138": "<i class=\"fas fa-database\" style=\"color:var(--green);\"></i> Base de Datos", "t141": "<i class=\"fas fa-clipboard-check\" style=\"color:var(--orange);\"></i> Compliance", "t144": "<i class=\"fas fa-shield-alt\" style=\"color:var(--pink);\"></i> Ciberseguridad", "t147": "<i class=\"fas fa-lock\" style=\"color:var(--purple);\"></i> PQC", "t150": "<i class=\"fas fa-robot\" style=\"color:var(--green);\"></i> AI Safety", "t153": "<i class=\"fas fa-bug\" style=\"color:var(--orange);\"></i> AI Security", "t156": "<i class=\"fas fa-gavel\" style=\"color:var(--cyan);\"></i> GRC de IA", "t159": "<i class=\"fas fa-exchange-alt\" style=\"color:var(--cyan);\"></i> Negocio-Tecnología", "t162": "Comenzar", "t163": "¿Listo para operar bajo la arquitectura P²M³?", "t164": "Agenda una conversación y descubre cómo el FSA puede integrar los siete campos de tu operación técnica.", "t165": "Email", "t167": "WhatsApp", "t169": "Calendly", "t170": "Agendar una llamada", "t171": "Sitio web", "t173": "Full Stack Advocate", "t174": "Arquitectura P²M³ — Polímata, Políglota, Multicloud, Multiagente, Multilateral", "t175": "© 2024–2026 Full Stack Advocate · Hubstry", "t176": "<i class=\"fab fa-github\"></i> GitHub", "t177": "<i class=\"fas fa-globe\"></i> hubstry.dev", "t178": "<i class=\"fas fa-envelope\"></i> Contacto", "t140": "MySQL</span><span class=\"stack-tag\">pgvector</span><span class=\"stack-tag\">Pinecone</span><span class=\"stack-tag\">Weaviate", "t151": "HELM</span><span class=\"stack-tag\">BIG-bench</span><span class=\"stack-tag\">SHAP", "t128": "Next.js</span><span class=\"stack-tag\">TypeScript</span><span class=\"stack-tag\">Svelte", "t148": "Kyber</span><span class=\"stack-tag\">Dilithium</span><span class=\"stack-tag\">SPHINCS+", "t133": "AWS</span><span class=\"stack-tag\">Azure</span><span class=\"stack-tag\">GCP", "t145": "SIEM/SOAR</span><span class=\"stack-tag\">Okta</span><span class=\"stack-tag\">Auth0", "t149": "FALCON</span><span class=\"stack-tag\">CryptoNext", "t155": "IBM ART", "t130": "Node.js</span><span class=\"stack-tag\">Python</span><span class=\"stack-tag\">Java", "t136": "GitLab CI</span><span class=\"stack-tag\">GitHub Actions</span><span class=\"stack-tag\">Ansible", "t131": ".NET</span><span class=\"stack-tag\">Go</span><span class=\"stack-tag\">Rust", "t172": "hubstry.dev", "t161": "EBITTDA dashboards", "t134": "Docker</span><span class=\"stack-tag\">Kubernetes</span><span class=\"stack-tag\">Terraform", "t160": "FinOps</span><span class=\"stack-tag\">Helicone</span><span class=\"stack-tag\">Langfuse", "t127": "React</span><span class=\"stack-tag\">Vue.js</span><span class=\"stack-tag\">Angular", "t137": "Grafana</span><span class=\"stack-tag\">Prometheus", "t143": "Vanta</span><span class=\"stack-tag\">Drata", "t168": "+55 11 99455-5772", "t166": "guilhermemachado.ceo@hubstry.dev", "t142": "ISO 27001</span><span class=\"stack-tag\">ISO 27701</span><span class=\"stack-tag\">SOC 2", "t158": "AI Incident DB", "t157": "ISO 42001</span><span class=\"stack-tag\">NIST AI RMF</span><span class=\"stack-tag\">Model Cards", "t146": "Keycloak</span><span class=\"stack-tag\">Snyk</span><span class=\"stack-tag\">Trivy", "t154": "Lakera Guard</span><span class=\"stack-tag\">NeMo Guardrails</span><span class=\"stack-tag\">Rebuff", "t139": "PostgreSQL</span><span class=\"stack-tag\">MongoDB</span><span class=\"stack-tag\">Redis", "t152": "LIME</span><span class=\"stack-tag\">garak</span><span class=\"stack-tag\">PyRIT"}};
 
-    mobileToggle.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
+  function applyLang(lang) {
+    const dict = T[lang] || T.pt;
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const key = el.getAttribute("data-i18n");
+      if (dict[key] !== undefined) {
+        el.innerHTML = dict[key];
+      }
     });
-
-    // Close mobile menu on link click
-    document.querySelectorAll('.nav-links a').forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('active');
-      });
+    document.documentElement.lang = lang === "pt" ? "pt-BR" : lang === "es" ? "es" : "en";
+    document.querySelectorAll(".lang-btn").forEach(b => {
+      b.classList.toggle("active", b.dataset.lang === lang);
     });
+    try { localStorage.setItem("fsa-lang", lang); } catch(e) {}
+  }
 
-    // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }
-      });
-    });
+  window.setLang = function(lang) { applyLang(lang); };
 
-    // Language toggle
-    const langBtns = document.querySelectorAll('.lang-btn');
-    langBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        langBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const lang = btn.dataset.lang;
-        changeLanguage(lang);
-      });
-    });
+  // Restore saved preference
+  let saved = "pt";
+  try { saved = localStorage.getItem("fsa-lang") || "pt"; } catch(e) {}
+  if (saved !== "pt") applyLang(saved);
+})();
+</script>
 
-    // Inicializar em PT
-    changeLanguage('pt');
-  </script>
 </body>
 </html>
