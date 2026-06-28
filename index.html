@@ -395,6 +395,12 @@ img { max-width:100%; display:block; }
 .brasil-footnote p { font-size:0.92rem; color:var(--text-secondary); font-style:italic; }
 
 /* orbital graph is pure SVG — no extra CSS needed */
+/* SVG node tooltips */
+g > .node-tip { opacity:0; transition:opacity 0.25s ease; pointer-events:none; }
+g:hover > .node-tip { opacity:1; }
+g > circle:first-child { transition:transform 0.2s, filter 0.2s; }
+g:hover > circle:first-child { filter:drop-shadow(0 0 12px currentColor); }
+
 
 /* ═══════════════════════════════════════════
    ECOSSISTEMA
@@ -843,10 +849,21 @@ img { max-width:100%; display:block; }
           <line x1="670" y1="270" x2="620" y2="80" stroke="#1e293b" stroke-width="0.8" opacity="0.25" stroke-dasharray="3 6"/>
 
           <!-- center node -->
-          <circle cx="400" cy="250" r="44" fill="#00F0FF" filter="url(#nGlow)" opacity="0.12"/>
-          <circle cx="400" cy="250" r="36" fill="#00F0FF"/>
-          <text x="400" y="248" text-anchor="middle" dominant-baseline="central" font-family="Inter,sans-serif" font-weight="900" font-size="18" fill="#060a14" letter-spacing="0.06em">BR</text>
-          <text x="400" y="266" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600" font-size="8" fill="rgba(6,10,20,0.5)" letter-spacing="0.08em">BRASIL</text>
+          <g>
+            <circle cx="400" cy="250" r="44" fill="#00F0FF" filter="url(#nGlow)" opacity="0.12"/>
+            <circle cx="400" cy="250" r="36" fill="#00F0FF"/>
+            <text x="400" y="248" text-anchor="middle" dominant-baseline="central" font-family="Inter,sans-serif" font-weight="900" font-size="18" fill="#060a14" letter-spacing="0.06em">BR</text>
+            <text x="400" y="266" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600" font-size="8" fill="rgba(6,10,20,0.5)" letter-spacing="0.08em">BRASIL</text>
+            <g class="node-tip">
+              <rect x="55" y="195" width="210" height="110" rx="8" fill="rgba(6,10,20,0.92)" stroke="rgba(0,240,255,0.3)" stroke-width="1"/>
+              <text x="160" y="218" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="10" fill="#00F0FF">Brasil · Rio de Janeiro</text>
+              <text x="160" y="235" text-anchor="middle" font-family="Inter,sans-serif" font-weight="400" font-size="8" fill="#94a3b8">Eixo central da operação P²M³</text>
+              <text x="160" y="250" text-anchor="middle" font-family="Inter,sans-serif" font-weight="400" font-size="8" fill="#94a3b8">BRICS+ · Mercosul-UE · CPLP</text>
+              <text x="160" y="265" text-anchor="middle" font-family="Inter,sans-serif" font-weight="400" font-size="8" fill="#94a3b8">Neutralidade EUA-China · G20</text>
+              <text x="160" y="280" text-anchor="middle" font-family="Inter,sans-serif" font-weight="400" font-size="8" fill="#94a3b8">Lusofonia · Fórum Macau</text>
+              <text x="160" y="297" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600" font-size="8" fill="#22D3EE">Vantagem operacional não-replicável</text>
+            </g>
+          </g>
 
           <!-- BRICS+ -->
           <g transform="translate(180,80)">
@@ -855,6 +872,14 @@ img { max-width:100%; display:block; }
             <circle r="2.5" fill="url(#gB)" opacity="0.5"/>
             <rect x="-48" y="36" width="96" height="20" rx="10" fill="rgba(255,106,0,0.08)"/>
             <text x="0" y="50" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600" font-size="9.5" fill="#FF6A00">BRICS+ · China · Índia</text>
+            <g class="node-tip">
+              <rect x="-105" y="-130" width="210" height="100" rx="8" fill="rgba(6,10,20,0.92)" stroke="rgba(255,106,0,0.3)" stroke-width="1"/>
+              <text x="0" y="-110" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="10" fill="#FF6A00">BRICS+ Ampliado</text>
+              <text x="0" y="-93" text-anchor="middle" font-family="Inter,sans-serif" font-weight="400" font-size="8" fill="#94a3b8">Bloco econômico com 11 membros</text>
+              <text x="0" y="-78" text-anchor="middle" font-family="Inter,sans-serif" font-weight="400" font-size="8" fill="#94a3b8">BR, RÚ, CN, ZA + EG, AE, ET, ID, IR</text>
+              <text x="0" y="-63" text-anchor="middle" font-family="Inter,sans-serif" font-weight="400" font-size="8" fill="#94a3b8">Cooperação tech · Nova moeda ref.</text>
+              <text x="0" y="-45" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600" font-size="8" fill="#FF8A3D">Interface: BRL ↔ moedas locais</text>
+            </g>
           </g>
 
           <!-- UE -->
@@ -863,6 +888,14 @@ img { max-width:100%; display:block; }
             <path d="M-8 8V-4l8-4 8 4v12M-3 8V0h6v8" stroke="url(#gU)" stroke-width="1.5" stroke-linejoin="round" fill="none"/>
             <rect x="-48" y="36" width="96" height="20" rx="10" fill="rgba(0,123,255,0.08)"/>
             <text x="0" y="50" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600" font-size="9.5" fill="#007BFF">UE · Mercosul-UE</text>
+            <g class="node-tip">
+              <rect x="-105" y="-130" width="210" height="100" rx="8" fill="rgba(6,10,20,0.92)" stroke="rgba(0,123,255,0.3)" stroke-width="1"/>
+              <text x="0" y="-110" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="10" fill="#007BFF">Acordo Mercosul-UE</text>
+              <text x="0" y="-93" text-anchor="middle" font-family="Inter,sans-serif" font-weight="400" font-size="8" fill="#94a3b8">Assinado dez/2024 · Ratificação</text>
+              <text x="0" y="-78" text-anchor="middle" font-family="Inter,sans-serif" font-weight="400" font-size="8" fill="#94a3b8">NIS2 · EU AI Act · MiCA</text>
+              <text x="0" y="-63" text-anchor="middle" font-family="Inter,sans-serif" font-weight="400" font-size="8" fill="#94a3b8">450M+ consumidores · Mercado único</text>
+              <text x="0" y="-45" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600" font-size="8" fill="#60A5FA">Interface: EUR · Regulação UE</text>
+            </g>
           </g>
 
           <!-- CPLP -->
@@ -873,6 +906,14 @@ img { max-width:100%; display:block; }
             <path d="M0-9c-2 3-3.5 6-3.5 9s1.5 6 3.5 9c2-3 3.5-6 3.5-9s-1.5-6-3.5-9z" stroke="url(#gC)" stroke-width="1" fill="none"/>
             <rect x="-48" y="36" width="96" height="20" rx="10" fill="rgba(16,185,129,0.08)"/>
             <text x="0" y="50" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600" font-size="9.5" fill="#10b981">CPLP · 3 continentes</text>
+            <g class="node-tip">
+              <rect x="-105" y="-130" width="210" height="100" rx="8" fill="rgba(6,10,20,0.92)" stroke="rgba(16,185,129,0.3)" stroke-width="1"/>
+              <text x="0" y="-110" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="10" fill="#10b981">CPLP-PALOP</text>
+              <text x="0" y="-93" text-anchor="middle" font-family="Inter,sans-serif" font-weight="400" font-size="8" fill="#94a3b8">Comunidade dos Países de Língua Port.</text>
+              <text x="0" y="-78" text-anchor="middle" font-family="Inter,sans-serif" font-weight="400" font-size="8" fill="#94a3b8">PT, BR, AO, MZ, CV, GW, ST, TL, GQ</text>
+              <text x="0" y="-63" text-anchor="middle" font-family="Inter,sans-serif" font-weight="400" font-size="8" fill="#94a3b8">300M+ falantes · 3 continentes</text>
+              <text x="0" y="-45" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600" font-size="8" fill="#34D399">Interface: BRL · EUR · Porta África</text>
+            </g>
           </g>
 
           <!-- G20 -->
@@ -882,6 +923,14 @@ img { max-width:100%; display:block; }
             <circle cx="-6" cy="-3" r="1.2" fill="url(#gG)" opacity="0.4"/>
             <rect x="-48" y="36" width="96" height="20" rx="10" fill="rgba(139,92,246,0.08)"/>
             <text x="0" y="50" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600" font-size="9.5" fill="#8b5cf6">G20 · Presidência BR</text>
+            <g class="node-tip">
+              <rect x="-105" y="-130" width="210" height="100" rx="8" fill="rgba(6,10,20,0.92)" stroke="rgba(139,92,246,0.3)" stroke-width="1"/>
+              <text x="0" y="-110" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="10" fill="#8b5cf6">G20 · Governança Global</text>
+              <text x="0" y="-93" text-anchor="middle" font-family="Inter,sans-serif" font-weight="400" font-size="8" fill="#94a3b8">Presidência brasileira em 2024</text>
+              <text x="0" y="-78" text-anchor="middle" font-family="Inter,sans-serif" font-weight="400" font-size="8" fill="#94a3b8">85% do PIB global · 75% comércio</text>
+              <text x="0" y="-63" text-anchor="middle" font-family="Inter,sans-serif" font-weight="400" font-size="8" fill="#94a3b8">Regulação tech · Finanças · Clima</text>
+              <text x="0" y="-45" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600" font-size="8" fill="#A78BFA">Interface: Capital institucional</text>
+            </g>
           </g>
 
           <!-- Fórum Macau -->
@@ -892,6 +941,14 @@ img { max-width:100%; display:block; }
             <path d="M-2 4h4M0 2v4" stroke="url(#gM)" stroke-width="1.2" stroke-linecap="round"/>
             <rect x="-48" y="36" width="96" height="20" rx="10" fill="rgba(236,72,153,0.08)"/>
             <text x="0" y="50" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600" font-size="9.5" fill="#ec4899">Fórum Macau · China</text>
+            <g class="node-tip">
+              <rect x="-105" y="-130" width="210" height="100" rx="8" fill="rgba(6,10,20,0.92)" stroke="rgba(236,72,153,0.3)" stroke-width="1"/>
+              <text x="0" y="-110" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="10" fill="#ec4899">Fórum Macau</text>
+              <text x="0" y="-93" text-anchor="middle" font-family="Inter,sans-serif" font-weight="400" font-size="8" fill="#94a3b8">Ativo desde 2003 · Cooperação CN-PALOP</text>
+              <text x="0" y="-78" text-anchor="middle" font-family="Inter,sans-serif" font-weight="400" font-size="8" fill="#94a3b8">Porta institucional lusófona → China</text>
+              <text x="0" y="-63" text-anchor="middle" font-family="Inter,sans-serif" font-weight="400" font-size="8" fill="#94a3b8">Investimento · Tech · Infraestrutura</text>
+              <text x="0" y="-45" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600" font-size="8" fill="#F472B6">Interface: Macau · Mandarim · CNY</text>
+            </g>
           </g>
 
           <!-- Neutralidade -->
@@ -902,6 +959,14 @@ img { max-width:100%; display:block; }
             <rect x="2" y="0" width="6" height="7" rx="1" stroke="url(#gN)" stroke-width="1.2" fill="none"/>
             <rect x="-48" y="36" width="96" height="20" rx="10" fill="rgba(100,116,139,0.08)"/>
             <text x="0" y="50" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600" font-size="9.5" fill="#94A3B8">EUA ↔ China</text>
+            <g class="node-tip">
+              <rect x="-105" y="-130" width="210" height="100" rx="8" fill="rgba(6,10,20,0.92)" stroke="rgba(100,116,139,0.3)" stroke-width="1"/>
+              <text x="0" y="-110" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="10" fill="#94A3B8">Neutralidade Tech</text>
+              <text x="0" y="-93" text-anchor="middle" font-family="Inter,sans-serif" font-weight="400" font-size="8" fill="#94a3b8">Bifurcação tech-stack EUA-China</text>
+              <text x="0" y="-78" text-anchor="middle" font-family="Inter,sans-serif" font-weight="400" font-size="8" fill="#94a3b8">Controles de exportação cruzados</text>
+              <text x="0" y="-63" text-anchor="middle" font-family="Inter,sans-serif" font-weight="400" font-size="8" fill="#94a3b8">BR mantém canal com ambos os lados</text>
+              <text x="0" y="-45" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600" font-size="8" fill="#94A3B8">Interface: Vantagem geo-estratégica</text>
+            </g>
           </g>
 
           <!-- currency pills -->
